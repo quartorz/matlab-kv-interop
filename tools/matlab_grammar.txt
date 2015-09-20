@@ -1,0 +1,80 @@
+%token Identifier<std::string> Constant<std::string> LParen RParen LBracket RBracket Trans NCTrans
+       Comma Add Sub Mul Div Pow ArrayMul ArrayDiv ArrayPow
+       LT GT LE GE Eq NEq BitOr BitAnd;
+%namespace matlab_parser;
+
+Expr<matlab_ast::base*>
+    : [DoNothing] AndExpr(0)
+    | [MakeBitOr] Expr(0) BitOr AndExpr(1)
+    ;
+
+AndExpr<matlab_ast::base*>
+    : [DoNothing] EqualityExpr(0)
+    | [MakeBitAnd] AndExpr(0) BitAnd EqualityExpr(1)
+    ;
+
+EqualityExpr<matlab_ast::base*>
+    : [DoNothing] RelationalExpr(0)
+    | [MakeEqual] EqualityExpr(0) Eq RelationalExpr(1)
+    | [MakeNotEqual] EqualityExpr(0) NEq RelationalExpr(1)
+    ;
+
+RelationalExpr<matlab_ast::base*>
+    : [DoNothing] AdditiveExpr(0)
+    | [MakeLT] RelationalExpr(0) LT AdditiveExpr(1)
+    | [MakeGT] RelationalExpr(0) GT AdditiveExpr(1)
+    | [MakeLE] RelationalExpr(0) LE AdditiveExpr(1)
+    | [MakeGE] RelationalExpr(0) GE AdditiveExpr(1)
+    ;
+
+AdditiveExpr<matlab_ast::base*>
+    : [DoNothing] MultiplicativeExpr(0)
+    | [MakeAdd] RelationalExpr(0) Add AdditiveExpr(1)
+    | [MakeSub] RelationalExpr(0) Sub AdditiveExpr(1)
+    ;
+
+MultiplicativeExpr<matlab_ast::base*>
+    : [DoNothing] PowExpr(0)
+    | [MakeMul] MultiplicativeExpr(0) Mul PowExpr(1)
+    | [MakeDiv] MultiplicativeExpr(0) Div PowExpr(1)
+    | [MakeArrayMul] MultiplicativeExpr(0) ArrayMul PowExpr(1)
+    | [MakeArrayDiv] MultiplicativeExpr(0) ArrayDiv PowExpr(1)
+    ;
+
+PowExpr<matlab_ast::base*>
+    : [DoNothing] UnaryExpr(0)
+    | [MakePow] PowExpr(0) Pow UnaryExpr(1)
+    | [MakeArrayPow] PowExpr(0) ArrayPow UnaryExpr(1)
+    ;
+
+UnaryExpr<matlab_ast::base*>
+    : [DoNothing] PostfixExpr(0)
+    | [MakePlus] Add PostfixExpr(0)
+    | [MakeMinus] Sub PostfixExpr(0)
+    ;
+
+PostfixExpr<matlab_ast::base*>
+    : [DoNothing] PrimaryExpr(0)
+    | [DoNothing] CallExpr(0)
+    | [MakeTrans] PostfixExpr(0) Trans
+    | [MakeNCTrans] PostfixExpr(0) NCTrans
+    ;
+
+CallExpr<matlab_ast::base*>
+    : [MakeCall] Identifier(0) LParen ArgListExpr(1) RParen
+    ;
+
+ArgListExpr<matlab_ast::base*>
+    : [DoNothing] ArgExpr(0)
+    | [MakeArgList] ArgListExpr(0) Comma ArgExpr(1)
+    ;
+
+ArgExpr<matlab_ast::base*>
+    : [DoNothing] Expr(0)
+    ;
+
+PrimaryExpr<matlab_ast::base*>
+    : [MakeIdentifier] Identifier(0)
+    | [MakeConstant] Constant(0)
+    | [MakeParenExpr] LParen Expr(0) RParen
+    ;
