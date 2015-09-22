@@ -8,10 +8,7 @@ if nargin <= 4
     compiler = @compilers.msvc;
 end
 
-if exist('tools/MATLAB2C++.exe', 'file') ~= 2
-    disp('building tools');
-    build_tools(compiler);
-end
+build_tools(compiler);
 
 mkdir(name);
 

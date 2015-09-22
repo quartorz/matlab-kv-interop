@@ -1,5 +1,9 @@
 function build_tools (compiler)
 
+if exist('tools/MATLAB2C++.exe', 'file') == 2
+    return;
+end
+
 if nargin < 1
     disp('The argument ''compiler'' of build_tools is empty.');
     disp('Use Microsoft Visual C++ compiler as default.');
