@@ -2,7 +2,11 @@ function [data] =  kv_qr_lohner (order, u, t_init, t_last, parameter, name)
 
 t_init = intval(0.0);
 
-command = ['"' name '/exec.exe" "' name '/output.csv" ' int2str(order)];
+command = [
+    '"' fullfile(name, 'exec.exe') '" ' ...
+    '"' fullfile(name, 'output.csv') '" ' ...
+    int2str(order)
+];
 
 itv = intval(t_last);
 [a, b, c] = tools.decomp_double(inf(itv));

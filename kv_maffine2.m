@@ -6,7 +6,11 @@ function [data] =  kv_maffine2(n, order, u, t_init, t_last, parameter, name)
 
 t_init = intval(0.0);
 
-command = ['"' name '/exec.exe" "' name '/output.csv" ' int2str(order) ' ' int2str(n)];
+command = [
+    '"' fullfile(name, 'exec.exe') '" ' ...
+    '"' fillfile(name, 'output.csv') '" ' ...
+    int2str(order) ' ' int2str(n)
+];
 
 itv = intval(t_last);
 [a, b, c] = tools.decomp_double(inf(itv));

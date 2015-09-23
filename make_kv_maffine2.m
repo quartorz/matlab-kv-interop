@@ -12,10 +12,10 @@ build_tools(compiler);
 
 mkdir(name);
 
-source = [name '/main.cpp'];
-executable = [name '/exec.exe'];
+source = fullfile(name, 'main.cpp');
+executable = fullfile(name, 'exec.exe');
 
-matlab2cpp = '"tools/MATLAB2C++.exe"';
+matlab2cpp = fullfile('tools', 'MATLAB2C++.exe');
 
 dim = length(f);
 
