@@ -11,10 +11,13 @@ if ~ischar(msvc_dir)
         disp('Visual C++ not found.');
         return
     end
-
-    t = strsplit(output, '=');
-    msvc_dir = char(t(2));
-    msvc_dir = msvc_dir(1:end-1);
+    
+    if ~isempty(strfind(output, '='))
+        msvc_dir = output(strfind(output, '=') + 1:end-1);
+    else
+        disp('');
+        return
+    end
 end
 
 %{
@@ -28,9 +31,12 @@ command = [ ...
 
 command = [ ...
     '"' fullfile(char(msvc_dir), 'VC', 'vcvarsall.bat') '"' ...
-    '&& cl /Ox /EHsc /MT /DNDEBUG /I.\include ' ...
-    strjoin(sources) ...
+    '&& cl /Ox /EHsc /MT /DNDEBUG /I.\include' ...
 ];
+
+for i = 1:length(sources)
+    command = [command ' ' char(sources(i))];
+end
 
 if nargin >= 2
     command = [command ' /Fe' executable];
