@@ -21,6 +21,8 @@ if nargin >= 2
     command = [command ' -o ' executable];
 end
 
+command = [command ' -lstdc++'];
+
 [status, output] = system(command);
 
 end
