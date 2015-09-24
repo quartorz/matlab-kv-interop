@@ -8,14 +8,15 @@ if ~ischar(msvc_dir)
     [status, output] = system(fullfile('tools', 'get-msvc-path.bat'));
 
     if status ~= 0 || isempty(output)
-        disp('Visual C++ not found.');
+        error('Visual C++ not found.');
         return
     end
     
     if ~isempty(strfind(output, '='))
         msvc_dir = output(strfind(output, '=') + 1:end-1);
     else
-        disp('');
+        disp(char(output));
+        error('unexpected output');
         return
     end
 end
