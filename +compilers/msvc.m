@@ -17,7 +17,7 @@ if ~ischar(msvc_dir)
     else
         disp(char(output));
         error('unexpected output');
-        return
+        return;
     end
 end
 
