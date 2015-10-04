@@ -3,6 +3,7 @@
 #include <cstdint>
 #include <cmath>
 #include <tuple>
+#include <ostream>
 
 double pow2(int n)
 {
@@ -49,4 +50,10 @@ double todouble(int sign, int exponent, ::std::uint64_t significand)
 
 		return ::std::make_tuple(sign, i - 53, ::std::uint64_t(x * ::pow2(53)));
 	}
+}
+
+void outdouble(double x, ::std::ostream os)
+{
+	auto t = fromdouble(x);
+	os << ::std::get<0>(t) << ',' << ::std::get<1>(t) << ',' << ::std::get<2>(t);
 }

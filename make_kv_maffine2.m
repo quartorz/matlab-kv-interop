@@ -102,7 +102,7 @@ fprintf(fp, '\n');
 fprintf(fp, ['\t\t::boost::numeric::ublas::vector<T> return_value(' int2str(dim) ');\n\n']);
 
 for i = 1:length(f)
-    [status out] = system([matlab2cpp ' "' char(f(i)) '"']);
+    [status, out] = system([matlab2cpp ' "' char(f(i)) '"']);
     
     if status ~= 0
         disp(['failed to parse function "' char(f(i)) '".']);

@@ -37,6 +37,6 @@ end
 disp(command);
 system(command);
 
-data = csvread([name '/output.csv']);
+data = get_last_result(name);
 
 end

@@ -8,6 +8,6 @@ p = 7;
 init = [1;0;0];
 t_last = 23.0;
 
-data = kv_maffine2(n, p, init, 0.0, t_last, [10;28;intval(8)/3], 'lorentz-maffine2');
+data = kv_maffine2(n, p, init, 0.0, t_last, [10;28;intval(8)/3], 'lorenz-maffine2');
 plot3(mid(infsup(data(:,3),data(:,4))),mid(infsup(data(:,5),data(:,6))),mid(infsup(data(:,7),data(:,8))));
 %PlotCube(infsup(data(:,3),data(:,4))', infsup(data(:,5),data(:,6))', infsup(data(:,7),data(:,8))', 'vs', 'o');
