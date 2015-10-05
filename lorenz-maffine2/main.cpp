@@ -1,6 +1,7 @@
 // eliminate deprecation warnings
 #if defined(_MSC_VER)
 # define _CRT_SECURE_NO_WARNINGS
+# define _SCL_SECURE_NO_WARNINGS
 #endif
 
 #include <cstdlib>
@@ -92,10 +93,22 @@ int main(int argc, char **argv)
 		::todouble(::std::strtol(argv[40], nullptr, 10), ::std::strtol(argv[41], nullptr, 10), ::std::strtoull(argv[42], nullptr, 10)),
 		::todouble(::std::strtol(argv[43], nullptr, 10), ::std::strtol(argv[44], nullptr, 10), ::std::strtoull(argv[45], nullptr, 10)));
 
-	ofs << "0.0,0.0"
-	    << ',' << to_interval(u(0)).lower() << ',' << to_interval(u(0)).upper()
-	    << ',' << to_interval(u(1)).lower() << ',' << to_interval(u(1)).upper()
-	    << ',' << to_interval(u(2)).lower() << ',' << to_interval(u(2)).upper() << ::std::endl;
+	outdouble(0.0, ofs);
+	ofs << ',';
+	outdouble(0.0, ofs);
+	ofs << ',';
+	outdouble(to_interval(u(0)).lower(), ofs);
+	ofs << ',';
+	outdouble(to_interval(u(0)).upper(), ofs);
+	ofs << ',';
+	outdouble(to_interval(u(1)).lower(), ofs);
+	ofs << ',';
+	outdouble(to_interval(u(1)).upper(), ofs);
+	ofs << ',';
+	outdouble(to_interval(u(2)).lower(), ofs);
+	ofs << ',';
+	outdouble(to_interval(u(2)).upper(), ofs);
+	ofs << ::std::endl;
 
 	int itermax = ::std::strtol(argv[3], nullptr, 10);
 	int order = ::std::strtol(argv[2], nullptr, 10);
@@ -113,19 +126,21 @@ int main(int argc, char **argv)
 			t2,
 			::kv::ode_param<double>().set_order(order).set_autostep(false).set_ep_reduce(1).set_ep_reduce_limit(3));
 
-		ofs << t2.lower() << ',' << t2.upper();
+		outdouble(t2.lower(), ofs);
 		ofs << ',';
-		::kv::rop<double>::print_down(to_interval(u(0)).lower(), ofs);
+		outdouble(t2.upper(), ofs);
 		ofs << ',';
-		::kv::rop<double>::print_up(to_interval(u(0)).upper(), ofs);
+		outdouble(to_interval(u(0)).lower(), ofs);
 		ofs << ',';
-		::kv::rop<double>::print_down(to_interval(u(1)).lower(), ofs);
+		outdouble(to_interval(u(0)).upper(), ofs);
 		ofs << ',';
-		::kv::rop<double>::print_up(to_interval(u(1)).upper(), ofs);
+		outdouble(to_interval(u(1)).lower(), ofs);
 		ofs << ',';
-		::kv::rop<double>::print_down(to_interval(u(2)).lower(), ofs);
+		outdouble(to_interval(u(1)).upper(), ofs);
 		ofs << ',';
-		::kv::rop<double>::print_up(to_interval(u(2)).upper(), ofs);
+		outdouble(to_interval(u(2)).lower(), ofs);
+		ofs << ',';
+		outdouble(to_interval(u(2)).upper(), ofs);
 		ofs << ::std::endl;
 
 		if(r != 2) break;

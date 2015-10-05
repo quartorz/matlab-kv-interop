@@ -52,7 +52,7 @@ double todouble(int sign, int exponent, ::std::uint64_t significand)
 	}
 }
 
-void outdouble(double x, ::std::ostream os)
+void outdouble(double x, ::std::ostream &os)
 {
 	auto t = fromdouble(x);
 	os << ::std::get<0>(t) << ',' << ::std::get<1>(t) << ',' << ::std::get<2>(t);
