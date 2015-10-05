@@ -133,7 +133,7 @@ fprintf(fp, '\t}\n\n');
 
 fprintf(fp, '\t::std::ofstream ofs(argv[1]);\n');
 fprintf(fp, '\tif(!ofs){\n');
-fprintf(fp, '\t\t::std::cerr << "cannot open file ''" << argv[1] << ''\'''' << ::std::endl;\n');
+fprintf(fp, '\t\t::std::cerr << "cannot open file ''" << argv[1] << ''\\'''' << ::std::endl;\n');
 fprintf(fp, '\t\treturn 1;\n');
 fprintf(fp, '\t}\n\n');
 fprintf(fp, '\tofs.setf(ofs.scientific);\n');
