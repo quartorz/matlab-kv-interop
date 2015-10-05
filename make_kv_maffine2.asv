@@ -128,14 +128,9 @@ fprintf(fp, '{\n');
 
 fprintf(fp, ['\tif(argc < ' int2str(2 + 2 * 3 * (1 + length(u) + length(parameter))) '){\n']);
 fprintf(fp, '\t\t::std::cerr << "invalid argument" << ::std::endl;\n');
-fprintf(fp, '\t\treturn 1;;\n');
 fprintf(fp, '\t}\n\n');
 
 fprintf(fp, '\t::std::ofstream ofs(argv[1]);\n');
-fprintf(fp, '\tif(!ofs){\n');
-fprintf(fp, '\t\t::std::cerr << "cannot open file ''" << argv[1] << ''\'''' << ::std::endl;\n');
-fprintf(fp, '\t\treturn 1;\n');
-fprintf(fp, '\t}\n\n');
 fprintf(fp, '\tofs.setf(ofs.scientific);\n');
 fprintf(fp, '\tofs.precision(17);\n\n');
 
@@ -164,17 +159,13 @@ end
 clear bias;
 
 fprintf(fp, '\toutdouble(0.0, ofs);\n');
-fprintf(fp, '\tofs << '','';\n');
-fprintf(fp, '\toutdouble(0.0, ofs);\n');
+fprintf('\toutdouble(0.0, ofs);');
 
 for i = 1:length(u)
-    fprintf(fp, '\tofs << '','';\n');
-    fprintf(fp, ['\toutdouble(to_interval(u(' int2str(i - 1) ')).lower(), ofs);\n']);
-    fprintf(fp, '\tofs << '','';\n');
-    fprintf(fp, ['\toutdouble(to_interval(u(' int2str(i - 1) ')).upper(), ofs);\n']);
+    fprintf(fp, ['\n\t    << '','' << to_interval(u(' int2str(i - 1) ')).lower() << '','' << to_interval(u(' int2str(i - 1) ')).upper()']);
 end
 
-fprintf(fp, '\tofs << ::std::endl;\n\n');
+fprintf(fp, ' << ::std::endl;\n\n');
 
 fprintf(fp, '\tint itermax = ::std::strtol(argv[3], nullptr, 10);\n');
 fprintf(fp, '\tint order = ::std::strtol(argv[2], nullptr, 10);\n');
@@ -202,15 +193,14 @@ fprintf(fp, '\t\t\tt1,\n');
 fprintf(fp, '\t\t\tt2,\n');
 fprintf(fp, '\t\t\t::kv::ode_param<double>().set_order(order).set_autostep(false).set_ep_reduce(1).set_ep_reduce_limit(3));\n\n');
 
-fprintf(fp, '\t\toutdouble(t2.lower(), ofs);\n');
-fprintf(fp, '\t\tofs << '','';\n');
-fprintf(fp, '\t\toutdouble(t2.upper(), ofs);\n');
+fprintf(fp, '\t\tofs << t2.lower() << '','' << t2.upper();\n');
+fprintf(fp, '\t\t
 
 for i = 1:length(u)
     fprintf(fp, '\t\tofs << '','';\n');
-    fprintf(fp, ['\t\toutdouble(to_interval(u(' int2str(i - 1) ')).lower(), ofs);\n']);
+    fprintf(fp, ['\t\t::kv::rop<double>::print_down(to_interval(u(' int2str(i - 1) ')).lower(), ofs);\n']);
     fprintf(fp, '\t\tofs << '','';\n');
-    fprintf(fp, ['\t\toutdouble(to_interval(u(' int2str(i - 1) ')).upper(), ofs);\n']);
+    fprintf(fp, ['\t\t::kv::rop<double>::print_up(to_interval(u(' int2str(i - 1) ')).upper(), ofs);\n']);
 end
 
 fprintf(fp, '\t\tofs << ::std::endl;\n\n');
