@@ -29,6 +29,9 @@ double todouble(int sign, int exponent, ::std::uint64_t significand)
 {
 	int sign = (::std::signbit(x) ? 1 : 0);
 
+	if(::std::isinf(x))
+		return ::std::make_tuple(sign, 2000, 0);
+
 	x = ::std::abs(x);
 
 	if(x < 1.0){
