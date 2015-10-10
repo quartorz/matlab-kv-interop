@@ -1,9 +1,0 @@
-function [data] = get_last_result (name)
-
-d = csvread([name '/output.csv']);
-s = size(d);
-
-data(s
-data(:, 1) = intval((-1) ^ d(:,
-
-end
