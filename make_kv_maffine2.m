@@ -8,7 +8,7 @@ if nargin <= 4
     compiler = @compilers.msvc;
 end
 
-build_tools(compiler);
+prepare(compiler);
 
 mkdir(name);
 
