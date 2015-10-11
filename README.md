@@ -37,5 +37,5 @@ MATLABで記述した常微分方程式からkvのプログラムを生成した
   `kv::odelong_qr_lohner`を使って計算するプログラムを生成する  
   `t`の分割数は指定できない
 * `prepare.m`  
-  プログラムの生成に必要なツールやライブラリを用意するためのプログラム  
-  `make_kv_maffine2`と`make_kv_qr_lohner`が中で呼び出すようになってる
+  プログラムの生成に必要なツールやライブラリを用意する関数  
+  `make_kv_maffine2`と`make_kv_qr_lohner`が中で呼び出す
