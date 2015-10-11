@@ -14,10 +14,10 @@ disp('building MATLAB2C++');
 [status, out] = compiler({'tools/matlab2c++.cpp'}, 'tools/MATLAB2C++.exe');
 
 if status ~= 0
-    disp('build MATLAB2C++ failed');
+    disp('build of MATLAB2C++ failed');
     disp(out);
 else
-    disp('build MATLAB2C++ succeeded');
+    disp('build of MATLAB2C++ succeeded');
 end
 
 !del *.obj
