@@ -9,7 +9,6 @@ if ~ischar(msvc_dir)
 
     if status ~= 0 || isempty(output)
         error('Visual C++ not found.');
-        return
     end
     
     if ~isempty(strfind(output, '='))
@@ -17,18 +16,8 @@ if ~ischar(msvc_dir)
     else
         disp(char(output));
         error('unexpected output');
-        return;
     end
 end
-
-%{
-command = [ ...
-    '"' fullfile(char(msvc_dir), 'VC', 'vcvarsall.bat') '"' ...
-    '&& cl /Ox /EHsc /MT /DNDEBUG /I.\include ' ...
-    '/I"' fullfile(matlabroot, 'extern', 'include') '" ' ...
-    strjoin(sources) ...
-];
-%}
 
 command = [ ...
     '"' fullfile(char(msvc_dir), 'VC', 'vcvarsall.bat') '"' ...
