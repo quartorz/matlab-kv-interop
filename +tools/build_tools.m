@@ -1,6 +1,12 @@
 function build_tools (compiler)
 
-if exist('tools/MATLAB2C++.exe', 'file') == 2
+if ispc
+    exe_ext = '.exe';
+else
+    exe_ext = '.out';
+end
+
+if exist(fullfile('tools', ['MATLAB2C++' exe_ext]), 'file') == 2
     return;
 end
 
@@ -11,7 +17,7 @@ if nargin < 1
 end
 
 disp('building MATLAB2C++');
-[status, out] = compiler({'tools/matlab2c++.cpp'}, 'tools/MATLAB2C++.exe');
+[status, out] = compiler({fullfile('tools', 'matlab2c++.cpp')}, fullfile('tools', ['MATLAB2C++' exe_ext]));
 
 if status ~= 0
     disp('build of MATLAB2C++ failed');

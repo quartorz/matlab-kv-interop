@@ -1,5 +1,6 @@
 %% kv_maffine2
 % make_kv_maffine2で生成したプログラムで計算して結果を返す関数
+
 function [data] =  kv_maffine2(name, t_init, t_last, n, order, u,  parameter, ep_reduce, ep_limit)
 
 %%
@@ -21,9 +22,15 @@ t_init = intval(0.0);
 %% プログラムの実行
 % プログラムを実行するための引数を用意する
 
+if ispc
+    exe_ext = '.exe';
+else
+    exe_ext = '.out';
+end
+
 command = [
-    '"' fullfile(name, 'exec.exe') '" ' ...
-    '"' fullfile(name, 'output.csv') '" ' ...
+    '"' fullfile('.', name, ['exec' exe_ext]) '" ' ...
+    '"' fullfile('.', name, 'output.csv') '" ' ...
     int2str(order) ' ' int2str(n) ' ' int2str(ep_reduce) ' ' int2str(ep_limit)
 ];
 
@@ -51,8 +58,14 @@ end
 
 %%
 % プログラムを実行する
+
 disp(command);
-system(command);
+[status, out] = system(command);
+
+if status ~= 0
+    disp(out);
+    error(['failed (status: ' int2str(status) ')']);
+end
 
 %% 実行結果を得る
 data = tools.get_last_result(name);

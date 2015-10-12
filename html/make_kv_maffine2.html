@@ -83,7 +83,13 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 source = fullfile(name, <span class="string">'main.cpp'</span>);
 executable = fullfile(name, <span class="string">'exec.exe'</span>);
 
-matlab2cpp = fullfile(<span class="string">'tools'</span>, <span class="string">'MATLAB2C++.exe'</span>);
+<span class="keyword">if</span> ispc
+    exe_ext = <span class="string">'.exe'</span>;
+<span class="keyword">else</span>
+    exe_ext = <span class="string">'.out'</span>;
+<span class="keyword">end</span>
+
+matlab2cpp = fullfile(<span class="string">'tools'</span>, [<span class="string">'MATLAB2C++'</span> exe_ext]);
 
 dim = length(f);
 
@@ -184,7 +190,7 @@ fprintf(fp, <span class="string">'{\n'</span>);
 
 fprintf(fp, [<span class="string">'\tif(argc &lt; '</span> int2str(4 + 2 * 3 * (1 + length(u) + length(parameters))) <span class="string">'){\n'</span>]);
 fprintf(fp, <span class="string">'\t\t::std::cerr &lt;&lt; "invalid argument" &lt;&lt; ::std::endl;\n'</span>);
-fprintf(fp, <span class="string">'\t\treturn 1;;\n'</span>);
+fprintf(fp, <span class="string">'\t\treturn 1;\n'</span>);
 fprintf(fp, <span class="string">'\t}\n\n'</span>);
 
 fprintf(fp, <span class="string">'\t::std::ofstream ofs(argv[1]);\n'</span>);
@@ -335,7 +341,13 @@ mkdir(name);
 source = fullfile(name, 'main.cpp');
 executable = fullfile(name, 'exec.exe');
 
-matlab2cpp = fullfile('tools', 'MATLAB2C++.exe');
+if ispc
+    exe_ext = '.exe';
+else
+    exe_ext = '.out';
+end
+
+matlab2cpp = fullfile('tools', ['MATLAB2C++' exe_ext]);
 
 dim = length(f);
 
@@ -456,7 +468,7 @@ fprintf(fp, '{\n');
 
 fprintf(fp, ['\tif(argc < ' int2str(4 + 2 * 3 * (1 + length(u) + length(parameters))) '){\n']);
 fprintf(fp, '\t\t::std::cerr << "invalid argument" << ::std::endl;\n');
-fprintf(fp, '\t\treturn 1;;\n');
+fprintf(fp, '\t\treturn 1;\n');
 fprintf(fp, '\t}\n\n');
 
 fprintf(fp, '\t::std::ofstream ofs(argv[1]);\n');

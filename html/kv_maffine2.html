@@ -76,9 +76,15 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 <span class="comment">% ep_limit  : kv::ode_param&lt;T&gt;::ep_reduce_limit</span>
 <span class="comment">%             (&#35443;&#32048;&#12399;http://verifiedby.me/kv/ode/index.html&#12434;&#21442;&#29031;)</span>
 </pre><pre class="codeinput">t_init = intval(0.0);
-</pre><h2>&#12503;&#12525;&#12464;&#12521;&#12512;&#12398;&#23455;&#34892;<a name="4"></a></h2><p>&#12503;&#12525;&#12464;&#12521;&#12512;&#12434;&#23455;&#34892;&#12377;&#12427;&#12383;&#12417;&#12398;&#24341;&#25968;&#12434;&#29992;&#24847;&#12377;&#12427;</p><pre class="codeinput">command = [
-    <span class="string">'"'</span> fullfile(name, <span class="string">'exec.exe'</span>) <span class="string">'" '</span> <span class="keyword">...</span>
-    <span class="string">'"'</span> fullfile(name, <span class="string">'output.csv'</span>) <span class="string">'" '</span> <span class="keyword">...</span>
+</pre><h2>&#12503;&#12525;&#12464;&#12521;&#12512;&#12398;&#23455;&#34892;<a name="4"></a></h2><p>&#12503;&#12525;&#12464;&#12521;&#12512;&#12434;&#23455;&#34892;&#12377;&#12427;&#12383;&#12417;&#12398;&#24341;&#25968;&#12434;&#29992;&#24847;&#12377;&#12427;</p><pre class="codeinput"><span class="keyword">if</span> ispc
+    exe_ext = <span class="string">'.exe'</span>;
+<span class="keyword">else</span>
+    exe_ext = <span class="string">'.out'</span>;
+<span class="keyword">end</span>
+
+command = [
+    <span class="string">'"'</span> fullfile(<span class="string">'.'</span>, name, [<span class="string">'exec'</span> exe_ext]) <span class="string">'" '</span> <span class="keyword">...</span>
+    <span class="string">'"'</span> fullfile(<span class="string">'.'</span>, name, <span class="string">'output.csv'</span>) <span class="string">'" '</span> <span class="keyword">...</span>
     int2str(order) <span class="string">' '</span> int2str(n) <span class="string">' '</span> int2str(ep_reduce) <span class="string">' '</span> int2str(ep_limit)
 ];
 
@@ -104,13 +110,19 @@ command = [command <span class="string">' '</span> int2str(a) <span class="strin
     command = [command <span class="string">' '</span> int2str(a) <span class="string">' '</span> int2str(b) <span class="string">' '</span> int2str(c)];
 <span class="keyword">end</span>
 </pre><p>&#12503;&#12525;&#12464;&#12521;&#12512;&#12434;&#23455;&#34892;&#12377;&#12427;</p><pre class="codeinput">disp(command);
-system(command);
+[status, out] = system(command);
+
+<span class="keyword">if</span> status ~= 0
+    disp(out);
+    error([<span class="string">'failed (status: '</span> int2str(status) <span class="string">')'</span>]);
+<span class="keyword">end</span>
 </pre><h2>&#23455;&#34892;&#32080;&#26524;&#12434;&#24471;&#12427;<a name="6"></a></h2><pre class="codeinput">data = tools.get_last_result(name);
 </pre><pre class="codeinput"><span class="keyword">end</span>
 </pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% kv_maffine2
 % make_kv_maffine2で生成したプログラムで計算して結果を返す関数
+
 function [data] =  kv_maffine2(name, t_init, t_last, n, order, u,  parameter, ep_reduce, ep_limit)
 
 %%
@@ -132,9 +144,15 @@ t_init = intval(0.0);
 %% プログラムの実行
 % プログラムを実行するための引数を用意する
 
+if ispc
+    exe_ext = '.exe';
+else
+    exe_ext = '.out';
+end
+
 command = [
-    '"' fullfile(name, 'exec.exe') '" ' ...
-    '"' fullfile(name, 'output.csv') '" ' ...
+    '"' fullfile('.', name, ['exec' exe_ext]) '" ' ...
+    '"' fullfile('.', name, 'output.csv') '" ' ...
     int2str(order) ' ' int2str(n) ' ' int2str(ep_reduce) ' ' int2str(ep_limit)
 ];
 
@@ -162,8 +180,14 @@ end
 
 %%
 % プログラムを実行する
+
 disp(command);
-system(command);
+[status, out] = system(command);
+
+if status ~= 0
+    disp(out);
+    error(['failed (status: ' int2str(status) ')']);
+end
 
 %% 実行結果を得る
 data = tools.get_last_result(name);

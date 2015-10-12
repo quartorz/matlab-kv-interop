@@ -31,7 +31,13 @@ mkdir(name);
 source = fullfile(name, 'main.cpp');
 executable = fullfile(name, 'exec.exe');
 
-matlab2cpp = fullfile('tools', 'MATLAB2C++.exe');
+if ispc
+    exe_ext = '.exe';
+else
+    exe_ext = '.out';
+end
+
+matlab2cpp = fullfile('tools', ['MATLAB2C++' exe_ext]);
 
 dim = length(f);
 
@@ -152,7 +158,7 @@ fprintf(fp, '{\n');
 
 fprintf(fp, ['\tif(argc < ' int2str(4 + 2 * 3 * (1 + length(u) + length(parameters))) '){\n']);
 fprintf(fp, '\t\t::std::cerr << "invalid argument" << ::std::endl;\n');
-fprintf(fp, '\t\treturn 1;;\n');
+fprintf(fp, '\t\treturn 1;\n');
 fprintf(fp, '\t}\n\n');
 
 fprintf(fp, '\t::std::ofstream ofs(argv[1]);\n');
