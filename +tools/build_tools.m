@@ -7,7 +7,7 @@ end
 if nargin < 1
     disp('The argument ''compiler'' of build_tools is empty.');
     disp('Use Microsoft Visual C++ compiler as default.');
-    compiler = @msvc_compiler;
+    compiler = @compilers.msvc;
 end
 
 disp('building MATLAB2C++');

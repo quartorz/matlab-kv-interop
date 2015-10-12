@@ -2,7 +2,7 @@
 
 setlocal ENABLEDELAYEDEXPANSION
 
-@for /L %%i in (20, -1, 9) do (
+@for /L %%i in (100, -1, 9) do (
 @set COMMAND=set VS%%i0COMNTOOLS
 @for /f "delims="  %%x in ('!COMMAND! 2^> nul') do (
 @for /f "tokens=2 delims==" %%y in ('echo %%x') do (

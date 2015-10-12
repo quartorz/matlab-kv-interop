@@ -1,9 +1,9 @@
 function prepare (compiler)
 
 if nargin >= 1
-    build_tools(compiler);
+    tools.build_tools(compiler);
 else
-    build_tools();
+    tools.build_tools();
 end
 
 if exist('include/kv', 'dir') ~= 7

@@ -8,7 +8,7 @@ if nargin <= 4
     compiler = @compilers.msvc;
 end
 
-prepare(compiler);
+tools.prepare(compiler);
 
 mkdir(name);
 
@@ -133,11 +133,7 @@ fprintf(fp, '\t}\n\n');
 
 fprintf(fp, '\t::std::ofstream ofs(argv[1]);\n');
 fprintf(fp, '\tif(!ofs){\n');
-<<<<<<< HEAD
 fprintf(fp, '\t\t::std::cerr << "cannot open file ''" << argv[1] << ''\\'''' << ::std::endl;\n');
-=======
-fprintf(fp, '\t\t::std::cerr << "cannot open file ''" << argv[1] << ''\'''' << ::std::endl;\n');
->>>>>>> 9444361a80390a07d12d3e6ab4aca7508a1e31af
 fprintf(fp, '\t\treturn 1;\n');
 fprintf(fp, '\t}\n\n');
 fprintf(fp, '\tofs.setf(ofs.scientific);\n');
@@ -228,7 +224,7 @@ fprintf(fp, '}\n');
 
 fclose(fp);
 
-disp('compiling...');
+disp(['compiling ' source ' ...']);
 
 [status, out] = compiler({source}, executable);
 
