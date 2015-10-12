@@ -5,8 +5,8 @@ if exist('tools/MATLAB2C++.exe', 'file') == 2
 end
 
 if nargin < 1
-    disp('The argument ''compiler'' of build_tools is empty.');
-    disp('Use Microsoft Visual C++ compiler as default.');
+    disp('the argument ''compiler'' of build_tools is empty');
+    disp('use Microsoft Visual C++ compiler as default');
     compiler = @compilers.msvc;
 end
 

@@ -3,8 +3,8 @@ function make_kv_qr_lohner (u, f, parameter, name, compiler)
 % 
 
 if nargin <= 4
-    disp('the argument ''compiler'' of make_kv is empty.');
-    disp('use Microsoft Visual C++ compiler as default.');
+    disp('the argument ''compiler'' of make_kv_qr_lohner is empty');
+    disp('use Microsoft Visual C++ compiler as default');
     compiler = @compilers.msvc;
 end
 
@@ -224,6 +224,6 @@ else
     disp('compilation succeeded.');
 end
 
-!del *.obj
+delete('*.obj');
 
 end

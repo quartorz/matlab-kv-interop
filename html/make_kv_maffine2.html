@@ -1,0 +1,580 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>make_kv_maffine2</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-10-13"><meta name="DC.source" content="make_kv_maffine2.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">make_kv_maffine2</a></li><li><a href="#4">&#29983;&#25104;&#12398;&#12383;&#12417;&#12398;&#28310;&#20633;</a></li><li><a href="#5">&#12503;&#12525;&#12464;&#12521;&#12512;&#12398;&#29983;&#25104;</a></li><li><a href="#10">&#12467;&#12531;&#12497;&#12452;&#12523;</a></li></ul></div><h2>make_kv_maffine2<a name="1"></a></h2><p>kv::ode_maffine2&#12434;&#20351;&#12387;&#12390;&#35336;&#31639;&#12377;&#12427;&#12503;&#12525;&#12464;&#12521;&#12512;&#12434;&#29983;&#25104;&#12377;&#12427;&#38306;&#25968;</p><pre class="codeinput"><span class="keyword">function</span> make_kv_maffine2(name, f, u, parameters, compiler)
+</pre><p>&#24341;&#25968;</p><pre class="codeinput"><span class="comment">% name       : &#20986;&#21147;&#12377;&#12427;&#12487;&#12451;&#12524;&#12463;&#12488;&#12522;&#12398;&#21517;&#21069;</span>
+<span class="comment">% f          : &#26041;&#31243;&#24335;</span>
+<span class="comment">% u          : &#26041;&#31243;&#24335;&#12398;&#22793;&#25968;</span>
+<span class="comment">% parameters : &#26041;&#31243;&#24335;&#12398;&#12497;&#12521;&#12513;&#12540;&#12479;</span>
+<span class="comment">% compiler   : &#20351;&#12358;&#12467;&#12531;&#12497;&#12452;&#12521;(&#30465;&#30053;&#21487;)</span>
+</pre><p>&#24341;&#25968; compiler &#12364;&#30465;&#30053;&#12373;&#12428;&#12383;&#12392;&#12365;&#12399;Visual C++&#12434;&#20351;&#12387;&#12390;&#12467;&#12531;&#12497;&#12452;&#12523;&#12377;&#12427;</p><pre class="codeinput"><span class="keyword">if</span> nargin &lt;= 4
+    disp(<span class="string">'the argument ''compiler'' of make_kv_maffine2 is empty'</span>);
+    disp(<span class="string">'use Microsoft Visual C++ compiler as default'</span>);
+    compiler = @compilers.msvc;
+<span class="keyword">end</span>
+</pre><h2>&#29983;&#25104;&#12398;&#12383;&#12417;&#12398;&#28310;&#20633;<a name="4"></a></h2><div><ul><li>tools/MATLAB2C++&#12398;&#12467;&#12531;&#12497;&#12452;&#12523;</li><li>kv&#12398;&#12480;&#12454;&#12531;&#12525;&#12540;&#12489;</li></ul></div><pre class="codeinput">tools.prepare(compiler);
+</pre><h2>&#12503;&#12525;&#12464;&#12521;&#12512;&#12398;&#29983;&#25104;<a name="5"></a></h2><pre class="codeinput">mkdir(name);
+
+source = fullfile(name, <span class="string">'main.cpp'</span>);
+executable = fullfile(name, <span class="string">'exec.exe'</span>);
+
+matlab2cpp = fullfile(<span class="string">'tools'</span>, <span class="string">'MATLAB2C++.exe'</span>);
+
+dim = length(f);
+
+disp([<span class="string">'generating source file (file name: '</span> source <span class="string">')'</span>]);
+
+fp = fopen(source, <span class="string">'wt'</span>);
+</pre><p><h3>プリプロセッサ</h3></p><pre class="codeinput">fprintf(fp, <span class="string">'// eliminate deprecation warnings\n'</span>);
+fprintf(fp, <span class="string">'#if defined(_MSC_VER)\n'</span>);
+fprintf(fp, <span class="string">'# define _CRT_SECURE_NO_WARNINGS\n'</span>);
+fprintf(fp, <span class="string">'# define _SCL_SECURE_NO_WARNINGS\n'</span>);
+fprintf(fp, <span class="string">'#endif\n\n'</span>);
+fprintf(fp, <span class="string">'#include &lt;cstdlib&gt;\n'</span>);
+fprintf(fp, <span class="string">'#include &lt;iostream&gt;\n'</span>);
+fprintf(fp, <span class="string">'#include &lt;fstream&gt;\n'</span>);
+fprintf(fp, <span class="string">'#include &lt;utility&gt;\n\n'</span>);
+fprintf(fp, <span class="string">'#include &lt;boost/numeric/ublas/vector.hpp&gt;\n\n'</span>);
+fprintf(fp, <span class="string">'#include &lt;kv/affine.hpp&gt;\n'</span>);
+fprintf(fp, <span class="string">'#include &lt;kv/rdouble.hpp&gt;\n'</span>);
+fprintf(fp, <span class="string">'#include &lt;kv/ode-maffine2.hpp&gt;\n'</span>);
+fprintf(fp, <span class="string">'#include &lt;kv/ode-param.hpp&gt;\n'</span>);
+fprintf(fp, <span class="string">'#include &lt;kv/ode-callback.hpp&gt;\n\n'</span>);
+fprintf(fp, <span class="string">'#include &lt;conv.hpp&gt;\n\n'</span>);
+</pre><p><h3>方程式を表す関数オブジェクトクラスの生成</h3></p><pre class="codeinput">fprintf(fp, <span class="string">'struct func{\n'</span>);
+
+<span class="keyword">if</span> length(parameters) &gt; 0
+    <span class="comment">% definition of members</span>
+    fprintf(fp, <span class="string">'\t::kv::interval&lt;double&gt; '</span>);
+
+    <span class="keyword">for</span> i = 1:length(parameters)
+        <span class="keyword">if</span> i ~= 1
+            fprintf(fp, <span class="string">', '</span>);
+        <span class="keyword">end</span>
+        fprintf(fp, char(parameters(i)));
+    <span class="keyword">end</span>
+
+    fprintf(fp, <span class="string">';\n\n'</span>);
+
+    <span class="comment">% constructor</span>
+    fprintf(fp, <span class="string">'\tfunc(\n'</span>);
+
+    <span class="keyword">for</span> i = 1:length(parameters)
+        fprintf(fp, [<span class="string">'\t\tconst ::kv::interval&lt;double&gt; &amp;'</span> char(parameters(i))]);
+        <span class="keyword">if</span> i ~= length(parameters)
+            fprintf(fp, <span class="string">','</span>);
+        <span class="keyword">end</span>
+        fprintf(fp, <span class="string">'\n'</span>);
+    <span class="keyword">end</span>
+
+    fprintf(fp, <span class="string">'\t)\n'</span>);
+    fprintf(fp, <span class="string">'\t\t: '</span>);
+
+    <span class="keyword">for</span> i = 1:length(parameters)
+        <span class="keyword">if</span> i ~= 1
+            fprintf(fp, <span class="string">'\t\t, '</span>);
+        <span class="keyword">end</span>
+        fprintf(fp, [char(parameters(i)) <span class="string">'('</span> char(parameters(i)) <span class="string">')\n'</span>]);
+    <span class="keyword">end</span>
+
+    fprintf(fp, <span class="string">'\t{\n\t}\n\n'</span>);
+<span class="keyword">end</span>
+
+fprintf(fp, <span class="string">'\ttemplate&lt;typename T&gt;\n'</span>);
+fprintf(fp, <span class="string">'\t::boost::numeric::ublas::vector&lt;T&gt; operator()(\n'</span>);
+fprintf(fp, <span class="string">'\t\tconst ::boost::numeric::ublas::vector&lt;T&gt; &amp;u,\n'</span>);
+fprintf(fp, <span class="string">'\t\tconst T &amp;t\n'</span>);
+fprintf(fp, <span class="string">'\t) const\n'</span>);
+fprintf(fp, <span class="string">'\t{\n'</span>);
+
+<span class="keyword">for</span> i = 1:length(u)
+    fprintf(fp, [<span class="string">'\t\tconst T &amp;'</span> char(u(i)) <span class="string">' = u('</span> int2str(i - 1) <span class="string">');\n'</span>]);
+<span class="keyword">end</span>
+
+fprintf(fp, <span class="string">'\n'</span>);
+
+fprintf(fp, [<span class="string">'\t\t::boost::numeric::ublas::vector&lt;T&gt; return_value('</span> int2str(dim) <span class="string">');\n\n'</span>]);
+
+<span class="keyword">for</span> i = 1:length(f)
+    [status, out] = system([matlab2cpp <span class="string">' "'</span> char(f(i)) <span class="string">'"'</span>]);
+
+    <span class="keyword">if</span> status ~= 0
+        disp([<span class="string">'failed to parse function "'</span> char(f(i)) <span class="string">'".'</span>]);
+        disp(out);
+        <span class="keyword">return</span>
+    <span class="keyword">end</span>
+
+    fprintf(fp, [<span class="string">'\t\treturn_value('</span> int2str(i - 1) <span class="string">') = '</span> out <span class="string">';\n'</span>]);
+<span class="keyword">end</span>
+
+fprintf(fp, <span class="string">'\n\t\treturn return_value;\n'</span>);
+fprintf(fp, <span class="string">'\t}\n'</span>);
+fprintf(fp, <span class="string">'};\n\n'</span>);
+</pre><p><h3>main関数の生成</h3></p><pre class="codeinput"><span class="comment">% argv: executable output order N ep-reduce ep-reduce-limit</span>
+<span class="comment">%       inf(t_last) sup(t_last)</span>
+<span class="comment">%       inf(u0(1)) sup(u0(1)) ...</span>
+<span class="comment">%       inf(param_1) sup(param_1) ...</span>
+</pre><p>&#21306;&#38291;&#12399;&#19979;&#38480;&#12392;&#19978;&#38480;&#12434;&#12381;&#12428;&#12382;&#12428;</p><p><img src="make_kv_maffine2_eq84165.png" alt="$$(-1)^{sign} * 2^{exponent} * {significand}$$"></p><p>&#12398;&#12424;&#12358;&#12395;3&#12388;&#12398;&#25972;&#25968; <img src="make_kv_maffine2_eq94384.png" alt="$sign$">(&#31526;&#21495;) <img src="make_kv_maffine2_eq61951.png" alt="$, exponent$">(&#25351;&#25968;&#37096;) <img src="make_kv_maffine2_eq18673.png" alt="$, significand$">(&#20206;&#25968;&#37096;) &#12395;&#20998;&#35299;&#12375;&#12390;&#20837;&#20986;&#21147;&#12377;&#12427;</p><pre class="codeinput">fprintf(fp, <span class="string">'int main(int argc, char **argv)\n'</span>);
+fprintf(fp, <span class="string">'{\n'</span>);
+
+fprintf(fp, [<span class="string">'\tif(argc &lt; '</span> int2str(4 + 2 * 3 * (1 + length(u) + length(parameters))) <span class="string">'){\n'</span>]);
+fprintf(fp, <span class="string">'\t\t::std::cerr &lt;&lt; "invalid argument" &lt;&lt; ::std::endl;\n'</span>);
+fprintf(fp, <span class="string">'\t\treturn 1;;\n'</span>);
+fprintf(fp, <span class="string">'\t}\n\n'</span>);
+
+fprintf(fp, <span class="string">'\t::std::ofstream ofs(argv[1]);\n'</span>);
+fprintf(fp, <span class="string">'\tif(!ofs){\n'</span>);
+fprintf(fp, <span class="string">'\t\t::std::cerr &lt;&lt; "cannot open file ''" &lt;&lt; argv[1] &lt;&lt; ''\\'''' &lt;&lt; ::std::endl;\n'</span>);
+fprintf(fp, <span class="string">'\t\treturn 1;\n'</span>);
+fprintf(fp, <span class="string">'\t}\n\n'</span>);
+fprintf(fp, <span class="string">'\tofs.setf(ofs.scientific);\n'</span>);
+fprintf(fp, <span class="string">'\tofs.precision(17);\n\n'</span>);
+
+fprintf(fp, <span class="string">'\t::kv::interval&lt;double&gt; t_last(\n'</span>);
+fprintf(fp, <span class="string">'\t\t::todouble(::std::strtol(argv[6], nullptr, 10), ::std::strtol(argv[7], nullptr, 10), ::std::strtoull(argv[8], nullptr, 10)),\n'</span>);
+fprintf(fp, <span class="string">'\t\t::todouble(::std::strtol(argv[9], nullptr, 10), ::std::strtol(argv[10], nullptr, 10), ::std::strtoull(argv[11], nullptr, 10)));\n\n'</span>);
+
+fprintf(fp, [<span class="string">'\t::boost::numeric::ublas::vector&lt;::kv::affine&lt;double&gt;&gt; u('</span> int2str(length(u)) <span class="string">');\n\n'</span>]);
+
+<span class="keyword">for</span> i = 1:length(u)
+    fprintf(fp, [ <span class="keyword">...</span>
+        <span class="string">'\tu('</span> int2str(i - 1) <span class="string">') = ::kv::interval&lt;double&gt;(\n'</span> <span class="keyword">...</span>
+        <span class="string">'\t\t::todouble(::std::strtol(argv['</span> int2str(i * 6 + 6) <span class="string">'], nullptr, 10), ::std::strtol(argv['</span> int2str(i * 6 + 7) <span class="string">'], nullptr, 10), ::std::strtoull(argv['</span> int2str(i * 6 + 8) <span class="string">'], nullptr, 10)),\n'</span> <span class="keyword">...</span>
+        <span class="string">'\t\t::todouble(::std::strtol(argv['</span> int2str(i * 6 + 9) <span class="string">'], nullptr, 10), ::std::strtol(argv['</span> int2str(i * 6 + 10) <span class="string">'], nullptr, 10), ::std::strtoull(argv['</span> int2str(i * 6 + 11) <span class="string">'], nullptr, 10)));\n\n'</span>]);
+<span class="keyword">end</span>
+
+bias = 6 * length(u) + 5;
+
+<span class="keyword">for</span> i = 1:length(parameters)
+    fprintf(fp, [ <span class="keyword">...</span>
+        <span class="string">'\t::kv::interval&lt;double&gt; '</span> char(parameters(i)) <span class="string">'(\n'</span> <span class="keyword">...</span>
+        <span class="string">'\t\t::todouble(::std::strtol(argv['</span> int2str(i * 6 + bias + 1) <span class="string">'], nullptr, 10), ::std::strtol(argv['</span> int2str(i * 6 + bias + 2) <span class="string">'], nullptr, 10), ::std::strtoull(argv['</span> int2str(i * 6 + bias + 3) <span class="string">'], nullptr, 10)),\n'</span> <span class="keyword">...</span>
+        <span class="string">'\t\t::todouble(::std::strtol(argv['</span> int2str(i * 6 + bias + 4) <span class="string">'], nullptr, 10), ::std::strtol(argv['</span> int2str(i * 6 + bias + 5) <span class="string">'], nullptr, 10), ::std::strtoull(argv['</span> int2str(i * 6 + bias + 6) <span class="string">'], nullptr, 10)));\n\n'</span>]);
+<span class="keyword">end</span>
+
+clear <span class="string">bias</span>;
+
+fprintf(fp, <span class="string">'\t::outdouble(0.0, ofs);\n'</span>);
+fprintf(fp, <span class="string">'\tofs &lt;&lt; '','';\n'</span>);
+fprintf(fp, <span class="string">'\t::outdouble(0.0, ofs);\n'</span>);
+
+<span class="keyword">for</span> i = 1:length(u)
+    fprintf(fp, <span class="string">'\tofs &lt;&lt; '','';\n'</span>);
+    fprintf(fp, [<span class="string">'\t::outdouble(to_interval(u('</span> int2str(i - 1) <span class="string">')).lower(), ofs);\n'</span>]);
+    fprintf(fp, <span class="string">'\tofs &lt;&lt; '','';\n'</span>);
+    fprintf(fp, [<span class="string">'\t::outdouble(to_interval(u('</span> int2str(i - 1) <span class="string">')).upper(), ofs);\n'</span>]);
+<span class="keyword">end</span>
+
+fprintf(fp, <span class="string">'\tofs &lt;&lt; ::std::endl;\n\n'</span>);
+
+fprintf(fp, <span class="string">'\tint order = ::std::strtol(argv[2], nullptr, 10);\n'</span>);
+fprintf(fp, <span class="string">'\tint itermax = ::std::strtol(argv[3], nullptr, 10);\n'</span>);
+fprintf(fp, <span class="string">'\tint ep_reduce = ::std::strtol(argv[4], nullptr, 10);\n'</span>);
+fprintf(fp, <span class="string">'\tint ep_reduce_limit = ::std::strtol(argv[5], nullptr, 10);\n\n'</span>);
+
+fprintf(fp, <span class="string">'\tfunc f('</span>);
+
+<span class="keyword">for</span> i = 1:length(parameters)
+    <span class="keyword">if</span> i ~= 1
+        fprintf(fp, <span class="string">', '</span>);
+    <span class="keyword">end</span>
+    fprintf(fp, char(parameters(i)));
+<span class="keyword">end</span>
+
+fprintf(fp, <span class="string">');\n'</span>);
+fprintf(fp, <span class="string">'\t::kv::interval&lt;double&gt; t1(0.0);\n\n'</span>);
+
+fprintf(fp, <span class="string">'\tauto param = ::kv::ode_param&lt;double&gt;()\n'</span>);
+fprintf(fp, <span class="string">'\t                 .set_order(order)\n'</span>);
+fprintf(fp, <span class="string">'\t                 .set_autostep(false)\n'</span>);
+fprintf(fp, <span class="string">'\t                 .set_ep_reduce(ep_reduce)\n'</span>);
+fprintf(fp, <span class="string">'\t                 .set_ep_reduce_limit(ep_reduce_limit);\n'</span>);
+fprintf(fp, <span class="string">'\tint r;\n\n'</span>);
+
+fprintf(fp, <span class="string">'\tfor(int i = 0; i &lt; itermax; i++){\n'</span>);
+fprintf(fp, <span class="string">'\t\t::kv::interval&lt;double&gt; t2 = t_last * (i + 1) / itermax;\n\n'</span>);
+
+fprintf(fp, <span class="string">'\t\tr = ::kv::ode_maffine2(\n'</span>);
+fprintf(fp, <span class="string">'\t\t\tf,\n'</span>);
+fprintf(fp, <span class="string">'\t\t\tu,\n'</span>);
+fprintf(fp, <span class="string">'\t\t\tt1,\n'</span>);
+fprintf(fp, <span class="string">'\t\t\tt2,\n'</span>);
+fprintf(fp, <span class="string">'\t\t\tparam);\n\n'</span>);
+
+fprintf(fp, <span class="string">'\t\t::outdouble(t2.lower(), ofs);\n'</span>);
+fprintf(fp, <span class="string">'\t\tofs &lt;&lt; '','';\n'</span>);
+fprintf(fp, <span class="string">'\t\t::outdouble(t2.upper(), ofs);\n'</span>);
+
+<span class="keyword">for</span> i = 1:length(u)
+    fprintf(fp, <span class="string">'\t\tofs &lt;&lt; '','';\n'</span>);
+    fprintf(fp, [<span class="string">'\t\t::outdouble(to_interval(u('</span> int2str(i - 1) <span class="string">')).lower(), ofs);\n'</span>]);
+    fprintf(fp, <span class="string">'\t\tofs &lt;&lt; '','';\n'</span>);
+    fprintf(fp, [<span class="string">'\t\t::outdouble(to_interval(u('</span> int2str(i - 1) <span class="string">')).upper(), ofs);\n'</span>]);
+<span class="keyword">end</span>
+
+fprintf(fp, <span class="string">'\t\tofs &lt;&lt; ::std::endl;\n\n'</span>);
+
+fprintf(fp, <span class="string">'\t\tif(r != 2) break;\n\n'</span>);
+
+fprintf(fp, <span class="string">'\t\tt1 = t2;\n'</span>);
+fprintf(fp, <span class="string">'\t}\n'</span>);
+fprintf(fp, <span class="string">'\treturn (r != 0) ? 0 : 1;\n'</span>);
+fprintf(fp, <span class="string">'}\n'</span>);
+
+fclose(fp);
+</pre><h2>&#12467;&#12531;&#12497;&#12452;&#12523;<a name="10"></a></h2><pre class="codeinput">disp([<span class="string">'compiling '</span> source <span class="string">' ...'</span>]);
+
+[status, out] = compiler({source}, executable);
+
+<span class="keyword">if</span> status ~= 0
+    disp(<span class="string">'compilation failed.'</span>);
+    disp(out);
+<span class="keyword">else</span>
+    disp(<span class="string">'compilation succeeded.'</span>);
+<span class="keyword">end</span>
+
+delete(<span class="string">'*.obj'</span>);
+</pre><pre class="codeinput"><span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% make_kv_maffine2
+% kv::ode_maffine2を使って計算するプログラムを生成する関数
+
+function make_kv_maffine2(name, f, u, parameters, compiler)
+
+%%
+% 引数
+
+% name       : 出力するディレクトリの名前  
+% f          : 方程式
+% u          : 方程式の変数
+% parameters : 方程式のパラメータ
+% compiler   : 使うコンパイラ(省略可)
+
+%%
+% 引数 compiler が省略されたときはVisual C++を使ってコンパイルする
+if nargin <= 4
+    disp('the argument ''compiler'' of make_kv_maffine2 is empty');
+    disp('use Microsoft Visual C++ compiler as default');
+    compiler = @compilers.msvc;
+end
+
+%% 生成のための準備
+% * tools/MATLAB2C++のコンパイル
+% * kvのダウンロード
+tools.prepare(compiler);
+
+%% プログラムの生成
+mkdir(name);
+
+source = fullfile(name, 'main.cpp');
+executable = fullfile(name, 'exec.exe');
+
+matlab2cpp = fullfile('tools', 'MATLAB2C++.exe');
+
+dim = length(f);
+
+disp(['generating source file (file name: ' source ')']);
+
+fp = fopen(source, 'wt');
+
+%%
+% <html><h3>プリプロセッサ</h3></html>
+
+fprintf(fp, '// eliminate deprecation warnings\n');
+fprintf(fp, '#if defined(_MSC_VER)\n');
+fprintf(fp, '# define _CRT_SECURE_NO_WARNINGS\n');
+fprintf(fp, '# define _SCL_SECURE_NO_WARNINGS\n');
+fprintf(fp, '#endif\n\n');
+fprintf(fp, '#include <cstdlib>\n');
+fprintf(fp, '#include <iostream>\n');
+fprintf(fp, '#include <fstream>\n');
+fprintf(fp, '#include <utility>\n\n');
+fprintf(fp, '#include <boost/numeric/ublas/vector.hpp>\n\n');
+fprintf(fp, '#include <kv/affine.hpp>\n');
+fprintf(fp, '#include <kv/rdouble.hpp>\n');
+fprintf(fp, '#include <kv/ode-maffine2.hpp>\n');
+fprintf(fp, '#include <kv/ode-param.hpp>\n');
+fprintf(fp, '#include <kv/ode-callback.hpp>\n\n');
+fprintf(fp, '#include <conv.hpp>\n\n');
+
+%%
+% <html><h3>方程式を表す関数オブジェクトクラスの生成</h3></html>
+
+fprintf(fp, 'struct func{\n');
+
+if length(parameters) > 0
+    % definition of members
+    fprintf(fp, '\t::kv::interval<double> ');
+
+    for i = 1:length(parameters)
+        if i ~= 1
+            fprintf(fp, ', ');
+        end
+        fprintf(fp, char(parameters(i)));
+    end
+
+    fprintf(fp, ';\n\n');
+
+    % constructor
+    fprintf(fp, '\tfunc(\n');
+
+    for i = 1:length(parameters)
+        fprintf(fp, ['\t\tconst ::kv::interval<double> &' char(parameters(i))]);
+        if i ~= length(parameters)
+            fprintf(fp, ',');
+        end
+        fprintf(fp, '\n');
+    end
+
+    fprintf(fp, '\t)\n');
+    fprintf(fp, '\t\t: ');
+
+    for i = 1:length(parameters)
+        if i ~= 1
+            fprintf(fp, '\t\t, ');
+        end
+        fprintf(fp, [char(parameters(i)) '(' char(parameters(i)) ')\n']);
+    end
+
+    fprintf(fp, '\t{\n\t}\n\n');
+end
+
+fprintf(fp, '\ttemplate<typename T>\n');
+fprintf(fp, '\t::boost::numeric::ublas::vector<T> operator()(\n');
+fprintf(fp, '\t\tconst ::boost::numeric::ublas::vector<T> &u,\n');
+fprintf(fp, '\t\tconst T &t\n');
+fprintf(fp, '\t) const\n');
+fprintf(fp, '\t{\n');
+
+for i = 1:length(u)
+    fprintf(fp, ['\t\tconst T &' char(u(i)) ' = u(' int2str(i - 1) ');\n']);
+end
+
+fprintf(fp, '\n');
+
+fprintf(fp, ['\t\t::boost::numeric::ublas::vector<T> return_value(' int2str(dim) ');\n\n']);
+
+for i = 1:length(f)
+    [status, out] = system([matlab2cpp ' "' char(f(i)) '"']);
+
+    if status ~= 0
+        disp(['failed to parse function "' char(f(i)) '".']);
+        disp(out);
+        return
+    end
+
+    fprintf(fp, ['\t\treturn_value(' int2str(i - 1) ') = ' out ';\n']);
+end
+
+fprintf(fp, '\n\t\treturn return_value;\n');
+fprintf(fp, '\t}\n');
+fprintf(fp, '};\n\n');
+
+%%
+% <html><h3>main関数の生成</h3></html>
+
+% argv: executable output order N ep-reduce ep-reduce-limit
+%       inf(t_last) sup(t_last)
+%       inf(u0(1)) sup(u0(1)) ...
+%       inf(param_1) sup(param_1) ...
+
+%%
+% 区間は下限と上限をそれぞれ
+%
+% $$(-1)^{sign} * 2^{exponent} * {significand}$$
+%
+% のように3つの整数 $sign$(符号) $, exponent$(指数部) $, significand$(仮数部) に分解して入出力する
+
+fprintf(fp, 'int main(int argc, char **argv)\n');
+fprintf(fp, '{\n');
+
+fprintf(fp, ['\tif(argc < ' int2str(4 + 2 * 3 * (1 + length(u) + length(parameters))) '){\n']);
+fprintf(fp, '\t\t::std::cerr << "invalid argument" << ::std::endl;\n');
+fprintf(fp, '\t\treturn 1;;\n');
+fprintf(fp, '\t}\n\n');
+
+fprintf(fp, '\t::std::ofstream ofs(argv[1]);\n');
+fprintf(fp, '\tif(!ofs){\n');
+fprintf(fp, '\t\t::std::cerr << "cannot open file ''" << argv[1] << ''\\'''' << ::std::endl;\n');
+fprintf(fp, '\t\treturn 1;\n');
+fprintf(fp, '\t}\n\n');
+fprintf(fp, '\tofs.setf(ofs.scientific);\n');
+fprintf(fp, '\tofs.precision(17);\n\n');
+
+fprintf(fp, '\t::kv::interval<double> t_last(\n');
+fprintf(fp, '\t\t::todouble(::std::strtol(argv[6], nullptr, 10), ::std::strtol(argv[7], nullptr, 10), ::std::strtoull(argv[8], nullptr, 10)),\n');
+fprintf(fp, '\t\t::todouble(::std::strtol(argv[9], nullptr, 10), ::std::strtol(argv[10], nullptr, 10), ::std::strtoull(argv[11], nullptr, 10)));\n\n');
+
+fprintf(fp, ['\t::boost::numeric::ublas::vector<::kv::affine<double>> u(' int2str(length(u)) ');\n\n']);
+
+for i = 1:length(u)
+    fprintf(fp, [ ...
+        '\tu(' int2str(i - 1) ') = ::kv::interval<double>(\n' ...
+        '\t\t::todouble(::std::strtol(argv[' int2str(i * 6 + 6) '], nullptr, 10), ::std::strtol(argv[' int2str(i * 6 + 7) '], nullptr, 10), ::std::strtoull(argv[' int2str(i * 6 + 8) '], nullptr, 10)),\n' ...
+        '\t\t::todouble(::std::strtol(argv[' int2str(i * 6 + 9) '], nullptr, 10), ::std::strtol(argv[' int2str(i * 6 + 10) '], nullptr, 10), ::std::strtoull(argv[' int2str(i * 6 + 11) '], nullptr, 10)));\n\n']);
+end
+
+bias = 6 * length(u) + 5;
+
+for i = 1:length(parameters)
+    fprintf(fp, [ ...
+        '\t::kv::interval<double> ' char(parameters(i)) '(\n' ...
+        '\t\t::todouble(::std::strtol(argv[' int2str(i * 6 + bias + 1) '], nullptr, 10), ::std::strtol(argv[' int2str(i * 6 + bias + 2) '], nullptr, 10), ::std::strtoull(argv[' int2str(i * 6 + bias + 3) '], nullptr, 10)),\n' ...
+        '\t\t::todouble(::std::strtol(argv[' int2str(i * 6 + bias + 4) '], nullptr, 10), ::std::strtol(argv[' int2str(i * 6 + bias + 5) '], nullptr, 10), ::std::strtoull(argv[' int2str(i * 6 + bias + 6) '], nullptr, 10)));\n\n']);
+end
+
+clear bias;
+
+fprintf(fp, '\t::outdouble(0.0, ofs);\n');
+fprintf(fp, '\tofs << '','';\n');
+fprintf(fp, '\t::outdouble(0.0, ofs);\n');
+
+for i = 1:length(u)
+    fprintf(fp, '\tofs << '','';\n');
+    fprintf(fp, ['\t::outdouble(to_interval(u(' int2str(i - 1) ')).lower(), ofs);\n']);
+    fprintf(fp, '\tofs << '','';\n');
+    fprintf(fp, ['\t::outdouble(to_interval(u(' int2str(i - 1) ')).upper(), ofs);\n']);
+end
+
+fprintf(fp, '\tofs << ::std::endl;\n\n');
+
+fprintf(fp, '\tint order = ::std::strtol(argv[2], nullptr, 10);\n');
+fprintf(fp, '\tint itermax = ::std::strtol(argv[3], nullptr, 10);\n');
+fprintf(fp, '\tint ep_reduce = ::std::strtol(argv[4], nullptr, 10);\n');
+fprintf(fp, '\tint ep_reduce_limit = ::std::strtol(argv[5], nullptr, 10);\n\n');
+
+fprintf(fp, '\tfunc f(');
+
+for i = 1:length(parameters)
+    if i ~= 1
+        fprintf(fp, ', ');
+    end
+    fprintf(fp, char(parameters(i)));
+end
+
+fprintf(fp, ');\n');
+fprintf(fp, '\t::kv::interval<double> t1(0.0);\n\n');
+
+fprintf(fp, '\tauto param = ::kv::ode_param<double>()\n');
+fprintf(fp, '\t                 .set_order(order)\n');
+fprintf(fp, '\t                 .set_autostep(false)\n');
+fprintf(fp, '\t                 .set_ep_reduce(ep_reduce)\n');
+fprintf(fp, '\t                 .set_ep_reduce_limit(ep_reduce_limit);\n');
+fprintf(fp, '\tint r;\n\n');
+
+fprintf(fp, '\tfor(int i = 0; i < itermax; i++){\n');
+fprintf(fp, '\t\t::kv::interval<double> t2 = t_last * (i + 1) / itermax;\n\n');
+
+fprintf(fp, '\t\tr = ::kv::ode_maffine2(\n');
+fprintf(fp, '\t\t\tf,\n');
+fprintf(fp, '\t\t\tu,\n');
+fprintf(fp, '\t\t\tt1,\n');
+fprintf(fp, '\t\t\tt2,\n');
+fprintf(fp, '\t\t\tparam);\n\n');
+
+fprintf(fp, '\t\t::outdouble(t2.lower(), ofs);\n');
+fprintf(fp, '\t\tofs << '','';\n');
+fprintf(fp, '\t\t::outdouble(t2.upper(), ofs);\n');
+
+for i = 1:length(u)
+    fprintf(fp, '\t\tofs << '','';\n');
+    fprintf(fp, ['\t\t::outdouble(to_interval(u(' int2str(i - 1) ')).lower(), ofs);\n']);
+    fprintf(fp, '\t\tofs << '','';\n');
+    fprintf(fp, ['\t\t::outdouble(to_interval(u(' int2str(i - 1) ')).upper(), ofs);\n']);
+end
+
+fprintf(fp, '\t\tofs << ::std::endl;\n\n');
+
+fprintf(fp, '\t\tif(r != 2) break;\n\n');
+
+fprintf(fp, '\t\tt1 = t2;\n');
+fprintf(fp, '\t}\n');
+fprintf(fp, '\treturn (r != 0) ? 0 : 1;\n');
+fprintf(fp, '}\n');
+
+fclose(fp);
+
+%% コンパイル
+
+disp(['compiling ' source ' ...']);
+
+[status, out] = compiler({source}, executable);
+
+if status ~= 0
+    disp('compilation failed.');
+    disp(out);
+else
+    disp('compilation succeeded.');
+end
+
+delete('*.obj');
+
+end
+##### SOURCE END #####
+--></body></html>

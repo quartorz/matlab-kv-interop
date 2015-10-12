@@ -1,0 +1,173 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>kv_maffine2</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-10-13"><meta name="DC.source" content="kv_maffine2.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">kv_maffine2</a></li><li><a href="#4">&#12503;&#12525;&#12464;&#12521;&#12512;&#12398;&#23455;&#34892;</a></li><li><a href="#6">&#23455;&#34892;&#32080;&#26524;&#12434;&#24471;&#12427;</a></li></ul></div><h2>kv_maffine2<a name="1"></a></h2><p>make_kv_maffine2&#12391;&#29983;&#25104;&#12375;&#12383;&#12503;&#12525;&#12464;&#12521;&#12512;&#12391;&#35336;&#31639;&#12375;&#12390;&#32080;&#26524;&#12434;&#36820;&#12377;&#38306;&#25968;</p><pre class="codeinput"><span class="keyword">function</span> [data] =  kv_maffine2(name, t_init, t_last, n, order, u,  parameter, ep_reduce, ep_limit)
+</pre><p>&#24341;&#25968;</p><pre class="codeinput"><span class="comment">% n         : t&#12398;&#20998;&#21106;&#25968;([t_init, t_last]&#12434;n&#20998;&#21106;&#12377;&#12427;)</span>
+<span class="comment">% order     : Taylor&#23637;&#38283;&#12398;&#12458;&#12540;&#12480;&#12540;</span>
+<span class="comment">% u         : &#21021;&#26399;&#20516;</span>
+<span class="comment">% t_init    : &#20170;&#12399;&#28961;&#35222;&#12373;&#12428;&#12427;</span>
+<span class="comment">% ep_reduce : kv::ode_param&lt;T&gt;::ep_reduce</span>
+<span class="comment">%             (&#35443;&#32048;&#12399;http://verifiedby.me/kv/ode/index.html&#12434;&#21442;&#29031;)</span>
+<span class="comment">% ep_limit  : kv::ode_param&lt;T&gt;::ep_reduce_limit</span>
+<span class="comment">%             (&#35443;&#32048;&#12399;http://verifiedby.me/kv/ode/index.html&#12434;&#21442;&#29031;)</span>
+</pre><pre class="codeinput">t_init = intval(0.0);
+</pre><h2>&#12503;&#12525;&#12464;&#12521;&#12512;&#12398;&#23455;&#34892;<a name="4"></a></h2><p>&#12503;&#12525;&#12464;&#12521;&#12512;&#12434;&#23455;&#34892;&#12377;&#12427;&#12383;&#12417;&#12398;&#24341;&#25968;&#12434;&#29992;&#24847;&#12377;&#12427;</p><pre class="codeinput">command = [
+    <span class="string">'"'</span> fullfile(name, <span class="string">'exec.exe'</span>) <span class="string">'" '</span> <span class="keyword">...</span>
+    <span class="string">'"'</span> fullfile(name, <span class="string">'output.csv'</span>) <span class="string">'" '</span> <span class="keyword">...</span>
+    int2str(order) <span class="string">' '</span> int2str(n) <span class="string">' '</span> int2str(ep_reduce) <span class="string">' '</span> int2str(ep_limit)
+];
+
+itv = intval(t_last);
+[a, b, c] = tools.decomp_double(inf(itv));
+command = [command <span class="string">' '</span> int2str(a) <span class="string">' '</span> int2str(b) <span class="string">' '</span> int2str(c)];
+[a, b, c] = tools.decomp_double(sup(itv));
+command = [command <span class="string">' '</span> int2str(a) <span class="string">' '</span> int2str(b) <span class="string">' '</span> int2str(c)];
+
+<span class="keyword">for</span> i = 1:length(u)
+    itv = intval(u(i));
+    [a, b, c] = tools.decomp_double(inf(itv));
+    command = [command <span class="string">' '</span> int2str(a) <span class="string">' '</span> int2str(b) <span class="string">' '</span> int2str(c)];
+    [a, b, c] = tools.decomp_double(sup(itv));
+    command = [command <span class="string">' '</span> int2str(a) <span class="string">' '</span> int2str(b) <span class="string">' '</span> int2str(c)];
+<span class="keyword">end</span>
+
+<span class="keyword">for</span> i = 1:length(parameter)
+    itv = intval(parameter(i));
+    [a, b, c] = tools.decomp_double(inf(itv));
+    command = [command <span class="string">' '</span> int2str(a) <span class="string">' '</span> int2str(b) <span class="string">' '</span> int2str(c)];
+    [a, b, c] = tools.decomp_double(sup(itv));
+    command = [command <span class="string">' '</span> int2str(a) <span class="string">' '</span> int2str(b) <span class="string">' '</span> int2str(c)];
+<span class="keyword">end</span>
+</pre><p>&#12503;&#12525;&#12464;&#12521;&#12512;&#12434;&#23455;&#34892;&#12377;&#12427;</p><pre class="codeinput">disp(command);
+system(command);
+</pre><h2>&#23455;&#34892;&#32080;&#26524;&#12434;&#24471;&#12427;<a name="6"></a></h2><pre class="codeinput">data = tools.get_last_result(name);
+</pre><pre class="codeinput"><span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% kv_maffine2
+% make_kv_maffine2で生成したプログラムで計算して結果を返す関数
+function [data] =  kv_maffine2(name, t_init, t_last, n, order, u,  parameter, ep_reduce, ep_limit)
+
+%%
+% 引数
+
+% n         : tの分割数([t_init, t_last]をn分割する)
+% order     : Taylor展開のオーダー
+% u         : 初期値
+% t_init    : 今は無視される
+% ep_reduce : kv::ode_param<T>::ep_reduce
+%             (詳細はhttp://verifiedby.me/kv/ode/index.htmlを参照)
+% ep_limit  : kv::ode_param<T>::ep_reduce_limit
+%             (詳細はhttp://verifiedby.me/kv/ode/index.htmlを参照)
+
+%%
+
+t_init = intval(0.0);
+
+%% プログラムの実行
+% プログラムを実行するための引数を用意する
+
+command = [
+    '"' fullfile(name, 'exec.exe') '" ' ...
+    '"' fullfile(name, 'output.csv') '" ' ...
+    int2str(order) ' ' int2str(n) ' ' int2str(ep_reduce) ' ' int2str(ep_limit)
+];
+
+itv = intval(t_last);
+[a, b, c] = tools.decomp_double(inf(itv));
+command = [command ' ' int2str(a) ' ' int2str(b) ' ' int2str(c)];
+[a, b, c] = tools.decomp_double(sup(itv));
+command = [command ' ' int2str(a) ' ' int2str(b) ' ' int2str(c)];
+
+for i = 1:length(u)
+    itv = intval(u(i));    
+    [a, b, c] = tools.decomp_double(inf(itv));
+    command = [command ' ' int2str(a) ' ' int2str(b) ' ' int2str(c)];
+    [a, b, c] = tools.decomp_double(sup(itv));
+    command = [command ' ' int2str(a) ' ' int2str(b) ' ' int2str(c)];
+end
+
+for i = 1:length(parameter)
+    itv = intval(parameter(i));    
+    [a, b, c] = tools.decomp_double(inf(itv));
+    command = [command ' ' int2str(a) ' ' int2str(b) ' ' int2str(c)];
+    [a, b, c] = tools.decomp_double(sup(itv));
+    command = [command ' ' int2str(a) ' ' int2str(b) ' ' int2str(c)];
+end
+
+%%
+% プログラムを実行する
+disp(command);
+system(command);
+
+%% 実行結果を得る
+data = tools.get_last_result(name);
+
+end
+##### SOURCE END #####
+--></body></html>

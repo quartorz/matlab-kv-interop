@@ -26,7 +26,7 @@ namespace matlab_ast{
 		void to_cpp(::std::ostream &os) override
 		{
 			lhs->to_cpp(os);
-			os << '|';
+			os << " | ";
 			rhs->to_cpp(os);
 		}
 	};
@@ -43,7 +43,7 @@ namespace matlab_ast{
 		void to_cpp(::std::ostream &os) override
 		{
 			lhs->to_cpp(os);
-			os << '&';
+			os << " & ";
 			rhs->to_cpp(os);
 		}
 	};
@@ -61,7 +61,7 @@ namespace matlab_ast{
 		void to_cpp(::std::ostream &os) override
 		{
 			lhs->to_cpp(os);
-			os << op;
+			os << ' ' << op << ' ';
 			rhs->to_cpp(os);
 		}
 	};
@@ -79,7 +79,7 @@ namespace matlab_ast{
 		void to_cpp(::std::ostream &os) override
 		{
 			lhs->to_cpp(os);
-			os << op;
+			os << ' ' << op << ' ';
 			rhs->to_cpp(os);
 		}
 	};
@@ -98,7 +98,7 @@ namespace matlab_ast{
 		{
 			os << op << '(';
 			lhs->to_cpp(os);
-			os << ',';
+			os << ", ";
 			rhs->to_cpp(os);
 			os << ')';
 		}
@@ -151,7 +151,7 @@ namespace matlab_ast{
 		void to_cpp(::std::ostream &os) override
 		{
 			lhs->to_cpp(os);
-			os << ',';
+			os << ", ";
 			rhs->to_cpp(os);
 		}
 	};

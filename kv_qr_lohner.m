@@ -33,6 +33,6 @@ end
 disp(command);
 system(command);
 
-data = get_last_result(name);
+data = tools.get_last_result(name);
 
 end
