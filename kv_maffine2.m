@@ -16,6 +16,22 @@ function [status, data] =  kv_maffine2(name, t_init, t_last, n, order, u,  param
 %             (詳細はhttp://verifiedby.me/kv/ode/index.htmlを参照)
 
 %%
+% 戻り値
+
+% status ; 計算できたかどうかを表す
+%          ・State.Succeeded
+%            t_lastまで計算できた
+%          ・State.Failed
+%            計算を始められなかった
+%            ・コマンドライン引数がおかしい(ライブラリのバグ)
+%            ・出力ファイルを開けなかった(ライブラリのバグではない)
+%            詳細はコマンドウィンドウに出力される
+%          ・State.Incomplete
+%            途中までしか計算できなかった
+% data   : 計算結果を表す区間行列
+%          1列目がtで他の列はu
+
+%%
 
 t_init = intval(0.0);
 

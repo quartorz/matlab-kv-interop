@@ -34,3 +34,5 @@ MATLAB-kv-interop
 * `make_kv_qr_lohner.m`  
   `kv::odelong_qr_lohner`を使って計算するプログラムを生成する  
   `t`の分割数は指定できない
+* `Status.m`  
+  `kv_maffine2`で計算ができたかどうかを表す列挙型
