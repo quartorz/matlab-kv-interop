@@ -7,8 +7,10 @@ setlocal ENABLEDELAYEDEXPANSION
 @for /f "delims="  %%x in ('!COMMAND! 2^> nul') do (
 @for /f "tokens=2 delims==" %%y in ('echo %%x') do (
 call "%%yvsvars32.bat"
-set VSINSTALLDIR
+@for /f "tokens=2 delims==" %%z in ('set VSINSTALLDIR') do (
+echo %%z
 goto EXIT
+)
 )
 )
 )

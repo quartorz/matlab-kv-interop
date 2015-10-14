@@ -40,15 +40,8 @@ if ~ischar(msvc_dir)
     if status ~= 0 || isempty(output)
         error('Visual C++ not found.');
     end
-    
-    if ~isempty(strfind(output, '='))
-        msvc_dir = fullfile( ...
-            char(output(strfind(output, '=') + 1:end-1)), ...
-            'VC');
-    else
-        disp(char(output));
-        error('unexpected output');
-    end
+
+    msvc_dir = fullfile(output(1:end-1), 'VC');
 end
 
 %% ƒRƒ“ƒpƒCƒ‹
