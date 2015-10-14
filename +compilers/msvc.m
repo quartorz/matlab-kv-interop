@@ -16,7 +16,7 @@ function [status, output] = msvc (sources, executable)
 % status : コンパイラの終了コード(0のときコンパイル成功)
 % output : コンパイラの標準出力
 
-%% Visual C++を探す
+%% Visual Studioを探す
 % |tools\get-vs-path.bat|を使って最新のVisual Studioのインストール先を探す
 
 %%
@@ -26,7 +26,7 @@ function [status, output] = msvc (sources, executable)
 %   ・(数字)にはVisual Studioのバージョン番号が入る
 %   ・(数字)を100から9まで変化させて最初に見つかったものを使う
 %     ・もっと賢い実装にしたい
-% ・VS(数字)0COMNTOOLS内のvsvars32.batを実行する
+% ・VS(数字)0COMNTOOLSが指すディレクトリ内のvsvars32.batを実行する
 % ・VSINSTALLDIR環境変数の中身を標準出力に書き出す
 
 %%
@@ -45,7 +45,7 @@ if ~ischar(msvc_dir)
 end
 
 %% コンパイル
-% |vcvarsall.bat|を実行してコンパイルする
+% |vcvarsall.bat|を実行した後に |cl| を実行してコンパイルする
 
 command = [ ...
     '"' fullfile(msvc_dir, 'vcvarsall.bat') '"' ...

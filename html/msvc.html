@@ -66,16 +66,16 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">compilers.clang</a></li><li><a href="#4">Visual C++&#12434;&#25506;&#12377;</a></li><li><a href="#7">&#12467;&#12531;&#12497;&#12452;&#12523;</a></li></ul></div><h2>compilers.clang<a name="1"></a></h2><p>Clang&#12391;&#12467;&#12531;&#12497;&#12452;&#12523;&#12434;&#34892;&#12358;&#12383;&#12417;&#12398;&#38306;&#25968;</p><pre class="codeinput"><span class="keyword">function</span> [status, output] = msvc (sources, executable)
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">compilers.clang</a></li><li><a href="#4">Visual Studio&#12434;&#25506;&#12377;</a></li><li><a href="#7">&#12467;&#12531;&#12497;&#12452;&#12523;</a></li></ul></div><h2>compilers.clang<a name="1"></a></h2><p>Visual C++&#12391;&#12467;&#12531;&#12497;&#12452;&#12523;&#12434;&#34892;&#12358;&#12383;&#12417;&#12398;&#38306;&#25968; &#35079;&#25968;&#12398;&#12496;&#12540;&#12472;&#12519;&#12531;&#12364;&#12452;&#12531;&#12473;&#12488;&#12540;&#12523;&#12373;&#12428;&#12390;&#12356;&#12427;&#12392;&#12365;&#12399;&#26368;&#26032;&#12398;&#12434;&#20351;&#12358;</p><pre class="codeinput"><span class="keyword">function</span> [status, output] = msvc (sources, executable)
 </pre><p>&#24341;&#25968;</p><pre class="codeinput"><span class="comment">% sources    : &#12477;&#12540;&#12473;&#12501;&#12449;&#12452;&#12523;&#12398;&#12475;&#12523;&#37197;&#21015;</span>
 <span class="comment">% executable : &#23455;&#34892;&#12501;&#12449;&#12452;&#12523;&#21517;(&#30465;&#30053;&#21487;)</span>
 </pre><p>&#25147;&#12426;&#20516;</p><pre class="codeinput"><span class="comment">% status : &#12467;&#12531;&#12497;&#12452;&#12521;&#12398;&#32066;&#20102;&#12467;&#12540;&#12489;(0&#12398;&#12392;&#12365;&#12467;&#12531;&#12497;&#12452;&#12523;&#25104;&#21151;)</span>
 <span class="comment">% output : &#12467;&#12531;&#12497;&#12452;&#12521;&#12398;&#27161;&#28310;&#20986;&#21147;</span>
-</pre><h2>Visual C++&#12434;&#25506;&#12377;<a name="4"></a></h2><p><tt>tools\get-vs-path.bat</tt>&#12434;&#20351;&#12387;&#12390;&#26368;&#26032;&#12398;Visual Studio&#12398;&#12452;&#12531;&#12473;&#12488;&#12540;&#12523;&#20808;&#12434;&#25506;&#12377;</p><p><h3><tt>tools\get-vs-path.bat</tt>の動作</h3></p><pre class="codeinput"><span class="comment">% &#12539;VS(&#25968;&#23383;)0COMNTOOLS&#12392;&#12356;&#12358;&#21517;&#21069;&#12398;&#29872;&#22659;&#22793;&#25968;&#12434;&#25506;&#12377;</span>
+</pre><h2>Visual Studio&#12434;&#25506;&#12377;<a name="4"></a></h2><p><tt>tools\get-vs-path.bat</tt>&#12434;&#20351;&#12387;&#12390;&#26368;&#26032;&#12398;Visual Studio&#12398;&#12452;&#12531;&#12473;&#12488;&#12540;&#12523;&#20808;&#12434;&#25506;&#12377;</p><p><h3><tt>tools\get-vs-path.bat</tt>の動作</h3></p><pre class="codeinput"><span class="comment">% &#12539;VS(&#25968;&#23383;)0COMNTOOLS&#12392;&#12356;&#12358;&#21517;&#21069;&#12398;&#29872;&#22659;&#22793;&#25968;&#12434;&#25506;&#12377;</span>
 <span class="comment">%   &#12539;(&#25968;&#23383;)&#12395;&#12399;Visual Studio&#12398;&#12496;&#12540;&#12472;&#12519;&#12531;&#30058;&#21495;&#12364;&#20837;&#12427;</span>
 <span class="comment">%   &#12539;(&#25968;&#23383;)&#12434;100&#12363;&#12425;9&#12414;&#12391;&#22793;&#21270;&#12373;&#12379;&#12390;&#26368;&#21021;&#12395;&#35211;&#12388;&#12363;&#12387;&#12383;&#12418;&#12398;&#12434;&#20351;&#12358;</span>
 <span class="comment">%     &#12539;&#12418;&#12387;&#12392;&#36066;&#12356;&#23455;&#35013;&#12395;&#12375;&#12383;&#12356;</span>
-<span class="comment">% &#12539;VS(&#25968;&#23383;)0COMNTOOLS&#20869;&#12398;vsvars32.bat&#12434;&#23455;&#34892;&#12377;&#12427;</span>
+<span class="comment">% &#12539;VS(&#25968;&#23383;)0COMNTOOLS&#12364;&#25351;&#12377;&#12487;&#12451;&#12524;&#12463;&#12488;&#12522;&#20869;&#12398;vsvars32.bat&#12434;&#23455;&#34892;&#12377;&#12427;</span>
 <span class="comment">% &#12539;VSINSTALLDIR&#29872;&#22659;&#22793;&#25968;&#12398;&#20013;&#36523;&#12434;&#27161;&#28310;&#20986;&#21147;&#12395;&#26360;&#12365;&#20986;&#12377;</span>
 </pre><p><h3>プログラム</h3></p><pre class="codeinput"><span class="keyword">persistent</span> msvc_dir
 
@@ -86,16 +86,9 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
         error(<span class="string">'Visual C++ not found.'</span>);
     <span class="keyword">end</span>
 
-    <span class="keyword">if</span> ~isempty(strfind(output, <span class="string">'='</span>))
-        msvc_dir = fullfile( <span class="keyword">...</span>
-            char(output(strfind(output, <span class="string">'='</span>) + 1:end-1)), <span class="keyword">...</span>
-            <span class="string">'VC'</span>);
-    <span class="keyword">else</span>
-        disp(char(output));
-        error(<span class="string">'unexpected output'</span>);
-    <span class="keyword">end</span>
+    msvc_dir = fullfile(output(1:end-1), <span class="string">'VC'</span>);
 <span class="keyword">end</span>
-</pre><h2>&#12467;&#12531;&#12497;&#12452;&#12523;<a name="7"></a></h2><p><tt>vcvarsall.bat</tt>&#12434;&#23455;&#34892;&#12375;&#12390;&#12467;&#12531;&#12497;&#12452;&#12523;&#12377;&#12427;</p><pre class="codeinput">command = [ <span class="keyword">...</span>
+</pre><h2>&#12467;&#12531;&#12497;&#12452;&#12523;<a name="7"></a></h2><p><tt>vcvarsall.bat</tt>&#12434;&#23455;&#34892;&#12375;&#12383;&#24460;&#12395; <tt>cl</tt> &#12434;&#23455;&#34892;&#12375;&#12390;&#12467;&#12531;&#12497;&#12452;&#12523;&#12377;&#12427;</p><pre class="codeinput">command = [ <span class="keyword">...</span>
     <span class="string">'"'</span> fullfile(msvc_dir, <span class="string">'vcvarsall.bat'</span>) <span class="string">'"'</span> <span class="keyword">...</span>
     <span class="string">'&amp;&amp; cl /Ox /EHsc /MT /DNDEBUG /I.\include'</span> <span class="keyword">...</span>
 ];
@@ -113,7 +106,8 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 </pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% compilers.clang
-% Clangでコンパイルを行うための関数
+% Visual C++でコンパイルを行うための関数
+% 複数のバージョンがインストールされているときは最新のを使う
 
 function [status, output] = msvc (sources, executable)
 
@@ -129,7 +123,7 @@ function [status, output] = msvc (sources, executable)
 % status : コンパイラの終了コード(0のときコンパイル成功)
 % output : コンパイラの標準出力
 
-%% Visual C++を探す
+%% Visual Studioを探す
 % |tools\get-vs-path.bat|を使って最新のVisual Studioのインストール先を探す
 
 %%
@@ -139,7 +133,7 @@ function [status, output] = msvc (sources, executable)
 %   ・(数字)にはVisual Studioのバージョン番号が入る
 %   ・(数字)を100から9まで変化させて最初に見つかったものを使う
 %     ・もっと賢い実装にしたい
-% ・VS(数字)0COMNTOOLS内のvsvars32.batを実行する
+% ・VS(数字)0COMNTOOLSが指すディレクトリ内のvsvars32.batを実行する
 % ・VSINSTALLDIR環境変数の中身を標準出力に書き出す
 
 %%
@@ -153,19 +147,12 @@ if ~ischar(msvc_dir)
     if status ~= 0 || isempty(output)
         error('Visual C++ not found.');
     end
-    
-    if ~isempty(strfind(output, '='))
-        msvc_dir = fullfile( ...
-            char(output(strfind(output, '=') + 1:end-1)), ...
-            'VC');
-    else
-        disp(char(output));
-        error('unexpected output');
-    end
+
+    msvc_dir = fullfile(output(1:end-1), 'VC');
 end
 
 %% コンパイル
-% |vcvarsall.bat|を実行してコンパイルする
+% |vcvarsall.bat|を実行した後に |cl| を実行してコンパイルする
 
 command = [ ...
     '"' fullfile(msvc_dir, 'vcvarsall.bat') '"' ...
