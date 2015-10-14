@@ -1,7 +1,7 @@
 %% kv_maffine2
 % make_kv_maffine2で生成したプログラムで計算して結果を返す関数
 
-function [data] =  kv_maffine2(name, t_init, t_last, n, order, u,  parameter, ep_reduce, ep_limit)
+function [status, data] =  kv_maffine2(name, t_init, t_last, n, order, u,  parameter, ep_reduce, ep_limit)
 
 %%
 % 引数
@@ -62,9 +62,14 @@ end
 disp(command);
 [status, out] = system(command);
 
-if status ~= 0
-    disp(out);
-    error(['failed (status: ' int2str(status) ')']);
+%%
+% 最後まで計算できなかったときはメッセージを出力する
+if status ~= Status.Succeeded
+        disp(out);
+
+        if status ~= Status.Incomplete
+            error(['failed (status: ' int2str(status) ')']);
+        end
 end
 
 %% 実行結果を得る

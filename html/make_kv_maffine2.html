@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>make_kv_maffine2</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-10-13"><meta name="DC.source" content="make_kv_maffine2.m"><style type="text/css">
+      --><title>make_kv_maffine2</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-10-14"><meta name="DC.source" content="make_kv_maffine2.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -188,14 +188,14 @@ fprintf(fp, <span class="string">'};\n\n'</span>);
 </pre><p>&#21306;&#38291;&#12399;&#19979;&#38480;&#12392;&#19978;&#38480;&#12434;&#12381;&#12428;&#12382;&#12428;</p><p><img src="make_kv_maffine2_eq84165.png" alt="$$(-1)^{sign} * 2^{exponent} * {significand}$$"></p><p>&#12398;&#12424;&#12358;&#12395;3&#12388;&#12398;&#25972;&#25968; <img src="make_kv_maffine2_eq94384.png" alt="$sign$">(&#31526;&#21495;) <img src="make_kv_maffine2_eq61951.png" alt="$, exponent$">(&#25351;&#25968;&#37096;) <img src="make_kv_maffine2_eq18673.png" alt="$, significand$">(&#20206;&#25968;&#37096;) &#12395;&#20998;&#35299;&#12375;&#12390;&#20837;&#20986;&#21147;&#12377;&#12427;</p><pre class="codeinput">fprintf(fp, <span class="string">'int main(int argc, char **argv)\n'</span>);
 fprintf(fp, <span class="string">'{\n'</span>);
 
-fprintf(fp, [<span class="string">'\tif(argc &lt; '</span> int2str(4 + 2 * 3 * (1 + length(u) + length(parameters))) <span class="string">'){\n'</span>]);
-fprintf(fp, <span class="string">'\t\t::std::cerr &lt;&lt; "invalid argument" &lt;&lt; ::std::endl;\n'</span>);
+fprintf(fp, [<span class="string">'\tif(argc &lt; '</span> int2str(6 + 2 * 3 * (1 + length(u) + length(parameters))) <span class="string">'){\n'</span>]);
+fprintf(fp, <span class="string">'\t\t::std::cout &lt;&lt; "invalid argument" &lt;&lt; ::std::endl;\n'</span>);
 fprintf(fp, <span class="string">'\t\treturn 1;\n'</span>);
 fprintf(fp, <span class="string">'\t}\n\n'</span>);
 
 fprintf(fp, <span class="string">'\t::std::ofstream ofs(argv[1]);\n'</span>);
 fprintf(fp, <span class="string">'\tif(!ofs){\n'</span>);
-fprintf(fp, <span class="string">'\t\t::std::cerr &lt;&lt; "cannot open file ''" &lt;&lt; argv[1] &lt;&lt; ''\\'''' &lt;&lt; ::std::endl;\n'</span>);
+fprintf(fp, <span class="string">'\t\t::std::cout &lt;&lt; "cannot open file ''" &lt;&lt; argv[1] &lt;&lt; ''\\'''' &lt;&lt; ::std::endl;\n'</span>);
 fprintf(fp, <span class="string">'\t\treturn 1;\n'</span>);
 fprintf(fp, <span class="string">'\t}\n\n'</span>);
 fprintf(fp, <span class="string">'\tofs.setf(ofs.scientific);\n'</span>);
@@ -288,8 +288,8 @@ fprintf(fp, <span class="string">'\t\tofs &lt;&lt; ::std::endl;\n\n'</span>);
 fprintf(fp, <span class="string">'\t\tif(r != 2) break;\n\n'</span>);
 
 fprintf(fp, <span class="string">'\t\tt1 = t2;\n'</span>);
-fprintf(fp, <span class="string">'\t}\n'</span>);
-fprintf(fp, <span class="string">'\treturn (r != 0) ? 0 : 1;\n'</span>);
+fprintf(fp, <span class="string">'\t}\n\n'</span>);
+fprintf(fp, <span class="string">'\treturn (r != 0) ? 0 : 2;\n'</span>);
 fprintf(fp, <span class="string">'}\n'</span>);
 
 fclose(fp);
@@ -466,14 +466,14 @@ fprintf(fp, '};\n\n');
 fprintf(fp, 'int main(int argc, char **argv)\n');
 fprintf(fp, '{\n');
 
-fprintf(fp, ['\tif(argc < ' int2str(4 + 2 * 3 * (1 + length(u) + length(parameters))) '){\n']);
-fprintf(fp, '\t\t::std::cerr << "invalid argument" << ::std::endl;\n');
+fprintf(fp, ['\tif(argc < ' int2str(6 + 2 * 3 * (1 + length(u) + length(parameters))) '){\n']);
+fprintf(fp, '\t\t::std::cout << "invalid argument" << ::std::endl;\n');
 fprintf(fp, '\t\treturn 1;\n');
 fprintf(fp, '\t}\n\n');
 
 fprintf(fp, '\t::std::ofstream ofs(argv[1]);\n');
 fprintf(fp, '\tif(!ofs){\n');
-fprintf(fp, '\t\t::std::cerr << "cannot open file ''" << argv[1] << ''\\'''' << ::std::endl;\n');
+fprintf(fp, '\t\t::std::cout << "cannot open file ''" << argv[1] << ''\\'''' << ::std::endl;\n');
 fprintf(fp, '\t\treturn 1;\n');
 fprintf(fp, '\t}\n\n');
 fprintf(fp, '\tofs.setf(ofs.scientific);\n');
@@ -566,8 +566,8 @@ fprintf(fp, '\t\tofs << ::std::endl;\n\n');
 fprintf(fp, '\t\tif(r != 2) break;\n\n');
 
 fprintf(fp, '\t\tt1 = t2;\n');
-fprintf(fp, '\t}\n');
-fprintf(fp, '\treturn (r != 0) ? 0 : 1;\n');
+fprintf(fp, '\t}\n\n');
+fprintf(fp, '\treturn (r != 0) ? 0 : 2;\n');
 fprintf(fp, '}\n');
 
 fclose(fp);

@@ -156,14 +156,14 @@ fprintf(fp, '};\n\n');
 fprintf(fp, 'int main(int argc, char **argv)\n');
 fprintf(fp, '{\n');
 
-fprintf(fp, ['\tif(argc < ' int2str(4 + 2 * 3 * (1 + length(u) + length(parameters))) '){\n']);
-fprintf(fp, '\t\t::std::cerr << "invalid argument" << ::std::endl;\n');
+fprintf(fp, ['\tif(argc < ' int2str(6 + 2 * 3 * (1 + length(u) + length(parameters))) '){\n']);
+fprintf(fp, '\t\t::std::cout << "invalid argument" << ::std::endl;\n');
 fprintf(fp, '\t\treturn 1;\n');
 fprintf(fp, '\t}\n\n');
 
 fprintf(fp, '\t::std::ofstream ofs(argv[1]);\n');
 fprintf(fp, '\tif(!ofs){\n');
-fprintf(fp, '\t\t::std::cerr << "cannot open file ''" << argv[1] << ''\\'''' << ::std::endl;\n');
+fprintf(fp, '\t\t::std::cout << "cannot open file ''" << argv[1] << ''\\'''' << ::std::endl;\n');
 fprintf(fp, '\t\treturn 1;\n');
 fprintf(fp, '\t}\n\n');
 fprintf(fp, '\tofs.setf(ofs.scientific);\n');
@@ -256,8 +256,8 @@ fprintf(fp, '\t\tofs << ::std::endl;\n\n');
 fprintf(fp, '\t\tif(r != 2) break;\n\n');
 
 fprintf(fp, '\t\tt1 = t2;\n');
-fprintf(fp, '\t}\n');
-fprintf(fp, '\treturn (r != 0) ? 0 : 1;\n');
+fprintf(fp, '\t}\n\n');
+fprintf(fp, '\treturn (r != 0) ? 0 : 2;\n');
 fprintf(fp, '}\n');
 
 fclose(fp);
