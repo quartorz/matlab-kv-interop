@@ -1,6 +1,22 @@
+%% compilers.clang
+% Clangでコンパイルを行うための関数
+
 function [status, output] = clang (sources, executable)
-% sources    : cell array of source files
-% executable : name of executable file (optional)
+
+%%
+% 引数
+
+% sources    : ソースファイルのセル配列
+% executable : 実行ファイル名(省略可)
+
+%%
+% 戻り値
+
+% status : コンパイラの終了コード(0のときコンパイル成功)
+% output : コンパイラの標準出力
+
+%%
+% プログラム
 
 command = ['clang -std=c++1z -O3 -DNDEBUG -I./include'];
 

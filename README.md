@@ -1,6 +1,8 @@
 MATLAB-kv-interop
 =================
 
+`make_kv_qr_lohner.m`と`kv_qr_lohner.m`はしばらく触ってないので正しく動作しない
+
 ファイル一覧
 ----------
 

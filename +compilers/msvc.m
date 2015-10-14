@@ -1,26 +1,61 @@
+%% compilers.clang
+% Visual C++でコンパイルを行うための関数
+% 複数のバージョンがインストールされているときは最新のを使う
+
 function [status, output] = msvc (sources, executable)
-% sources    : cell array of source files
-% executable : name of executable file (optional)
+
+%%
+% 引数
+
+% sources    : ソースファイルのセル配列
+% executable : 実行ファイル名(省略可)
+
+%%
+% 戻り値
+
+% status : コンパイラの終了コード(0のときコンパイル成功)
+% output : コンパイラの標準出力
+
+%% Visual C++を探す
+% |tools\get-vs-path.bat|を使って最新のVisual Studioのインストール先を探す
+
+%%
+% <html><h3><tt>tools\get-vs-path.bat</tt>の動作</h3></html>
+
+% ・VS(数字)0COMNTOOLSという名前の環境変数を探す
+%   ・(数字)にはVisual Studioのバージョン番号が入る
+%   ・(数字)を100から9まで変化させて最初に見つかったものを使う
+%     ・もっと賢い実装にしたい
+% ・VS(数字)0COMNTOOLS内のvsvars32.batを実行する
+% ・VSINSTALLDIR環境変数の中身を標準出力に書き出す
+
+%%
+% <html><h3>プログラム</h3></html>
 
 persistent msvc_dir
 
 if ~ischar(msvc_dir)
-    [status, output] = system(fullfile('tools', 'get-msvc-path.bat'));
+    [status, output] = system(fullfile('tools', 'get-vs-path.bat'));
 
     if status ~= 0 || isempty(output)
         error('Visual C++ not found.');
     end
     
     if ~isempty(strfind(output, '='))
-        msvc_dir = output(strfind(output, '=') + 1:end-1);
+        msvc_dir = fullfile( ...
+            char(output(strfind(output, '=') + 1:end-1)), ...
+            'VC');
     else
         disp(char(output));
         error('unexpected output');
     end
 end
 
+%% コンパイル
+% |vcvarsall.bat|を実行してコンパイルする
+
 command = [ ...
-    '"' fullfile(char(msvc_dir), 'VC', 'vcvarsall.bat') '"' ...
+    '"' fullfile(msvc_dir, 'vcvarsall.bat') '"' ...
     '&& cl /Ox /EHsc /MT /DNDEBUG /I.\include' ...
 ];
 
@@ -31,14 +66,6 @@ end
 if nargin >= 2
     command = [command ' /Fe' executable];
 end
-
-%{
-command = [
-    command ...
-    ' /link /LIBPATH:"' fullfile(matlabroot, 'extern', 'lib', computer('arch'), 'microsoft') '" ' ...
-    ' libmx.lib libmat.lib ' ...
-];
-%}
 
 [status, output] = system(command);
 

@@ -1,0 +1,187 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>msvc</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-10-15"><meta name="DC.source" content="msvc.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">compilers.clang</a></li><li><a href="#4">Visual C++&#12434;&#25506;&#12377;</a></li><li><a href="#7">&#12467;&#12531;&#12497;&#12452;&#12523;</a></li></ul></div><h2>compilers.clang<a name="1"></a></h2><p>Clang&#12391;&#12467;&#12531;&#12497;&#12452;&#12523;&#12434;&#34892;&#12358;&#12383;&#12417;&#12398;&#38306;&#25968;</p><pre class="codeinput"><span class="keyword">function</span> [status, output] = msvc (sources, executable)
+</pre><p>&#24341;&#25968;</p><pre class="codeinput"><span class="comment">% sources    : &#12477;&#12540;&#12473;&#12501;&#12449;&#12452;&#12523;&#12398;&#12475;&#12523;&#37197;&#21015;</span>
+<span class="comment">% executable : &#23455;&#34892;&#12501;&#12449;&#12452;&#12523;&#21517;(&#30465;&#30053;&#21487;)</span>
+</pre><p>&#25147;&#12426;&#20516;</p><pre class="codeinput"><span class="comment">% status : &#12467;&#12531;&#12497;&#12452;&#12521;&#12398;&#32066;&#20102;&#12467;&#12540;&#12489;(0&#12398;&#12392;&#12365;&#12467;&#12531;&#12497;&#12452;&#12523;&#25104;&#21151;)</span>
+<span class="comment">% output : &#12467;&#12531;&#12497;&#12452;&#12521;&#12398;&#27161;&#28310;&#20986;&#21147;</span>
+</pre><h2>Visual C++&#12434;&#25506;&#12377;<a name="4"></a></h2><p><tt>tools\get-vs-path.bat</tt>&#12434;&#20351;&#12387;&#12390;&#26368;&#26032;&#12398;Visual Studio&#12398;&#12452;&#12531;&#12473;&#12488;&#12540;&#12523;&#20808;&#12434;&#25506;&#12377;</p><p><h3><tt>tools\get-vs-path.bat</tt>の動作</h3></p><pre class="codeinput"><span class="comment">% &#12539;VS(&#25968;&#23383;)0COMNTOOLS&#12392;&#12356;&#12358;&#21517;&#21069;&#12398;&#29872;&#22659;&#22793;&#25968;&#12434;&#25506;&#12377;</span>
+<span class="comment">%   &#12539;(&#25968;&#23383;)&#12395;&#12399;Visual Studio&#12398;&#12496;&#12540;&#12472;&#12519;&#12531;&#30058;&#21495;&#12364;&#20837;&#12427;</span>
+<span class="comment">%   &#12539;(&#25968;&#23383;)&#12434;100&#12363;&#12425;9&#12414;&#12391;&#22793;&#21270;&#12373;&#12379;&#12390;&#26368;&#21021;&#12395;&#35211;&#12388;&#12363;&#12387;&#12383;&#12418;&#12398;&#12434;&#20351;&#12358;</span>
+<span class="comment">%     &#12539;&#12418;&#12387;&#12392;&#36066;&#12356;&#23455;&#35013;&#12395;&#12375;&#12383;&#12356;</span>
+<span class="comment">% &#12539;VS(&#25968;&#23383;)0COMNTOOLS&#20869;&#12398;vsvars32.bat&#12434;&#23455;&#34892;&#12377;&#12427;</span>
+<span class="comment">% &#12539;VSINSTALLDIR&#29872;&#22659;&#22793;&#25968;&#12398;&#20013;&#36523;&#12434;&#27161;&#28310;&#20986;&#21147;&#12395;&#26360;&#12365;&#20986;&#12377;</span>
+</pre><p><h3>プログラム</h3></p><pre class="codeinput"><span class="keyword">persistent</span> msvc_dir
+
+<span class="keyword">if</span> ~ischar(msvc_dir)
+    [status, output] = system(fullfile(<span class="string">'tools'</span>, <span class="string">'get-vs-path.bat'</span>));
+
+    <span class="keyword">if</span> status ~= 0 || isempty(output)
+        error(<span class="string">'Visual C++ not found.'</span>);
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span> ~isempty(strfind(output, <span class="string">'='</span>))
+        msvc_dir = fullfile( <span class="keyword">...</span>
+            char(output(strfind(output, <span class="string">'='</span>) + 1:end-1)), <span class="keyword">...</span>
+            <span class="string">'VC'</span>);
+    <span class="keyword">else</span>
+        disp(char(output));
+        error(<span class="string">'unexpected output'</span>);
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><h2>&#12467;&#12531;&#12497;&#12452;&#12523;<a name="7"></a></h2><p><tt>vcvarsall.bat</tt>&#12434;&#23455;&#34892;&#12375;&#12390;&#12467;&#12531;&#12497;&#12452;&#12523;&#12377;&#12427;</p><pre class="codeinput">command = [ <span class="keyword">...</span>
+    <span class="string">'"'</span> fullfile(msvc_dir, <span class="string">'vcvarsall.bat'</span>) <span class="string">'"'</span> <span class="keyword">...</span>
+    <span class="string">'&amp;&amp; cl /Ox /EHsc /MT /DNDEBUG /I.\include'</span> <span class="keyword">...</span>
+];
+
+<span class="keyword">for</span> i = 1:length(sources)
+    command = [command <span class="string">' '</span> char(sources(i))];
+<span class="keyword">end</span>
+
+<span class="keyword">if</span> nargin &gt;= 2
+    command = [command <span class="string">' /Fe'</span> executable];
+<span class="keyword">end</span>
+
+[status, output] = system(command);
+</pre><pre class="codeinput"><span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% compilers.clang
+% Clangでコンパイルを行うための関数
+
+function [status, output] = msvc (sources, executable)
+
+%%
+% 引数
+
+% sources    : ソースファイルのセル配列
+% executable : 実行ファイル名(省略可)
+
+%%
+% 戻り値
+
+% status : コンパイラの終了コード(0のときコンパイル成功)
+% output : コンパイラの標準出力
+
+%% Visual C++を探す
+% |tools\get-vs-path.bat|を使って最新のVisual Studioのインストール先を探す
+
+%%
+% <html><h3><tt>tools\get-vs-path.bat</tt>の動作</h3></html>
+
+% ・VS(数字)0COMNTOOLSという名前の環境変数を探す
+%   ・(数字)にはVisual Studioのバージョン番号が入る
+%   ・(数字)を100から9まで変化させて最初に見つかったものを使う
+%     ・もっと賢い実装にしたい
+% ・VS(数字)0COMNTOOLS内のvsvars32.batを実行する
+% ・VSINSTALLDIR環境変数の中身を標準出力に書き出す
+
+%%
+% <html><h3>プログラム</h3></html>
+
+persistent msvc_dir
+
+if ~ischar(msvc_dir)
+    [status, output] = system(fullfile('tools', 'get-vs-path.bat'));
+
+    if status ~= 0 || isempty(output)
+        error('Visual C++ not found.');
+    end
+    
+    if ~isempty(strfind(output, '='))
+        msvc_dir = fullfile( ...
+            char(output(strfind(output, '=') + 1:end-1)), ...
+            'VC');
+    else
+        disp(char(output));
+        error('unexpected output');
+    end
+end
+
+%% コンパイル
+% |vcvarsall.bat|を実行してコンパイルする
+
+command = [ ...
+    '"' fullfile(msvc_dir, 'vcvarsall.bat') '"' ...
+    '&& cl /Ox /EHsc /MT /DNDEBUG /I.\include' ...
+];
+
+for i = 1:length(sources)
+    command = [command ' ' char(sources(i))];
+end
+
+if nargin >= 2
+    command = [command ' /Fe' executable];
+end
+
+[status, output] = system(command);
+
+end
+##### SOURCE END #####
+--></body></html>
