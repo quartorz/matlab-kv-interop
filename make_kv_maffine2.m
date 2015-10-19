@@ -16,8 +16,8 @@ function make_kv_maffine2(name, f, u, parameters, compiler)
 % 引数 compiler が省略されたときはVisual C++を使ってコンパイルする
 if nargin <= 4
     disp('the argument ''compiler'' of make_kv_maffine2 is empty');
-    disp('use Microsoft Visual C++ compiler as default');
-    compiler = @compilers.msvc;
+    disp('find available compiler');
+    compiler = compilers.auto_detect();
 end
 
 %% 生成のための準備
@@ -31,13 +31,7 @@ mkdir(name);
 source = fullfile(name, 'main.cpp');
 executable = fullfile(name, 'exec.exe');
 
-if ispc
-    exe_ext = '.exe';
-else
-    exe_ext = '.out';
-end
-
-matlab2cpp = fullfile('tools', ['MATLAB2C++' exe_ext]);
+matlab2cpp = fullfile('tools', 'MATLAB2C++');
 
 dim = length(f);
 

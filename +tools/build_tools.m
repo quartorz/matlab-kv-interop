@@ -3,7 +3,7 @@ function build_tools (compiler)
 if ispc
     exe_ext = '.exe';
 else
-    exe_ext = '.out';
+    exe_ext = '';
 end
 
 if exist(fullfile('tools', ['MATLAB2C++' exe_ext]), 'file') == 2
@@ -12,8 +12,8 @@ end
 
 if nargin < 1
     disp('the argument ''compiler'' of build_tools is empty');
-    disp('use Microsoft Visual C++ compiler as default');
-    compiler = @compilers.msvc;
+    disp('find available compiler');
+    compiler = compilers.auto_detect();
 end
 
 disp('building MATLAB2C++');

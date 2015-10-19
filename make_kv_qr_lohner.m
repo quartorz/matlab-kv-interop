@@ -4,8 +4,8 @@ function make_kv_qr_lohner (u, f, parameter, name, compiler)
 
 if nargin <= 4
     disp('the argument ''compiler'' of make_kv_qr_lohner is empty');
-    disp('use Microsoft Visual C++ compiler as default');
-    compiler = @compilers.msvc;
+    disp('find available compiler');
+    compiler = compilers.auto_detect();
 end
 
 tools.prepare(compiler);
@@ -15,7 +15,7 @@ mkdir(name);
 source = fullfile(name, 'main.cpp');
 executable = fullfile(name, 'exec.exe');
 
-matlab2cpp = fullfile('tools', 'MATLAB2C++.exe');
+matlab2cpp = fullfile('tools', 'MATLAB2C++');
 
 dim = length(f);
 

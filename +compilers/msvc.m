@@ -1,4 +1,4 @@
-%% compilers.clang
+%% compilers.msvc
 % Visual C++でコンパイルを行うための関数
 % 複数のバージョンがインストールされているときは最新のを使う
 
