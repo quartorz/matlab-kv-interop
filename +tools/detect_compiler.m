@@ -1,8 +1,8 @@
-%% compilers.auto_detect
-% コンパイラを自動的に検出する
+%% tools.detect_compiler
+% コンパイラを探す
 % Visual C++、Clang、GCCの順で探す
 
-function compiler = auto_detect ()
+function compiler = detect_compiler ()
 
 if ispc
     [status, output] = system(fullfile('tools', 'get-vs-path.bat'));

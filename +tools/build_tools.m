@@ -13,7 +13,7 @@ end
 if nargin < 1
     disp('the argument ''compiler'' of build_tools is empty');
     disp('find available compiler');
-    compiler = compilers.auto_detect();
+    compiler = tools.detect_compiler();
 end
 
 disp('building MATLAB2C++');

@@ -17,7 +17,7 @@ function make_kv_maffine2(name, f, u, parameters, compiler)
 if nargin <= 4
     disp('the argument ''compiler'' of make_kv_maffine2 is empty');
     disp('find available compiler');
-    compiler = compilers.auto_detect();
+    compiler = tools.detect_compiler();
 end
 
 %% ¶¬‚Ì‚½‚ß‚Ì€”õ

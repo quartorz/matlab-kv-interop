@@ -5,7 +5,7 @@ function make_kv_qr_lohner (u, f, parameter, name, compiler)
 if nargin <= 4
     disp('the argument ''compiler'' of make_kv_qr_lohner is empty');
     disp('find available compiler');
-    compiler = compilers.auto_detect();
+    compiler = tools.detect_compiler();
 end
 
 tools.prepare(compiler);
