@@ -12,12 +12,16 @@ MATLAB-kv-interop
   コンパイラは事前にインストールしておく
   * `clang.m`  
     Clangをラップした関数
+  * `gcc.m`  
+    GCCをラップした関数
   * `msvc.m`  
     Visual C++をラップした関数
 * `+tools`  
   MATLABからC++のプログラムを実行するために必要な関数を集めたディレクトリ
   * `build_tools.m`  
     `tools`以下にあるツールをビルドする関数
+  * `detect_compiler.m`  
+    コンパイラを探して、見つけたコンパイラに対応する`+compilers`ディレクトリ内の関数を返す
   * `get_last_result.m`  
     生成したプログラムの最新の実行結果を得る関数
   * `prepare.m`  
