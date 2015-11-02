@@ -8,6 +8,7 @@ MATLABからこのディレクトリを開けば使うことができるので�
 アンインストールも単にこのディレクトリを削除するだけで良い。
 
 使い方は`sample_make_maffine2_lorenz.m`などを見れば分かると思う。
+`sample_make_maffine2_lorenz_nosyms.m`にSymbolic Math Toolboxに依存せずに関数を作る方法の例がある。
 
 ## ファイル一覧
 
