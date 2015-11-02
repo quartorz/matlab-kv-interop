@@ -13,7 +13,7 @@ function make_kv_maffine2(name, f, u, parameters, compiler)
 % compiler   : 使うコンパイラ(省略可)
 
 %%
-% 引数 compiler が省略されたときはVisual C++を使ってコンパイルする
+% 引数 compiler が省略されたときは |tools.detect_compiler| でコンパイラを探す
 if nargin <= 4
     disp('the argument ''compiler'' of make_kv_maffine2 is empty');
     disp('find available compiler');
