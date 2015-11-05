@@ -47,8 +47,14 @@ end
 %% コンパイル
 % |vcvarsall.bat|を実行した後に |cl| を実行してコンパイルする
 
+if strcmp(getenv('PROCESSOR_ARCHITECTURE'), 'AMD64')
+    arch = 'amd64';
+else
+    arch = 'x86';
+end
+
 command = [ ...
-    '"' fullfile(msvc_dir, 'vcvarsall.bat') '"' ...
+    '"' fullfile(msvc_dir, 'vcvarsall.bat') '" ' arch ...
     ' && cl /Ox /EHsc /MT /DNDEBUG /I.\include' ...
 ];
 
