@@ -20,8 +20,21 @@ function [status, output] = gcc (sources, executable)
 
 command = ['g++ -std=c++1z -O3 -DNDEBUG -I./include'];
 
+first = length(command) + 1;
+
+command = [ ...
+    command ...
+    zeros(1, sum(cellfun(@(x) length(x), sources)) ...
+             + length(sources)) ...
+];
+
 for i = 1:length(sources)
-    command = [command ' ' char(sources(i))];
+    source = char(sources(i));
+    
+    last = first + length(source);
+    command(first) = ' ';
+    command(first + 1 : last) = source;
+    first = last + 1;
 end
 
 if nargin >= 2
