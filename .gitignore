@@ -2,3 +2,5 @@
 *.asv
 *.exe
 /+tools/prepare_config.txt
+/lorenz-maffine2
+/roessler-maffine2
