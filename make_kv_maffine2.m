@@ -29,7 +29,7 @@ tools.prepare(compiler);
 mkdir(name);
 
 source = fullfile(name, 'main.cpp');
-executable = fullfile(name, 'exec.exe');
+executable = fullfile(name, 'exec');
 
 matlab2cpp = fullfile('tools', 'MATLAB2C++');
 

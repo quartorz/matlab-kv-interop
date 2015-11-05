@@ -1,7 +1,7 @@
 %% kv_maffine2
 % make_kv_maffine2で生成したプログラムで計算して結果を返す関数
 
-function [status, data] =  kv_maffine2(name, t_init, t_last, n, order, u,  parameter, ep_reduce, ep_limit)
+function [status, data] =  kv_maffine2(name, t_init, t_last, n, order, u,  parameters, ep_reduce, ep_limit)
 
 %%
 % 引数
@@ -38,14 +38,8 @@ t_init = intval(0.0);
 %% プログラムの実行
 % プログラムを実行するための引数を用意する
 
-if ispc
-    exe_ext = '.exe';
-else
-    exe_ext = '.out';
-end
-
 command = [
-    '"' fullfile('.', name, ['exec' exe_ext]) '" ' ...
+    '"' fullfile('.', name, 'exec') '" ' ...
     '"' fullfile('.', name, 'output.csv') '" ' ...
     int2str(order) ' ' int2str(n) ' ' int2str(ep_reduce) ' ' int2str(ep_limit)
 ];
@@ -64,8 +58,8 @@ for i = 1:length(u)
     command = [command ' ' int2str(a) ' ' int2str(b) ' ' int2str(c)];
 end
 
-for i = 1:length(parameter)
-    itv = intval(parameter(i));    
+for i = 1:length(parameters)
+    itv = intval(parameters(i));    
     [a, b, c] = tools.decomp_double(inf(itv));
     command = [command ' ' int2str(a) ' ' int2str(b) ' ' int2str(c)];
     [a, b, c] = tools.decomp_double(sup(itv));

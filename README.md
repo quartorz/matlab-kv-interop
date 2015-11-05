@@ -1,14 +1,19 @@
 # MATLAB-kv-interop
 
-`make_kv_qr_lohner.m`と`kv_qr_lohner.m`はしばらく触ってないので正しく動作しない。
+## インストールとアンインストール
+
+MATLABからこのディレクトリを開けば使うことができる。
+アンインストールも単にこのディレクトリを削除するだけで良い。
 
 ## 使い方
 
-MATLABからこのディレクトリを開けば使うことができるので、インストールに特別な操作は必要ない。
-アンインストールも単にこのディレクトリを削除するだけで良い。
+`sample_`で始まるファイルがサンプルプログラムである。
+サンプルプログラムの内ファイル名に`make`が入っている方を先に実行してから、
+`calc`が入っている方を実行すれば結果を見ることができる。
+`maffine2`が付くものは`kv::ode_maffine2`を使うプログラムを生成し、
+`qr_lohner`が付くものは`kv::odelong_qr_lohner`を使うプログラムを生成する。
 
-使い方は`sample_make_maffine2_lorenz.m`などを見れば分かると思う。
-`sample_make_maffine2_lorenz_nosyms.m`にSymbolic Math Toolboxに依存せずに関数を作る方法の例がある。
+サンプルプログラムのうち`nosyms`で終わるものはSymbolic Math Toolboxに依存しない。
 
 ## ファイル一覧
 
@@ -49,4 +54,4 @@ MATLABからこのディレクトリを開けば使うことができるので�
   `kv::odelong_qr_lohner`を使って計算するプログラムを生成する  
   `t`の分割数は指定できない
 * `Status.m`  
-  `kv_maffine2`で計算ができたかどうかを表す列挙型
+  計算ができたかどうかを表す列挙型

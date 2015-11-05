@@ -1,33 +1,46 @@
-function make_kv_qr_lohner (u, f, parameter, name, compiler)
-% make verification program
-% 
+%% make_kv_qr_lohner
+% kv::odelong_qr_lohnerを使って計算するプログラムを生成する関数
 
+function make_kv_qr_lohner (name, f, u, parameters, compiler)
+
+%%
+% 引数
+
+% name       : 出力するディレクトリの名前  
+% f          : 方程式
+% u          : 方程式の変数
+% parameters : 方程式のパラメータ
+% compiler   : 使うコンパイラ(省略可)
+
+%%
+% 引数 compiler が省略されたときは |tools.detect_compiler| でコンパイラを探す
 if nargin <= 4
     disp('the argument ''compiler'' of make_kv_qr_lohner is empty');
     disp('find available compiler');
     compiler = tools.detect_compiler();
 end
 
+%% 生成のための準備
+% * tools/MATLAB2C++のコンパイル
+% * kvのダウンロード
 tools.prepare(compiler);
 
+%% プログラムの生成
 mkdir(name);
 
 source = fullfile(name, 'main.cpp');
-executable = fullfile(name, 'exec.exe');
+executable = fullfile(name, 'exec');
 
 matlab2cpp = fullfile('tools', 'MATLAB2C++');
 
 dim = length(f);
 
-%--------------------------------------------------------------------------
-% generate source file
-%--------------------------------------------------------------------------
-
 disp(['generating source file (file name: ' source ')']);
 
 fp = fopen(source, 'wt');
 
-% preprocessors
+%%
+% <html><h3>プリプロセッサ</h3></html>
 
 fprintf(fp, '// eliminate deprecation warnings\n');
 fprintf(fp, '#if defined(_MSC_VER)\n');
@@ -45,19 +58,20 @@ fprintf(fp, '#include <kv/ode-param.hpp>\n');
 fprintf(fp, '#include <kv/ode-callback.hpp>\n\n');
 fprintf(fp, '#include <conv.hpp>\n\n');
 
-% function
+%%
+% <html><h3>方程式を表す関数オブジェクトクラスの生成</h3></html>
 
 fprintf(fp, 'struct func{\n');
 
-if length(parameter) > 0
+if length(parameters) > 0
     % definition of members
     fprintf(fp, '\t::kv::interval<double> ');
     
-    for i = 1:length(parameter)
+    for i = 1:length(parameters)
         if i ~= 1
             fprintf(fp, ', ');
         end
-        fprintf(fp, char(parameter(i)));
+        fprintf(fp, char(parameters(i)));
     end
     
     fprintf(fp, ';\n\n');
@@ -65,9 +79,9 @@ if length(parameter) > 0
     % constructor
     fprintf(fp, '\tfunc(\n');
     
-    for i = 1:length(parameter)
-        fprintf(fp, ['\t\tconst ::kv::interval<double> &' char(parameter(i))]);
-        if i ~= length(parameter)
+    for i = 1:length(parameters)
+        fprintf(fp, ['\t\tconst ::kv::interval<double> &' char(parameters(i))]);
+        if i ~= length(parameters)
             fprintf(fp, ',');
         end
         fprintf(fp, '\n');
@@ -76,11 +90,11 @@ if length(parameter) > 0
     fprintf(fp, '\t)\n');
     fprintf(fp, '\t\t: ');
     
-    for i = 1:length(parameter)
+    for i = 1:length(parameters)
         if i ~= 1
             fprintf(fp, '\t\t, ');
         end
-        fprintf(fp, [char(parameter(i)) '(' char(parameter(i)) ')\n']);
+        fprintf(fp, [char(parameters(i)) '(' char(parameters(i)) ')\n']);
     end
     
     fprintf(fp, '\t{\n\t}\n\n');
@@ -133,29 +147,49 @@ fprintf(fp, '\t\tconst ::boost::numeric::ublas::vector< ::kv::interval<double> >
 fprintf(fp, '\t\tconst ::boost::numeric::ublas::vector< ::kv::psa< ::kv::interval<double> > >& result\n');
 fprintf(fp, '\t) const override\n');
 fprintf(fp, '\t{\n');
-fprintf(fp, '\t\tofs << end.lower() << '','' << end.upper();\n');
+fprintf(fp, '\t\t::outdouble(end.lower(), ofs);\n');
+fprintf(fp, '\t\tofs << '','';\n');
+fprintf(fp, '\t\t::outdouble(end.upper(), ofs);\n');
 
 for i = 1:length(u)
     fprintf(fp, '\t\tofs << '','';\n');
-    fprintf(fp, ['\t\t::kv::rop<double>::print_down(x_e(' int2str(i - 1) ').lower(), ofs);\n']);
+    fprintf(fp, ['\t\t::outdouble(x_e(' int2str(i-1) ').lower(), ofs);\n']);
     fprintf(fp, '\t\tofs << '','';\n');
-    fprintf(fp, ['\t\t::kv::rop<double>::print_up(x_e(' int2str(i - 1) ').upper(), ofs);\n']);
+    fprintf(fp, ['\t\t::outdouble(x_e(' int2str(i-1) ').upper(), ofs);\n']);
 end
 
 fprintf(fp, '\t\tofs << ::std::endl;\n');
 
 fprintf(fp, '\t}\n};\n\n');
 
-% main
+%%
+% <html><h3>main関数の生成</h3></html>
+
+% argv: executable output order N
+%       inf(t_last) sup(t_last)
+%       inf(u0(1)) sup(u0(1)) ...
+%       inf(param_1) sup(param_1) ...
+
+%%
+% 区間は下限と上限をそれぞれ
+%
+% $$(-1)^{sign} * 2^{exponent} * {significand}$$
+%
+% のように3つの整数 $sign$(符号) $, exponent$(指数部) $, significand$(仮数部) に分解して入出力する
 
 fprintf(fp, 'int main(int argc, char **argv)\n');
 fprintf(fp, '{\n');
 
-fprintf(fp, ['\tif(argc < ' int2str(2 + 2 * 3 * (1 + length(u) + length(parameter))) '){\n']);
-fprintf(fp, '\t\t::std::cerr << "invalid argument" << ::std::endl;\n');
+fprintf(fp, ['\tif(argc < ' int2str(2 + 2 * 3 * (1 + length(u) + length(parameters))) '){\n']);
+fprintf(fp, '\t\t::std::cout << "invalid argument" << ::std::endl;\n');
+fprintf(fp, '\t\treturn 1;\n');
 fprintf(fp, '\t}\n\n');
 
 fprintf(fp, '\t::std::ofstream ofs(argv[1]);\n');
+fprintf(fp, '\tif(!ofs){\n');
+fprintf(fp, '\t\t::std::cout << "cannot open file ''" << argv[1] << ''\\'''' << ::std::endl;\n');
+fprintf(fp, '\t\treturn 1;\n');
+fprintf(fp, '\t}\n\n');
 fprintf(fp, '\tofs.setf(ofs.scientific);\n');
 fprintf(fp, '\tofs.precision(17);\n\n');
 
@@ -174,31 +208,37 @@ end
 
 bias = 6 * length(u) + 2;
 
-for i = 1:length(parameter)
+for i = 1:length(parameters)
     fprintf(fp, [ ...
-        '\t::kv::interval<double> ' char(parameter(i)) '(\n' ...
+        '\t::kv::interval<double> ' char(parameters(i)) '(\n' ...
         '\t\t::todouble(::std::strtol(argv[' int2str(i * 6 + bias + 1) '], nullptr, 10), ::std::strtol(argv[' int2str(i * 6 + bias + 2) '], nullptr, 10), ::std::strtoull(argv[' int2str(i * 6 + bias + 3) '], nullptr, 10)),\n' ...
         '\t\t::todouble(::std::strtol(argv[' int2str(i * 6 + bias + 4) '], nullptr, 10), ::std::strtol(argv[' int2str(i * 6 + bias + 5) '], nullptr, 10), ::std::strtoull(argv[' int2str(i * 6 + bias + 6) '], nullptr, 10)));\n\n']);
 end
 
 clear bias;
 
-fprintf(fp, '\tofs << "0.0,0.0"');
+fprintf(fp, '\t::outdouble(0.0, ofs);\n');
+fprintf(fp, '\tofs << '','';\n');
+fprintf(fp, '\t::outdouble(0.0, ofs);\n');
+
 
 for i = 1:length(u)
-    fprintf(fp, ['\n\t    << '','' << u(' int2str(i - 1) ').lower() << '','' << u(' int2str(i - 1) ').upper()']);
+    fprintf(fp, '\tofs << '','';\n');
+    fprintf(fp, ['\t::outdouble(u(' int2str(i - 1) ').lower(), ofs);\n']);
+    fprintf(fp, '\tofs << '','';\n');
+    fprintf(fp, ['\t::outdouble(u(' int2str(i - 1) ').upper(), ofs);\n']);
 end
 
-fprintf(fp, ' << ::std::endl;\n\n');
+fprintf(fp, '\tofs << ::std::endl;\n\n');
 
 fprintf(fp, '\tint r = ::kv::odelong_qr_lohner(\n');
 fprintf(fp, '\t\tfunc(');
 
-for i = 1:length(parameter)
+for i = 1:length(parameters)
     if i ~= 1
         fprintf(fp, ', ');
     end
-    fprintf(fp, char(parameter(i)));
+    fprintf(fp, char(parameters(i)));
 end
 
 fprintf(fp, '),\n');
@@ -207,7 +247,7 @@ fprintf(fp, '\t\t::kv::interval<double>(0.0),\n');
 fprintf(fp, '\t\tt_last,\n');
 fprintf(fp, '\t\t::kv::ode_param<double>().set_order(::std::strtol(argv[2], nullptr, 10)),\n');
 fprintf(fp, '\t\tcallback(::std::move(ofs)));\n\n');
-fprintf(fp, '\treturn (r != 0) ? 0 : 1;\n');
+fprintf(fp, '\treturn (r != 0) ? 0 : 2;\n');
 fprintf(fp, '}\n');
 
 fclose(fp);
