@@ -135,10 +135,21 @@ fprintf(fp, '};\n\n');
 %%
 % <html><h3>main関数の生成</h3></html>
 
-% argv: executable output order N ep-reduce ep-reduce-limit
+% argv: executable output last-affine
+%       order N ep-reduce ep-reduce-limit
 %       inf(t_last) sup(t_last)
 %       inf(u0(1)) sup(u0(1)) ...
 %       inf(param_1) sup(param_1) ...
+%
+% executable      : 実行ファイル名
+% output          : 計算結果の出力ファイル名
+% last-affine     : 最後の計算結果を表すAffine多項式を書き出すためのファイル
+% order           : Taylor展開の次数
+% N               : tの分割数
+% ep-reduce       : kv::ode_param<T>::ep_reduce
+%                   (詳細はhttp://verifiedby.me/kv/ode/index.htmlを参照)
+% ep-reduce-limit : kv::ode_param<T>::ep_reduce_limit
+%                   (詳細はhttp://verifiedby.me/kv/ode/index.htmlを参照)
 
 %%
 % 区間は下限と上限をそれぞれ
@@ -150,7 +161,7 @@ fprintf(fp, '};\n\n');
 fprintf(fp, 'int main(int argc, char **argv)\n');
 fprintf(fp, '{\n');
 
-fprintf(fp, ['\tif(argc < ' int2str(6 + 2 * 3 * (1 + length(u) + length(parameters))) '){\n']);
+fprintf(fp, ['\tif(argc < ' int2str(7 + 2 * 3 * (1 + length(u) + length(parameters))) '){\n']);
 fprintf(fp, '\t\t::std::cout << "invalid argument" << ::std::endl;\n');
 fprintf(fp, '\t\treturn 1;\n');
 fprintf(fp, '\t}\n\n');
@@ -164,19 +175,21 @@ fprintf(fp, '\tofs.setf(ofs.scientific);\n');
 fprintf(fp, '\tofs.precision(17);\n\n');
 
 fprintf(fp, '\t::kv::interval<double> t_last(\n');
-fprintf(fp, '\t\t::todouble(::std::strtol(argv[6], nullptr, 10), ::std::strtol(argv[7], nullptr, 10), ::std::strtoull(argv[8], nullptr, 10)),\n');
-fprintf(fp, '\t\t::todouble(::std::strtol(argv[9], nullptr, 10), ::std::strtol(argv[10], nullptr, 10), ::std::strtoull(argv[11], nullptr, 10)));\n\n');
+fprintf(fp, '\t\t::todouble(::std::strtol(argv[7], nullptr, 10), ::std::strtol(argv[8], nullptr, 10), ::std::strtoull(argv[9], nullptr, 10)),\n');
+fprintf(fp, '\t\t::todouble(::std::strtol(argv[10], nullptr, 10), ::std::strtol(argv[11], nullptr, 10), ::std::strtoull(argv[12], nullptr, 10)));\n\n');
 
 fprintf(fp, ['\t::boost::numeric::ublas::vector<::kv::affine<double>> u(' int2str(length(u)) ');\n\n']);
+
+bias = 7;
 
 for i = 1:length(u)
     fprintf(fp, [ ...
         '\tu(' int2str(i - 1) ') = ::kv::interval<double>(\n' ...
-        '\t\t::todouble(::std::strtol(argv[' int2str(i * 6 + 6) '], nullptr, 10), ::std::strtol(argv[' int2str(i * 6 + 7) '], nullptr, 10), ::std::strtoull(argv[' int2str(i * 6 + 8) '], nullptr, 10)),\n' ...
-        '\t\t::todouble(::std::strtol(argv[' int2str(i * 6 + 9) '], nullptr, 10), ::std::strtol(argv[' int2str(i * 6 + 10) '], nullptr, 10), ::std::strtoull(argv[' int2str(i * 6 + 11) '], nullptr, 10)));\n\n']);
+        '\t\t::todouble(::std::strtol(argv[' int2str(i * 6 + bias) '], nullptr, 10), ::std::strtol(argv[' int2str(i * 6 + bias + 1) '], nullptr, 10), ::std::strtoull(argv[' int2str(i * 6 + bias + 2) '], nullptr, 10)),\n' ...
+        '\t\t::todouble(::std::strtol(argv[' int2str(i * 6 + bias + 3) '], nullptr, 10), ::std::strtol(argv[' int2str(i * 6 + bias + 4) '], nullptr, 10), ::std::strtoull(argv[' int2str(i * 6 + bias + 5) '], nullptr, 10)));\n\n']);
 end
 
-bias = 6 * length(u) + 5;
+bias = 6 * length(u) + 6;
 
 for i = 1:length(parameters)
     fprintf(fp, [ ...
@@ -200,10 +213,10 @@ end
 
 fprintf(fp, '\tofs << ::std::endl;\n\n');
 
-fprintf(fp, '\tint order = ::std::strtol(argv[2], nullptr, 10);\n');
-fprintf(fp, '\tint itermax = ::std::strtol(argv[3], nullptr, 10);\n');
-fprintf(fp, '\tint ep_reduce = ::std::strtol(argv[4], nullptr, 10);\n');
-fprintf(fp, '\tint ep_reduce_limit = ::std::strtol(argv[5], nullptr, 10);\n\n');
+fprintf(fp, '\tint order = ::std::strtol(argv[3], nullptr, 10);\n');
+fprintf(fp, '\tint itermax = ::std::strtol(argv[4], nullptr, 10);\n');
+fprintf(fp, '\tint ep_reduce = ::std::strtol(argv[5], nullptr, 10);\n');
+fprintf(fp, '\tint ep_reduce_limit = ::std::strtol(argv[6], nullptr, 10);\n\n');
 
 fprintf(fp, '\tfunc f(');
 
@@ -250,6 +263,34 @@ fprintf(fp, '\t\tofs << ::std::endl;\n\n');
 fprintf(fp, '\t\tif(r != 2) break;\n\n');
 
 fprintf(fp, '\t\tt1 = t2;\n');
+fprintf(fp, '\t}\n\n');
+fprintf(fp, '\tofs.close();\n');
+fprintf(fp, '\tofs.open(argv[2]);\n');
+fprintf(fp, '\tif(ofs){\n');
+fprintf(fp, '\t\tfor(int i = 0; i < kv::affine<double>::maxnum(); ++i){\n');
+
+for i = 1:length(u)
+    if i ~= 1
+        fprintf(fp, '\t\t\tofs << '','';\n');
+    end
+    fprintf(fp, ['\t\t\t::outdouble(u(' int2str(i - 1) ').get_coef(i), ofs);\n']);
+end
+
+fprintf(fp, '\t\t\tofs << ::std::endl;\n');
+fprintf(fp, '\t\t}\n\n');
+
+fprintf(fp, '#if AFFINE_SIMPLE >= 1\n');
+
+for i = 1:length(u)
+    if i ~= 1
+        fprintf(fp, '\t\tofs << '','';\n');
+    end
+    fprintf(fp, ['\t\t::outdouble(u(' int2str(i - 1) ').er, ofs);\n']);
+end
+
+fprintf(fp, '\t\tofs << ::std::endl;\n');
+fprintf(fp, '#endif\n');
+
 fprintf(fp, '\t}\n\n');
 fprintf(fp, '\treturn (r != 0) ? 0 : 2;\n');
 fprintf(fp, '}\n');

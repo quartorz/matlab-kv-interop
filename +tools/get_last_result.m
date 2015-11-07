@@ -1,6 +1,6 @@
 function [data] = get_last_result (name)
 
-d = csvread([name '/output.csv']);
+d = csvread(fullfile(name, 'output.csv'));
 s = size(d);
 data(s(1), (s(2) / 3 / 2)) = intval(0.0);
 

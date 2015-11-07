@@ -18,7 +18,7 @@ function [status, data] =  kv_maffine2(name, t_init, t_last, n, order, u,  param
 %%
 % 戻り値
 
-% status ; 計算できたかどうかを表す
+% status : 計算できたかどうかを表す
 %          ・State.Succeeded
 %            t_lastまで計算できた
 %          ・State.Failed
@@ -41,6 +41,7 @@ t_init = intval(0.0);
 command = [
     '"' fullfile('.', name, 'exec') '" ' ...
     '"' fullfile('.', name, 'output.csv') '" ' ...
+    '"' fullfile('.', name, 'last-affine.csv') '" ' ...
     int2str(order) ' ' int2str(n) ' ' int2str(ep_reduce) ' ' int2str(ep_limit)
 ];
 
