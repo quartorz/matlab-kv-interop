@@ -58,7 +58,7 @@ if dim == 2
 
     fill(px, py, color);
 else
-    error('not implemented');
+    error('3d plot is not yet implemented');
 end
 
 end

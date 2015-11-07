@@ -5,7 +5,7 @@ function [ data ] = get_last_affine( name )
 
 d = csvread(fullfile(name, 'last-affine.csv'));
 s = size(d);
-data(s(1), s(2) / 3) = intval(0.0);
+data(s(1), s(2) / 3) = 0.0;
 
 for i = 0 : s(2) / 3 - 1
     data(:, i + 1) = ...
