@@ -26,6 +26,6 @@ tools.plot_affine(a(1:len/2,1), a(1:len/2,2), a(1:len/2,3), 'FaceColor', 'flat')
 
 % 残りのダミー変数をプロットする
 figure;
-tools.plot_affine(a(len/2+1:end,1), a(len/2+1:end,2), a(len/2+1:end,3), 'FaceColor', 'w');
+tools.plot_affine([0;a(len/2+1:end,1)], [0;a(len/2+1:end,2)], [0;a(len/2+1:end,3)], 'FaceColor', 'w');
 
 %PlotCube(data(:, 2), data(:, 3), data(:, 4), 'vs', 'o');
