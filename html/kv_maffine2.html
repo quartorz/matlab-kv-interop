@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">kv_maffine2</a></li><li><a href="#5">&#12503;&#12525;&#12464;&#12521;&#12512;&#12398;&#23455;&#34892;</a></li><li><a href="#8">&#23455;&#34892;&#32080;&#26524;&#12434;&#24471;&#12427;</a></li></ul></div><h2>kv_maffine2<a name="1"></a></h2><p>make_kv_maffine2&#12391;&#29983;&#25104;&#12375;&#12383;&#12503;&#12525;&#12464;&#12521;&#12512;&#12391;&#35336;&#31639;&#12375;&#12390;&#32080;&#26524;&#12434;&#36820;&#12377;&#38306;&#25968;</p><pre class="codeinput"><span class="keyword">function</span> [status, data] =  kv_maffine2(name, t_init, t_last, n, order, u,  parameters, ep_reduce, ep_limit)
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">kv_maffine2</a></li><li><a href="#6">&#12503;&#12525;&#12464;&#12521;&#12512;&#12398;&#23455;&#34892;</a></li><li><a href="#9">&#23455;&#34892;&#32080;&#26524;&#12434;&#24471;&#12427;</a></li></ul></div><h2>kv_maffine2<a name="1"></a></h2><p>make_kv_maffine2&#12391;&#29983;&#25104;&#12375;&#12383;&#12503;&#12525;&#12464;&#12521;&#12512;&#12391;&#35336;&#31639;&#12375;&#12390;&#32080;&#26524;&#12434;&#36820;&#12377;&#38306;&#25968;</p><pre class="codeinput"><span class="keyword">function</span> [status, data, varargout] =  kv_maffine2(name, t_init, t_last, n, order, u,  parameters, ep_reduce, ep_limit)
 </pre><p>&#24341;&#25968;</p><pre class="codeinput"><span class="comment">% n         : t&#12398;&#20998;&#21106;&#25968;([t_init, t_last]&#12434;n&#20998;&#21106;&#12377;&#12427;)</span>
 <span class="comment">% order     : Taylor&#23637;&#38283;&#12398;&#12458;&#12540;&#12480;&#12540;</span>
 <span class="comment">% u         : &#21021;&#26399;&#20516;</span>
@@ -75,22 +75,24 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 <span class="comment">%             (&#35443;&#32048;&#12399;http://verifiedby.me/kv/ode/index.html&#12434;&#21442;&#29031;)</span>
 <span class="comment">% ep_limit  : kv::ode_param&lt;T&gt;::ep_reduce_limit</span>
 <span class="comment">%             (&#35443;&#32048;&#12399;http://verifiedby.me/kv/ode/index.html&#12434;&#21442;&#29031;)</span>
-</pre><p>&#25147;&#12426;&#20516;</p><pre class="codeinput"><span class="comment">% status : &#35336;&#31639;&#12391;&#12365;&#12383;&#12363;&#12393;&#12358;&#12363;&#12434;&#34920;&#12377;</span>
-<span class="comment">%          &#12539;State.Succeeded</span>
-<span class="comment">%            t_last&#12414;&#12391;&#35336;&#31639;&#12391;&#12365;&#12383;</span>
-<span class="comment">%          &#12539;State.Failed</span>
-<span class="comment">%            &#35336;&#31639;&#12434;&#22987;&#12417;&#12425;&#12428;&#12394;&#12363;&#12387;&#12383;</span>
-<span class="comment">%            &#12539;&#12467;&#12510;&#12531;&#12489;&#12521;&#12452;&#12531;&#24341;&#25968;&#12364;&#12362;&#12363;&#12375;&#12356;(&#12521;&#12452;&#12502;&#12521;&#12522;&#12398;&#12496;&#12464;)</span>
-<span class="comment">%            &#12539;&#20986;&#21147;&#12501;&#12449;&#12452;&#12523;&#12434;&#38283;&#12369;&#12394;&#12363;&#12387;&#12383;(&#12521;&#12452;&#12502;&#12521;&#12522;&#12398;&#12496;&#12464;&#12391;&#12399;&#12394;&#12356;)</span>
-<span class="comment">%            &#35443;&#32048;&#12399;&#12467;&#12510;&#12531;&#12489;&#12454;&#12451;&#12531;&#12489;&#12454;&#12395;&#20986;&#21147;&#12373;&#12428;&#12427;</span>
-<span class="comment">%          &#12539;State.Incomplete</span>
-<span class="comment">%            &#36884;&#20013;&#12414;&#12391;&#12375;&#12363;&#35336;&#31639;&#12391;&#12365;&#12394;&#12363;&#12387;&#12383;</span>
-<span class="comment">% data   : &#35336;&#31639;&#32080;&#26524;&#12434;&#34920;&#12377;&#21306;&#38291;&#34892;&#21015;</span>
-<span class="comment">%          1&#21015;&#30446;&#12364;t&#12391;&#20182;&#12398;&#21015;&#12399;u</span>
-</pre><pre class="codeinput">t_init = intval(0.0);
-</pre><h2>&#12503;&#12525;&#12464;&#12521;&#12512;&#12398;&#23455;&#34892;<a name="5"></a></h2><p>&#12503;&#12525;&#12464;&#12521;&#12512;&#12434;&#23455;&#34892;&#12377;&#12427;&#12383;&#12417;&#12398;&#24341;&#25968;&#12434;&#29992;&#24847;&#12377;&#12427;</p><pre class="codeinput">command = [
+</pre><p>&#25147;&#12426;&#20516;</p><pre class="codeinput"><span class="comment">% status    : &#35336;&#31639;&#12391;&#12365;&#12383;&#12363;&#12393;&#12358;&#12363;&#12434;&#34920;&#12377;</span>
+<span class="comment">%             &#12539;State.Succeeded</span>
+<span class="comment">%               t_last&#12414;&#12391;&#35336;&#31639;&#12391;&#12365;&#12383;</span>
+<span class="comment">%             &#12539;State.Failed</span>
+<span class="comment">%               &#35336;&#31639;&#12434;&#22987;&#12417;&#12425;&#12428;&#12394;&#12363;&#12387;&#12383;</span>
+<span class="comment">%               &#12539;&#12467;&#12510;&#12531;&#12489;&#12521;&#12452;&#12531;&#24341;&#25968;&#12364;&#12362;&#12363;&#12375;&#12356;(&#12521;&#12452;&#12502;&#12521;&#12522;&#12398;&#12496;&#12464;)</span>
+<span class="comment">%               &#12539;&#20986;&#21147;&#12501;&#12449;&#12452;&#12523;&#12434;&#38283;&#12369;&#12394;&#12363;&#12387;&#12383;(&#12521;&#12452;&#12502;&#12521;&#12522;&#12398;&#12496;&#12464;&#12391;&#12399;&#12394;&#12356;)</span>
+<span class="comment">%               &#35443;&#32048;&#12399;&#12467;&#12510;&#12531;&#12489;&#12454;&#12451;&#12531;&#12489;&#12454;&#12395;&#20986;&#21147;&#12373;&#12428;&#12427;</span>
+<span class="comment">%             &#12539;State.Incomplete</span>
+<span class="comment">%               &#36884;&#20013;&#12414;&#12391;&#12375;&#12363;&#35336;&#31639;&#12391;&#12365;&#12394;&#12363;&#12387;&#12383;</span>
+<span class="comment">% data      : &#35336;&#31639;&#32080;&#26524;&#12434;&#34920;&#12377;&#21306;&#38291;&#34892;&#21015;</span>
+<span class="comment">%             1&#21015;&#30446;&#12364;t&#12391;&#20182;&#12398;&#21015;&#12399;u</span>
+<span class="comment">% varargout : &#25147;&#12426;&#20516;&#12364;3&#12388;&#35201;&#27714;&#12373;&#12428;&#12383;&#26178;&#12395;Affine&#22810;&#38917;&#24335;&#12434;&#36820;&#12377;&#12290;</span>
+</pre><p><tt>[s, d, a] = kv_maffine2(...);</tt> &#12398;&#12424;&#12358;&#12395;&#21628;&#12403;&#20986;&#12377;&#12392; <tt>a</tt> &#12395; <img src="kv_maffine2_eq07015.png" alt="$t=\mathtt{t\_last}$"> &#12391;&#12398;Affine&#22810;&#38917;&#24335;&#12398;&#20418;&#25968;&#12364;&#20837;&#12427;&#12290;&#21508;&#21015;&#12364; <tt>u</tt> &#12395;&#23550;&#24540;&#12377;&#12427;&#12290; 1&#34892;&#30446;&#12399;&#23450;&#25968;&#38917;&#12289;&#12381;&#12428;&#20197;&#22806;&#12398;&#34892;&#12399;&#12480;&#12511;&#12540;&#22793;&#25968;&#12398;&#20418;&#25968;&#12434;&#34920;&#12377;&#12290;</p><pre class="codeinput">t_init = intval(0.0);
+</pre><h2>&#12503;&#12525;&#12464;&#12521;&#12512;&#12398;&#23455;&#34892;<a name="6"></a></h2><p>&#12503;&#12525;&#12464;&#12521;&#12512;&#12434;&#23455;&#34892;&#12377;&#12427;&#12383;&#12417;&#12398;&#24341;&#25968;&#12434;&#29992;&#24847;&#12377;&#12427;</p><pre class="codeinput">command = [
     <span class="string">'"'</span> fullfile(<span class="string">'.'</span>, name, <span class="string">'exec'</span>) <span class="string">'" '</span> <span class="keyword">...</span>
     <span class="string">'"'</span> fullfile(<span class="string">'.'</span>, name, <span class="string">'output.csv'</span>) <span class="string">'" '</span> <span class="keyword">...</span>
+    <span class="string">'"'</span> fullfile(<span class="string">'.'</span>, name, <span class="string">'last-affine.csv'</span>) <span class="string">'" '</span> <span class="keyword">...</span>
     int2str(order) <span class="string">' '</span> int2str(n) <span class="string">' '</span> int2str(ep_reduce) <span class="string">' '</span> int2str(ep_limit)
 ];
 
@@ -124,14 +126,17 @@ command = [command <span class="string">' '</span> int2str(a) <span class="strin
             error([<span class="string">'failed (status: '</span> int2str(status) <span class="string">')'</span>]);
         <span class="keyword">end</span>
 <span class="keyword">end</span>
-</pre><h2>&#23455;&#34892;&#32080;&#26524;&#12434;&#24471;&#12427;<a name="8"></a></h2><pre class="codeinput">data = tools.get_last_result(name);
+</pre><h2>&#23455;&#34892;&#32080;&#26524;&#12434;&#24471;&#12427;<a name="9"></a></h2><pre class="codeinput">data = tools.get_last_result(name);
+</pre><p>&#26368;&#32066;&#30340;&#12394;Affine&#22810;&#38917;&#24335;&#12364;&#24517;&#35201;&#12394;&#26178;&#12399;&#12381;&#12428;&#12418;&#36820;&#12377;</p><pre class="codeinput"><span class="keyword">if</span> ~isempty(varargout)
+    varargout(1) = tools.get_last_affine(name);
+<span class="keyword">end</span>
 </pre><pre class="codeinput"><span class="keyword">end</span>
 </pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% kv_maffine2
 % make_kv_maffine2で生成したプログラムで計算して結果を返す関数
 
-function [status, data] =  kv_maffine2(name, t_init, t_last, n, order, u,  parameters, ep_reduce, ep_limit)
+function [status, data, varargout] =  kv_maffine2(name, t_init, t_last, n, order, u,  parameters, ep_reduce, ep_limit)
 
 %%
 % 引数
@@ -148,18 +153,24 @@ function [status, data] =  kv_maffine2(name, t_init, t_last, n, order, u,  param
 %%
 % 戻り値
 
-% status : 計算できたかどうかを表す
-%          ・State.Succeeded
-%            t_lastまで計算できた
-%          ・State.Failed
-%            計算を始められなかった
-%            ・コマンドライン引数がおかしい(ライブラリのバグ)
-%            ・出力ファイルを開けなかった(ライブラリのバグではない)
-%            詳細はコマンドウィンドウに出力される
-%          ・State.Incomplete
-%            途中までしか計算できなかった
-% data   : 計算結果を表す区間行列
-%          1列目がtで他の列はu
+% status    : 計算できたかどうかを表す
+%             ・State.Succeeded
+%               t_lastまで計算できた
+%             ・State.Failed
+%               計算を始められなかった
+%               ・コマンドライン引数がおかしい(ライブラリのバグ)
+%               ・出力ファイルを開けなかった(ライブラリのバグではない)
+%               詳細はコマンドウィンドウに出力される
+%             ・State.Incomplete
+%               途中までしか計算できなかった
+% data      : 計算結果を表す区間行列
+%             1列目がtで他の列はu
+% varargout : 戻り値が3つ要求された時にAffine多項式を返す。
+
+%%
+% |[s, d, a] = kv_maffine2(...);| のように呼び出すと |a| に $t=\mathtt{t\_last}$
+% でのAffine多項式の係数が入る。各列が |u| に対応する。
+% 1行目は定数項、それ以外の行はダミー変数の係数を表す。
 
 %%
 
@@ -171,6 +182,7 @@ t_init = intval(0.0);
 command = [
     '"' fullfile('.', name, 'exec') '" ' ...
     '"' fullfile('.', name, 'output.csv') '" ' ...
+    '"' fullfile('.', name, 'last-affine.csv') '" ' ...
     int2str(order) ' ' int2str(n) ' ' int2str(ep_reduce) ' ' int2str(ep_limit)
 ];
 
@@ -214,6 +226,12 @@ end
 
 %% 実行結果を得る
 data = tools.get_last_result(name);
+
+%%
+% 最終的なAffine多項式が必要な時はそれも返す
+if ~isempty(varargout)
+    varargout(1) = tools.get_last_affine(name);
+end
 
 end
 ##### SOURCE END #####

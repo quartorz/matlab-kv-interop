@@ -1,7 +1,7 @@
 %% kv_maffine2
 % make_kv_maffine2で生成したプログラムで計算して結果を返す関数
 
-function [status, data] =  kv_maffine2(name, t_init, t_last, n, order, u,  parameters, ep_reduce, ep_limit)
+function [status, data, varargout] =  kv_maffine2(name, t_init, t_last, n, order, u,  parameters, ep_reduce, ep_limit)
 
 %%
 % 引数
@@ -18,18 +18,24 @@ function [status, data] =  kv_maffine2(name, t_init, t_last, n, order, u,  param
 %%
 % 戻り値
 
-% status : 計算できたかどうかを表す
-%          ・State.Succeeded
-%            t_lastまで計算できた
-%          ・State.Failed
-%            計算を始められなかった
-%            ・コマンドライン引数がおかしい(ライブラリのバグ)
-%            ・出力ファイルを開けなかった(ライブラリのバグではない)
-%            詳細はコマンドウィンドウに出力される
-%          ・State.Incomplete
-%            途中までしか計算できなかった
-% data   : 計算結果を表す区間行列
-%          1列目がtで他の列はu
+% status    : 計算できたかどうかを表す
+%             ・State.Succeeded
+%               t_lastまで計算できた
+%             ・State.Failed
+%               計算を始められなかった
+%               ・コマンドライン引数がおかしい(ライブラリのバグ)
+%               ・出力ファイルを開けなかった(ライブラリのバグではない)
+%               詳細はコマンドウィンドウに出力される
+%             ・State.Incomplete
+%               途中までしか計算できなかった
+% data      : 計算結果を表す区間行列
+%             1列目がtで他の列はu
+% varargout : 戻り値が3つ要求された時にAffine多項式を返す。
+
+%%
+% |[s, d, a] = kv_maffine2(...);| のように呼び出すと |a| に $t=\mathtt{t\_last}$
+% でのAffine多項式の係数が入る。各列が |u| に対応する。
+% 1行目は定数項、それ以外の行はダミー変数の係数を表す。
 
 %%
 
@@ -84,6 +90,12 @@ if status ~= Status.Succeeded
 end
 
 %% 実行結果を得る
-data = tools.get_last_result(name);
+data = tools.get_latest_result(name);
+
+%%
+% 最終的なAffine多項式が必要な時はそれも返す
+if nargout > 2
+    varargout{1} = tools.get_last_affine(name);
+end
 
 end

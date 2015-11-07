@@ -79,6 +79,6 @@ if status ~= Status.Succeeded
 end
 
 %% ÀsŒ‹‰Ê‚ğ“¾‚é
-data = tools.get_last_result(name);
+data = tools.get_latest_result(name);
 
 end

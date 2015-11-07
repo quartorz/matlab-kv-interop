@@ -11,11 +11,21 @@ p = 10;
 init = [1;0;0];
 params = [10;28;intval(8)/3];
 
-[status, data] = kv_maffine2('lorenz-maffine2', 0.0, t_last, n, p, init, params, 120, 130);
+[status, data, a] = kv_maffine2('lorenz-maffine2', 0.0, t_last, n, p, init, params, 120, 130);
 
 if status == Status.Incomplete
     disp(['t = ' num2str(mid(data(end, 1))) 'までしか計算できなかった']);
 end
 
 plot3(mid(data(:, 2)),mid(data(:, 3)),mid(data(:, 4)));
+
+% 最初の半分のダミー変数をプロットする
+figure;
+len = length(a);
+tools.plot_affine(a(1:len/2,1), a(1:len/2,2), a(1:len/2,3), 'FaceColor', 'flat');
+
+% 残りのダミー変数をプロットする
+figure;
+tools.plot_affine(a(len/2+1:end,1), a(len/2+1:end,2), a(len/2+1:end,3), 'FaceColor', 'w');
+
 %PlotCube(data(:, 2), data(:, 3), data(:, 4), 'vs', 'o');
