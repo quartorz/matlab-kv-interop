@@ -17,8 +17,8 @@ if ~exist(fullfile('tools', ['MATLAB2C++' exe_ext]), 'file')
     [status, out] = compiler({fullfile('tools', 'matlab2c++.cpp')}, fullfile('tools', ['MATLAB2C++' exe_ext]));
 
     if status ~= 0
-        disp('build of MATLAB2C++ failed');
         disp(out);
+        error('build of MATLAB2C++ failed');
     else
         disp('build of MATLAB2C++ succeeded');
     end
@@ -37,8 +37,8 @@ if ~exist(fullfile('tools', ['ReduceAffine', exe_ext]), 'file')
     [status, out] = compiler({fullfile('tools', 'reduce_affine.cpp')}, fullfile('tools', ['ReduceAffine' exe_ext]));
 
     if status ~= 0
-        disp('build of ReduceAffine failed');
         disp(out);
+        error('build of ReduceAffine failed');
     else
         disp('build of ReduceAffine succeeded');
     end

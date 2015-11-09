@@ -304,8 +304,8 @@ disp(['compiling ' source ' ...']);
 [status, out] = compiler({source}, executable);
 
 if status ~= 0
-    disp('compilation failed.');
     disp(out);
+    error('compilation failed.');
 else
     disp('compilation succeeded.');
 end

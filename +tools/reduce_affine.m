@@ -30,7 +30,7 @@ end
 
 fclose(inputFile);
 
-status = system([ ...
+[status, out] = system([ ...
     '"' fullfile('.', 'tools', 'ReduceAffine') '" ' ...
     inputName ' ' outputName ' ' int2str(limit)
 ]);
@@ -47,6 +47,9 @@ if status == 0
             .* 2 .^ data(:, 3 * i + 2) ...
             .* data(:, 3 * i + 3);
     end
+else
+    disp(out);
+    error(['reduce_affine failed (status: ' int2str(status) ')']);
 end
 
 delete(inputName, outputName);
