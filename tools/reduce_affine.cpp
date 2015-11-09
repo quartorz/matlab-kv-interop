@@ -69,9 +69,9 @@ int main(int argc, char **argv)
 	}
 
 	int maxnum = std::stoi(argv[3]);
-	kv::epsilon_reduce(a, kv::affine<double>::maxnum(), maxnum);
+	kv::epsilon_reduce(a, maxnum, maxnum);
 
-	for(int i = 0; i < maxnum; ++i){
+	for(int i = 0; i < kv::affine<double>::maxnum(); ++i){
 		unsigned count = 0;
 
 		for(unsigned j = 0; j < a.size(); ++j){

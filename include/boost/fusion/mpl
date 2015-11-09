@@ -1,47 +1,40 @@
 /*=============================================================================
     Copyright (c) 2001-2011 Joel de Guzman
 
-    Distributed under the Boost Software License, Version 1.0. (See accompanying 
+    Distributed under the Boost Software License, Version 1.0. (See accompanying
     file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
 ==============================================================================*/
-#if !defined(FUSION_CLEAR_10022005_1442)
-#define FUSION_CLEAR_10022005_1442
+#if !defined(FUSION_PUSH_FRONT_10022005_1720)
+#define FUSION_PUSH_FRONT_10022005_1720
 
 #include <boost/fusion/support/config.hpp>
-#include <boost/fusion/container/vector/vector_fwd.hpp>
-#include <boost/fusion/container/list/list_fwd.hpp>
-#include <boost/fusion/container/map/map_fwd.hpp>
-#include <boost/fusion/container/set/set_fwd.hpp>
-#include <boost/fusion/container/deque/deque_fwd.hpp>
+#include <boost/mpl/push_front.hpp>
+#include <boost/fusion/support/tag_of.hpp>
+#include <boost/fusion/algorithm/transformation/push_front.hpp>
+#include <boost/fusion/sequence/convert.hpp>
 
-namespace boost { namespace fusion
+namespace boost { namespace mpl
 {
-    struct cons_tag;
-    struct map_tag;
-    struct set_tag;
-    struct vector_tag;
-    struct deque_tag;
+    template <typename Tag>
+    struct push_front_impl;
 
-    namespace detail
+    template <>
+    struct push_front_impl<fusion::fusion_sequence_tag>
     {
-        template <typename Tag>
-        struct clear;
+        template <typename Sequence, typename T>
+        struct apply
+        {
+            typedef typename
+                fusion::result_of::push_front<Sequence, T>::type
+            result;
 
-        template <>
-        struct clear<cons_tag> : mpl::identity<list<> > {};
-
-        template <>
-        struct clear<map_tag> : mpl::identity<map<> > {};
-
-        template <>
-        struct clear<set_tag> : mpl::identity<set<> > {};
-
-        template <>
-        struct clear<vector_tag> : mpl::identity<vector<> > {};
-
-        template <>
-        struct clear<deque_tag> : mpl::identity<deque<> > {};
-    }
+            typedef typename
+                fusion::result_of::convert<
+                    typename fusion::detail::tag_of<Sequence>::type, result>::type
+            type;
+        };
+    };
 }}
 
 #endif
+

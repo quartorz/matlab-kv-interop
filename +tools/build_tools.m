@@ -9,7 +9,7 @@ end
 if ~exist(fullfile('tools', ['MATLAB2C++' exe_ext]), 'file')
     if nargin < 1
         disp('the argument ''compiler'' of build_tools is empty');
-        disp('find available compiler');
+        disp('finding available compiler...');
         compiler = tools.detect_compiler();
     end
 
