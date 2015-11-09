@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>plot_affine</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-11-07"><meta name="DC.source" content="plot_affine.m"><style type="text/css">
+      --><title>plot_affine</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-11-08"><meta name="DC.source" content="plot_affine.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -67,26 +67,72 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
   </style></head><body><div class="content"><h1>plot_affine</h1><p>Affine&#22810;&#38917;&#24335;&#12434;&#12503;&#12525;&#12483;&#12488;&#12377;&#12427;</p><pre class="codeinput"><span class="keyword">function</span> plot_affine( x, y, varargin )
-
-<span class="keyword">if</span> ~isempty(varargin) &gt; 0 &amp;&amp; ~ischar(varargin(1))
+</pre><p>&#24341;&#25968;</p><pre>function plot_affine(x, y, ...)
+function plot_affine(x, y, z, ...)</pre><pre class="codeinput"><span class="comment">% x   : x&#12434;&#34920;&#12377;Affine&#22810;&#38917;&#24335;</span>
+<span class="comment">% y   : y&#12434;&#34920;&#12377;Affine&#22810;&#38917;&#24335;</span>
+<span class="comment">% z   : z&#12434;&#34920;&#12377;Affine&#22810;&#38917;&#24335;</span>
+<span class="comment">%       &#12371;&#12398;&#24341;&#25968;&#12364;&#12394;&#12356;&#26178;&#12399;2&#27425;&#20803;&#12391;&#12503;&#12525;&#12483;&#12488;&#12377;&#12427;</span>
+<span class="comment">% ... : plot_affine(..., 'PropertyName', PropertyValue)</span>
+<span class="comment">%       &#12398;&#12424;&#12358;&#12395;&#12503;&#12525;&#12497;&#12486;&#12451;&#21517;&#12392;&#20516;&#12398;&#32068;&#12434;&#28193;&#12377;</span>
+<span class="comment">%       &#12539;'FaceColor'</span>
+<span class="comment">%         &#22615;&#12426;&#12388;&#12406;&#12377;&#33394;&#12434;&#25351;&#23450;&#12377;&#12427;</span>
+<span class="comment">%       &#12539;'EdgeColor'</span>
+<span class="comment">%         &#32218;&#12398;&#33394;&#12434;&#25351;&#23450;&#12377;&#12427;</span>
+<span class="comment">%       &#12539;'Filter'</span>
+<span class="comment">%         &#12501;&#12451;&#12523;&#12479;&#12434;&#25351;&#23450;&#12377;&#12427;</span>
+</pre><p>&#12503;&#12525;&#12497;&#12486;&#12451;&#12398; <tt>'FaceColor'</tt> &#12392; <tt>'EdgeColor'</tt> &#12398;&#35443;&#32048;&#12399; <a href="http://jp.mathworks.com/help/matlab/ref/patch.html#zmw57dd0e484034">http://jp.mathworks.com/help/matlab/ref/patch.html#zmw57dd0e484034</a> &#12395;&#12354;&#12427;&#12290;</p><p>&#12501;&#12451;&#12523;&#12479;&#12399;2&#12388;&#12363;3&#12388;&#12398;&#24341;&#25968;&#12434;&#21463;&#12369;&#21462;&#12387;&#12390; <tt>true</tt> &#12363; <tt>false</tt> &#12398;&#35542;&#29702;&#20516;&#12434;&#36820;&#12377;&#12424;&#12358;&#12395;&#12377;&#12427;&#12290; &#12501;&#12451;&#12523;&#12479;&#12364; <tt>false</tt> &#12434;&#36820;&#12375;&#12383;&#26178;&#12399;&#12381;&#12398;&#20418;&#25968;&#12434;&#28961;&#35222;&#12377;&#12427;&#12290;</p><pre class="codeinput"><span class="keyword">if</span> ~isempty(varargin) &gt; 0 &amp;&amp; ~ischar(cell2mat(varargin(1)))
     dim = 3;
-    z = varargin(1);
+    z = cell2mat(varargin(1));
     varargin = varargin(2 : end);
 <span class="keyword">else</span>
     dim = 2;
 <span class="keyword">end</span>
 
+<span class="keyword">for</span> i = 0 : length(varargin) / 2 - 1
+    <span class="comment">% FaceColor&#12392;EdgeColor&#12398;&#35443;&#32048;&#12399;</span>
+    <span class="comment">% http://jp.mathworks.com/help/matlab/ref/patch.html#zmw57dd0e484034</span>
+    <span class="keyword">if</span> strcmp(varargin(2 * i + 1), <span class="string">'FaceColor'</span>)
+        fcolor = cell2mat(varargin(2 * i + 2));
+    <span class="keyword">elseif</span> strcmp(varargin(2 * i + 1), <span class="string">'EdgeColor'</span>)
+        ecolor = cell2mat(varargin(2 * i + 2));
+    <span class="keyword">elseif</span> strcmp(varargin(2 * i + 1), <span class="string">'Filter'</span>)
+        filter = cell2mat(varargin(2 * i + 2));
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">if</span> ~exist(<span class="string">'fcolor'</span>, <span class="string">'var'</span>)
+    fcolor = <span class="string">'r'</span>;
+<span class="keyword">end</span>
+
+<span class="keyword">if</span> ~exist(<span class="string">'ecolor'</span>, <span class="string">'var'</span>)
+    ecolor = <span class="string">'k'</span>;
+<span class="keyword">end</span>
+
+<span class="keyword">if</span> ~exist(<span class="string">'filter'</span>, <span class="string">'var'</span>)
+    filter = @(varargin) true;
+<span class="keyword">end</span>
+
 <span class="keyword">if</span> dim == 2
-    <span class="keyword">if</span> length(x) ~= length(y)
-        error(<span class="string">'x and y must have the same length'</span>);
+    len = max(length(x), length(y));
+
+    <span class="keyword">if</span> len &gt; length(x)
+        x(len) = 0.0;
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span> len &gt; length(y)
+        y(len) = 0.0;
     <span class="keyword">end</span>
 
     px = x(1);
     py = y(1);
 
-    <span class="keyword">for</span> i = 2 : length(x)
+    <span class="keyword">for</span> i = 2 : len
         px_ = zeros(1, length(px) * 2);
         py_ = zeros(1, length(py) * 2);
+
+        <span class="keyword">if</span> ~filter(x(i), y(i))
+            <span class="keyword">continue</span>;
+        <span class="keyword">end</span>
 
         <span class="keyword">for</span> j = 0 : length(px) - 1
             px_(2 * j + 1) = px(j + 1) - x(i);
@@ -95,22 +141,82 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
             py_(2 * j + 2) = py(j + 1) + y(i);
         <span class="keyword">end</span>
 
-        <span class="keyword">if</span> length(px_) &gt; 2
-            k = convhull(px_, py_);
+        <span class="keyword">try</span>
+            k = convhull(px_, py_, <span class="string">'simplify'</span>, true);
             px = px_(k(:));
             py = py_(k(:));
-        <span class="keyword">else</span>
+            hx = px;
+            hy = py;
+        <span class="keyword">catch</span>
             px = px_;
             py = py_;
         <span class="keyword">end</span>
     <span class="keyword">end</span>
 
-    fill(px, py, <span class="string">'r'</span>);
+    <span class="keyword">if</span> exist(<span class="string">'hx'</span>, <span class="string">'var'</span>)
+        fill(hx, hy, fcolor, <span class="string">'FaceColor'</span>, fcolor, <span class="string">'EdgeColor'</span>, ecolor);
+    <span class="keyword">else</span>
+        fill(0, 0, fcolor);
+    <span class="keyword">end</span>
 <span class="keyword">else</span>
-    error(<span class="string">'not implemented'</span>);
-<span class="keyword">end</span>
+    len = max(max(length(x), length(y)), length(z));
 
+    <span class="keyword">if</span> len &gt; length(x)
+        x(len) = 0.0;
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span> len &gt; length(y)
+        y(len) = 0.0;
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span> len &gt; length(z)
+        z(len) = 0.0;
+    <span class="keyword">end</span>
+
+    px = x(1);
+    py = y(1);
+    pz = z(1);
+
+    <span class="keyword">for</span> i = 2 : len
+        px_ = zeros(1, length(px) * 2);
+        py_ = zeros(1, length(py) * 2);
+        pz_ = zeros(1, length(py) * 2);
+
+        <span class="keyword">if</span> ~filter(x(i), y(i), z(i))
+            <span class="keyword">continue</span>;
+        <span class="keyword">end</span>
+
+        <span class="keyword">for</span> j = 0 : length(px) - 1
+            px_(2 * j + 1) = px(j + 1) - x(i);
+            px_(2 * j + 2) = px(j + 1) + x(i);
+            py_(2 * j + 1) = py(j + 1) - y(i);
+            py_(2 * j + 2) = py(j + 1) + y(i);
+            pz_(2 * j + 1) = pz(j + 1) - z(i);
+            pz_(2 * j + 2) = pz(j + 1) + z(i);
+        <span class="keyword">end</span>
+
+        <span class="keyword">try</span>
+            k = convhull(px_, py_, pz_, <span class="string">'simplify'</span>, true);
+            px = px_(k(:));
+            py = py_(k(:));
+            pz = py_(k(:));
+            hx = px_;
+            hy = py_;
+            hz = pz_;
+        <span class="keyword">catch</span>
+            px = px_;
+            py = py_;
+            pz = pz_;
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span> exist(<span class="string">'hx'</span>, <span class="string">'var'</span>)
+        trimesh(k, hx, hy, hz, <span class="string">'FaceColor'</span>, fcolor, <span class="string">'EdgeColor'</span>, ecolor);
+    <span class="keyword">else</span>
+        trimesh(1, 0, 0, 0);
+    <span class="keyword">end</span>
 <span class="keyword">end</span>
+</pre><pre class="codeinput"><span class="keyword">end</span>
 </pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% plot_affine
@@ -118,25 +224,87 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 function plot_affine( x, y, varargin )
 
-if ~isempty(varargin) > 0 && ~ischar(varargin(1))
+%%
+% 引数
+
+%%
+%  function plot_affine(x, y, ...)
+%  function plot_affine(x, y, z, ...)
+
+% x   : xを表すAffine多項式
+% y   : yを表すAffine多項式
+% z   : zを表すAffine多項式
+%       この引数がない時は2次元でプロットする
+% ... : plot_affine(..., 'PropertyName', PropertyValue)
+%       のようにプロパティ名と値の組を渡す
+%       ・'FaceColor'
+%         塗りつぶす色を指定する
+%       ・'EdgeColor'
+%         線の色を指定する
+%       ・'Filter'
+%         フィルタを指定する
+
+%%
+% プロパティの |'FaceColor'| と |'EdgeColor'| の詳細は
+% <http://jp.mathworks.com/help/matlab/ref/patch.html#zmw57dd0e484034>
+% にある。
+% 
+% フィルタは2つか3つの引数を受け取って |true| か |false| の論理値を返すようにする。
+% フィルタが |false| を返した時はその係数を無視する。
+
+if ~isempty(varargin) > 0 && ~ischar(cell2mat(varargin(1)))
     dim = 3;
-    z = varargin(1);
+    z = cell2mat(varargin(1));
     varargin = varargin(2 : end);
 else
     dim = 2;
 end
 
+for i = 0 : length(varargin) / 2 - 1
+    % FaceColorとEdgeColorの詳細は
+    % http://jp.mathworks.com/help/matlab/ref/patch.html#zmw57dd0e484034
+    if strcmp(varargin(2 * i + 1), 'FaceColor')
+        fcolor = cell2mat(varargin(2 * i + 2));
+    elseif strcmp(varargin(2 * i + 1), 'EdgeColor')
+        ecolor = cell2mat(varargin(2 * i + 2));
+    elseif strcmp(varargin(2 * i + 1), 'Filter')
+        filter = cell2mat(varargin(2 * i + 2));
+    end
+end
+
+if ~exist('fcolor', 'var')
+    fcolor = 'r';
+end
+
+if ~exist('ecolor', 'var')
+    ecolor = 'k';
+end
+
+if ~exist('filter', 'var')
+    filter = @(varargin) true;
+end
+
 if dim == 2
-    if length(x) ~= length(y)
-        error('x and y must have the same length');
+    len = max(length(x), length(y));
+
+    if len > length(x)
+        x(len) = 0.0;
+    end
+
+    if len > length(y)
+        y(len) = 0.0;
     end
 
     px = x(1);
     py = y(1);
 
-    for i = 2 : length(x)
+    for i = 2 : len
         px_ = zeros(1, length(px) * 2);
         py_ = zeros(1, length(py) * 2);
+
+        if ~filter(x(i), y(i))
+            continue;
+        end
 
         for j = 0 : length(px) - 1
             px_(2 * j + 1) = px(j + 1) - x(i);
@@ -145,19 +313,80 @@ if dim == 2
             py_(2 * j + 2) = py(j + 1) + y(i);
         end
 
-        if length(px_) > 2
-            k = convhull(px_, py_);
+        try
+            k = convhull(px_, py_, 'simplify', true);
             px = px_(k(:));
             py = py_(k(:));
-        else
+            hx = px;
+            hy = py;
+        catch
             px = px_;
             py = py_;
         end
     end
 
-    fill(px, py, 'r');
+    if exist('hx', 'var')
+        fill(hx, hy, fcolor, 'FaceColor', fcolor, 'EdgeColor', ecolor);
+    else
+        fill(0, 0, fcolor);
+    end
 else
-    error('not implemented');
+    len = max(max(length(x), length(y)), length(z));
+
+    if len > length(x)
+        x(len) = 0.0;
+    end
+
+    if len > length(y)
+        y(len) = 0.0;
+    end
+
+    if len > length(z)
+        z(len) = 0.0;
+    end
+
+    px = x(1);
+    py = y(1);
+    pz = z(1);
+
+    for i = 2 : len
+        px_ = zeros(1, length(px) * 2);
+        py_ = zeros(1, length(py) * 2);
+        pz_ = zeros(1, length(py) * 2);
+
+        if ~filter(x(i), y(i), z(i))
+            continue;
+        end
+
+        for j = 0 : length(px) - 1
+            px_(2 * j + 1) = px(j + 1) - x(i);
+            px_(2 * j + 2) = px(j + 1) + x(i);
+            py_(2 * j + 1) = py(j + 1) - y(i);
+            py_(2 * j + 2) = py(j + 1) + y(i);
+            pz_(2 * j + 1) = pz(j + 1) - z(i);
+            pz_(2 * j + 2) = pz(j + 1) + z(i);
+        end
+
+        try
+            k = convhull(px_, py_, pz_, 'simplify', true);
+            px = px_(k(:));
+            py = py_(k(:));
+            pz = py_(k(:));
+            hx = px_;
+            hy = py_;
+            hz = pz_;
+        catch
+            px = px_;
+            py = py_;
+            pz = pz_;
+        end
+    end
+
+    if exist('hx', 'var')
+        trimesh(k, hx, hy, hz, 'FaceColor', fcolor, 'EdgeColor', ecolor);
+    else
+        trimesh(1, 0, 0, 0);
+    end
 end
 
 end

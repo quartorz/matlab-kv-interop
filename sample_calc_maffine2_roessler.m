@@ -19,6 +19,11 @@ end
 
 plot3(mid(data(:, 2)),mid(data(:, 3)),mid(data(:, 4)));
 
-% Affine多項式をプロットする
+% t = 30.0での計算結果を表すAffine多項式をプロットする
+% ダミー変数の数が多いと描画が終わらないので15個まで減らしてプロットする。
 figure;
-tools.plot_affine(a(:,1), a(:,2), a(:,3), 'FaceColor', 'w', 'EdgeColor', 'flat');
+tools.plot_affine( ...
+    a(:, 1), a(:, 2), a(:, 3), ...
+    'FaceColor', 'w', 'EdgeColor', 'flat', ...
+    'EpsilonLimit', 15 ...
+);

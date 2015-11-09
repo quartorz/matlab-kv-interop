@@ -4,6 +4,15 @@
 #include <cmath>
 #include <tuple>
 #include <ostream>
+#include <istream>
+#include <vector>
+#include <string>
+#include <iterator>
+#include <cassert>
+#include <cstdint>
+
+#include <boost/algorithm/string.hpp>
+#include <boost/numeric/ublas/vector.hpp>
 
 double pow2(int n)
 {
@@ -20,12 +29,12 @@ double pow2(int n)
 	return x;
 }
 
-double todouble(int sign, int exponent, ::std::uint64_t significand)
+double to_double(int sign, int exponent, ::std::uint64_t significand)
 {
 	return (sign == 1 ? -1 : 1) * ::pow2(exponent) * static_cast<double>(significand);
 }
 
-::std::tuple<int, int, ::std::uint64_t> fromdouble(double x)
+::std::tuple<int, int, ::std::uint64_t> decomp(double x)
 {
 	int sign = (::std::signbit(x) ? 1 : 0);
 
@@ -55,8 +64,46 @@ double todouble(int sign, int exponent, ::std::uint64_t significand)
 	}
 }
 
-void outdouble(double x, ::std::ostream &os)
+void out_double(double x, ::std::ostream &os)
 {
-	auto t = fromdouble(x);
+	auto t = decomp(x);
 	os << ::std::get<0>(t) << ',' << ::std::get<1>(t) << ',' << ::std::get<2>(t);
+}
+
+void out_vector(const ::boost::numeric::ublas::vector<double> &v, ::std::ostream &os)
+{
+	for(unsigned i = 0; i < v.size(); ++i){
+		::out_double(v(i), os);
+		if(i != v.size() - 1){
+			os << ',';
+		}
+	}
+}
+
+::std::vector<double> parse_line(const ::std::string &line)
+{
+	::std::vector<::std::string> token;
+
+	::boost::algorithm::split(
+		token, line, ::boost::is_any_of(","),
+		::boost::token_compress_on);
+
+	::std::vector<::std::int64_t> v;
+
+	::std::transform(
+		token.begin(), token.end(),
+		::std::back_inserter(v),
+		[](const ::std::string &s){return ::std::stoll(s);}
+	);
+
+	if(v.size() % 3 != 0)
+		return {};
+
+	::std::vector<double> result;
+
+	for(unsigned i = 0; i < v.size() / 3; ++i){
+		result.push_back(::to_double(v[3 * i], v[3 * i + 1], v[3 * i + 2]));
+	}
+
+	return result;
 }

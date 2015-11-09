@@ -147,15 +147,15 @@ fprintf(fp, '\t\tconst ::boost::numeric::ublas::vector< ::kv::interval<double> >
 fprintf(fp, '\t\tconst ::boost::numeric::ublas::vector< ::kv::psa< ::kv::interval<double> > >& result\n');
 fprintf(fp, '\t) const override\n');
 fprintf(fp, '\t{\n');
-fprintf(fp, '\t\t::outdouble(end.lower(), ofs);\n');
+fprintf(fp, '\t\t::out_double(end.lower(), ofs);\n');
 fprintf(fp, '\t\tofs << '','';\n');
-fprintf(fp, '\t\t::outdouble(end.upper(), ofs);\n');
+fprintf(fp, '\t\t::out_double(end.upper(), ofs);\n');
 
 for i = 1:length(u)
     fprintf(fp, '\t\tofs << '','';\n');
-    fprintf(fp, ['\t\t::outdouble(x_e(' int2str(i-1) ').lower(), ofs);\n']);
+    fprintf(fp, ['\t\t::out_double(x_e(' int2str(i-1) ').lower(), ofs);\n']);
     fprintf(fp, '\t\tofs << '','';\n');
-    fprintf(fp, ['\t\t::outdouble(x_e(' int2str(i-1) ').upper(), ofs);\n']);
+    fprintf(fp, ['\t\t::out_double(x_e(' int2str(i-1) ').upper(), ofs);\n']);
 end
 
 fprintf(fp, '\t\tofs << ::std::endl;\n');
@@ -194,16 +194,16 @@ fprintf(fp, '\tofs.setf(ofs.scientific);\n');
 fprintf(fp, '\tofs.precision(17);\n\n');
 
 fprintf(fp, '\t::kv::interval<double> t_last(\n');
-fprintf(fp, '\t\t::todouble(::std::strtol(argv[3], nullptr, 10), ::std::strtol(argv[4], nullptr, 10), ::std::strtoull(argv[5], nullptr, 10)),\n');
-fprintf(fp, '\t\t::todouble(::std::strtol(argv[6], nullptr, 10), ::std::strtol(argv[7], nullptr, 10), ::std::strtoull(argv[8], nullptr, 10)));\n\n');
+fprintf(fp, '\t\t::to_double(::std::strtol(argv[3], nullptr, 10), ::std::strtol(argv[4], nullptr, 10), ::std::strtoull(argv[5], nullptr, 10)),\n');
+fprintf(fp, '\t\t::to_double(::std::strtol(argv[6], nullptr, 10), ::std::strtol(argv[7], nullptr, 10), ::std::strtoull(argv[8], nullptr, 10)));\n\n');
 
 fprintf(fp, ['\t::boost::numeric::ublas::vector<::kv::interval<double>> u(' int2str(length(u)) ');\n\n']);
 
 for i = 1:length(u)
     fprintf(fp, [ ...
         '\tu(' int2str(i - 1) ') = ::kv::interval<double>(\n' ...
-        '\t\t::todouble(::std::strtol(argv[' int2str(i * 6 + 3) '], nullptr, 10), ::std::strtol(argv[' int2str(i * 6 + 4) '], nullptr, 10), ::std::strtoull(argv[' int2str(i * 6 + 5) '], nullptr, 10)),\n' ...
-        '\t\t::todouble(::std::strtol(argv[' int2str(i * 6 + 6) '], nullptr, 10), ::std::strtol(argv[' int2str(i * 6 + 7) '], nullptr, 10), ::std::strtoull(argv[' int2str(i * 6 + 8) '], nullptr, 10)));\n\n']);
+        '\t\t::to_double(::std::strtol(argv[' int2str(i * 6 + 3) '], nullptr, 10), ::std::strtol(argv[' int2str(i * 6 + 4) '], nullptr, 10), ::std::strtoull(argv[' int2str(i * 6 + 5) '], nullptr, 10)),\n' ...
+        '\t\t::to_double(::std::strtol(argv[' int2str(i * 6 + 6) '], nullptr, 10), ::std::strtol(argv[' int2str(i * 6 + 7) '], nullptr, 10), ::std::strtoull(argv[' int2str(i * 6 + 8) '], nullptr, 10)));\n\n']);
 end
 
 bias = 6 * length(u) + 2;
@@ -211,22 +211,22 @@ bias = 6 * length(u) + 2;
 for i = 1:length(parameters)
     fprintf(fp, [ ...
         '\t::kv::interval<double> ' char(parameters(i)) '(\n' ...
-        '\t\t::todouble(::std::strtol(argv[' int2str(i * 6 + bias + 1) '], nullptr, 10), ::std::strtol(argv[' int2str(i * 6 + bias + 2) '], nullptr, 10), ::std::strtoull(argv[' int2str(i * 6 + bias + 3) '], nullptr, 10)),\n' ...
-        '\t\t::todouble(::std::strtol(argv[' int2str(i * 6 + bias + 4) '], nullptr, 10), ::std::strtol(argv[' int2str(i * 6 + bias + 5) '], nullptr, 10), ::std::strtoull(argv[' int2str(i * 6 + bias + 6) '], nullptr, 10)));\n\n']);
+        '\t\t::to_double(::std::strtol(argv[' int2str(i * 6 + bias + 1) '], nullptr, 10), ::std::strtol(argv[' int2str(i * 6 + bias + 2) '], nullptr, 10), ::std::strtoull(argv[' int2str(i * 6 + bias + 3) '], nullptr, 10)),\n' ...
+        '\t\t::to_double(::std::strtol(argv[' int2str(i * 6 + bias + 4) '], nullptr, 10), ::std::strtol(argv[' int2str(i * 6 + bias + 5) '], nullptr, 10), ::std::strtoull(argv[' int2str(i * 6 + bias + 6) '], nullptr, 10)));\n\n']);
 end
 
 clear bias;
 
-fprintf(fp, '\t::outdouble(0.0, ofs);\n');
+fprintf(fp, '\t::out_double(0.0, ofs);\n');
 fprintf(fp, '\tofs << '','';\n');
-fprintf(fp, '\t::outdouble(0.0, ofs);\n');
+fprintf(fp, '\t::out_double(0.0, ofs);\n');
 
 
 for i = 1:length(u)
     fprintf(fp, '\tofs << '','';\n');
-    fprintf(fp, ['\t::outdouble(u(' int2str(i - 1) ').lower(), ofs);\n']);
+    fprintf(fp, ['\t::out_double(u(' int2str(i - 1) ').lower(), ofs);\n']);
     fprintf(fp, '\tofs << '','';\n');
-    fprintf(fp, ['\t::outdouble(u(' int2str(i - 1) ').upper(), ofs);\n']);
+    fprintf(fp, ['\t::out_double(u(' int2str(i - 1) ').upper(), ofs);\n']);
 end
 
 fprintf(fp, '\tofs << ::std::endl;\n\n');

@@ -19,13 +19,9 @@ end
 
 plot3(mid(data(:, 2)),mid(data(:, 3)),mid(data(:, 4)));
 
-% 最初の半分のダミー変数をプロットする
+% t = 30.0での計算結果を表すAffine多項式をプロットする
+% ダミー変数の数が多いと描画が終わらないので15個まで減らしてプロットする。
 figure;
-len = length(a);
-tools.plot_affine(a(1:len/2,1), a(1:len/2,2), a(1:len/2,3), 'FaceColor', 'flat');
-
-% 残りのダミー変数をプロットする
-figure;
-tools.plot_affine([0;a(len/2+1:end,1)], [0;a(len/2+1:end,2)], [0;a(len/2+1:end,3)], 'FaceColor', 'w');
+tools.plot_affine(a(:, 1), a(:, 2), a(:, 3), 'FaceColor', 'flat', 'EpsilonLimit', 15);
 
 %PlotCube(data(:, 2), data(:, 3), data(:, 4), 'vs', 'o');
