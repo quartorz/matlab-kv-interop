@@ -19,6 +19,9 @@ end
 
 figure;
 plot3(mid(data(:, 2)),mid(data(:, 3)),mid(data(:, 4)));
+xlabel('x');
+ylabel('y');
+zlabel('z');
 
 % t = 30.0での計算結果を表すAffine多項式をプロットする
 % ダミー変数の数が多いと描画が終わらないので17個まで減らしてプロットする
