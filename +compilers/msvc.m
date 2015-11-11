@@ -27,7 +27,8 @@ function [status, output] = msvc (sources, executable)
 %   ・(数字)を100から9まで変化させて最初に見つかったものを使う
 %     ・もっと賢い実装にしたい
 % ・VS(数字)0COMNTOOLSが指すディレクトリ内のvsvars32.batを実行する
-% ・VSINSTALLDIR環境変数の中身を標準出力に書き出す
+% ・vsvars32.batを実行するとVSINSTALLDIR環境変数にVisual Studioのインストール先が設定されるので、
+%   VSINSTALLDIR環境変数の中身を標準出力に書き出す
 
 %%
 % <html><h3>プログラム</h3></html>
