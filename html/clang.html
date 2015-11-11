@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>compilers.clang</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-10-15"><meta name="DC.source" content="clang.m"><style type="text/css">
+      --><title>compilers.clang</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-11-11"><meta name="DC.source" content="clang.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -73,8 +73,21 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 <span class="comment">% output : &#12467;&#12531;&#12497;&#12452;&#12521;&#12398;&#27161;&#28310;&#20986;&#21147;</span>
 </pre><p>&#12503;&#12525;&#12464;&#12521;&#12512;</p><pre class="codeinput">command = [<span class="string">'clang -std=c++1z -O3 -DNDEBUG -I./include'</span>];
 
+first = length(command) + 1;
+
+command = [ <span class="keyword">...</span>
+    command <span class="keyword">...</span>
+    zeros(1, sum(cellfun(@(x) length(x), sources)) <span class="keyword">...</span>
+             + length(sources)) <span class="keyword">...</span>
+];
+
 <span class="keyword">for</span> i = 1:length(sources)
-    command = [command <span class="string">' '</span> char(sources(i))];
+    source = char(sources(i));
+
+    last = first + length(source);
+    command(first) = <span class="string">' '</span>;
+    command(first + 1 : last) = source;
+    first = last + 1;
 <span class="keyword">end</span>
 
 <span class="keyword">if</span> nargin &gt;= 2
@@ -109,8 +122,21 @@ function [status, output] = clang (sources, executable)
 
 command = ['clang -std=c++1z -O3 -DNDEBUG -I./include'];
 
+first = length(command) + 1;
+
+command = [ ...
+    command ...
+    zeros(1, sum(cellfun(@(x) length(x), sources)) ...
+             + length(sources)) ...
+];
+
 for i = 1:length(sources)
-    command = [command ' ' char(sources(i))];
+    source = char(sources(i));
+    
+    last = first + length(source);
+    command(first) = ' ';
+    command(first + 1 : last) = source;
+    first = last + 1;
 end
 
 if nargin >= 2

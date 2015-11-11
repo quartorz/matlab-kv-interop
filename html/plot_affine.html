@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>plot_affine</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-11-08"><meta name="DC.source" content="plot_affine.m"><style type="text/css">
+      --><title>plot_affine</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-11-11"><meta name="DC.source" content="plot_affine.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -78,9 +78,9 @@ function plot_affine(x, y, z, ...)</pre><pre class="codeinput"><span class="comm
 <span class="comment">%         &#22615;&#12426;&#12388;&#12406;&#12377;&#33394;&#12434;&#25351;&#23450;&#12377;&#12427;</span>
 <span class="comment">%       &#12539;'EdgeColor'</span>
 <span class="comment">%         &#32218;&#12398;&#33394;&#12434;&#25351;&#23450;&#12377;&#12427;</span>
-<span class="comment">%       &#12539;'Filter'</span>
-<span class="comment">%         &#12501;&#12451;&#12523;&#12479;&#12434;&#25351;&#23450;&#12377;&#12427;</span>
-</pre><p>&#12503;&#12525;&#12497;&#12486;&#12451;&#12398; <tt>'FaceColor'</tt> &#12392; <tt>'EdgeColor'</tt> &#12398;&#35443;&#32048;&#12399; <a href="http://jp.mathworks.com/help/matlab/ref/patch.html#zmw57dd0e484034">http://jp.mathworks.com/help/matlab/ref/patch.html#zmw57dd0e484034</a> &#12395;&#12354;&#12427;&#12290;</p><p>&#12501;&#12451;&#12523;&#12479;&#12399;2&#12388;&#12363;3&#12388;&#12398;&#24341;&#25968;&#12434;&#21463;&#12369;&#21462;&#12387;&#12390; <tt>true</tt> &#12363; <tt>false</tt> &#12398;&#35542;&#29702;&#20516;&#12434;&#36820;&#12377;&#12424;&#12358;&#12395;&#12377;&#12427;&#12290; &#12501;&#12451;&#12523;&#12479;&#12364; <tt>false</tt> &#12434;&#36820;&#12375;&#12383;&#26178;&#12399;&#12381;&#12398;&#20418;&#25968;&#12434;&#28961;&#35222;&#12377;&#12427;&#12290;</p><pre class="codeinput"><span class="keyword">if</span> ~isempty(varargin) &gt; 0 &amp;&amp; ~ischar(cell2mat(varargin(1)))
+<span class="comment">%       &#12539;'EpsilonLimit'</span>
+<span class="comment">%         &#12480;&#12511;&#12540;&#22793;&#25968;&#12398;&#25968;&#12434;&#21046;&#38480;&#12377;&#12427;</span>
+</pre><p>&#12503;&#12525;&#12497;&#12486;&#12451;&#12398; <tt>'FaceColor'</tt> &#12392; <tt>'EdgeColor'</tt> &#12398;&#35443;&#32048;&#12399; <a href="http://jp.mathworks.com/help/matlab/ref/patch.html#zmw57dd0e484034">http://jp.mathworks.com/help/matlab/ref/patch.html#zmw57dd0e484034</a> &#12395;&#12354;&#12427;&#12290;</p><p><tt>'EpsilonLimit'</tt> &#12391;&#25351;&#23450;&#12375;&#12383;&#25968;&#12414;&#12391;&#12480;&#12511;&#12540;&#22793;&#25968;&#12434;&#28187;&#12425;&#12375;&#12390;&#12363;&#12425;&#12503;&#12525;&#12483;&#12488;&#12377;&#12427;&#12290; <tt>'EpsilonLimit'</tt> &#12434;&#25351;&#23450;&#12375;&#12390;&#12394;&#12356;&#26178;&#12399;&#12480;&#12511;&#12540;&#22793;&#25968;&#12434;&#28187;&#12425;&#12373;&#12394;&#12356;&#12290;</p><pre class="codeinput"><span class="keyword">if</span> ~isempty(varargin) &gt; 0 &amp;&amp; ~ischar(cell2mat(varargin(1)))
     dim = 3;
     z = cell2mat(varargin(1));
     varargin = varargin(2 : end);
@@ -95,8 +95,8 @@ function plot_affine(x, y, z, ...)</pre><pre class="codeinput"><span class="comm
         fcolor = cell2mat(varargin(2 * i + 2));
     <span class="keyword">elseif</span> strcmp(varargin(2 * i + 1), <span class="string">'EdgeColor'</span>)
         ecolor = cell2mat(varargin(2 * i + 2));
-    <span class="keyword">elseif</span> strcmp(varargin(2 * i + 1), <span class="string">'Filter'</span>)
-        filter = cell2mat(varargin(2 * i + 2));
+    <span class="keyword">elseif</span> strcmp(varargin(2 * i + 1), <span class="string">'EpsilonLimit'</span>)
+        limit = cell2mat(varargin(2 * i + 2));
     <span class="keyword">end</span>
 <span class="keyword">end</span>
 
@@ -108,8 +108,32 @@ function plot_affine(x, y, z, ...)</pre><pre class="codeinput"><span class="comm
     ecolor = <span class="string">'k'</span>;
 <span class="keyword">end</span>
 
-<span class="keyword">if</span> ~exist(<span class="string">'filter'</span>, <span class="string">'var'</span>)
-    filter = @(varargin) true;
+<span class="keyword">if</span> exist(<span class="string">'limit'</span>, <span class="string">'var'</span>)
+    [a, b] = size(x);
+    <span class="keyword">if</span> a &lt; b
+        x = x.';
+    <span class="keyword">end</span>
+
+    [a, b] = size(y);
+    <span class="keyword">if</span> a &lt; b
+        y = y.';
+    <span class="keyword">end</span>
+
+    <span class="keyword">if</span> dim == 2
+        mat = tools.reduce_affine([x y], limit);
+        x = mat(:, 1);
+        y = mat(:, 2);
+    <span class="keyword">else</span>
+        [a, b] = size(z);
+        <span class="keyword">if</span> a &lt; b
+            z = z.';
+        <span class="keyword">end</span>
+
+        mat = tools.reduce_affine([x y z], limit);
+        x = mat(:, 1);
+        y = mat(:, 2);
+        z = mat(:, 3);
+    <span class="keyword">end</span>
 <span class="keyword">end</span>
 
 <span class="keyword">if</span> dim == 2
@@ -130,14 +154,10 @@ function plot_affine(x, y, z, ...)</pre><pre class="codeinput"><span class="comm
         px_ = zeros(1, length(px) * 2);
         py_ = zeros(1, length(py) * 2);
 
-        <span class="keyword">if</span> ~filter(x(i), y(i))
-            <span class="keyword">continue</span>;
-        <span class="keyword">end</span>
-
         <span class="keyword">for</span> j = 0 : length(px) - 1
             px_(2 * j + 1) = px(j + 1) - x(i);
-            px_(2 * j + 2) = px(j + 1) + x(i);
             py_(2 * j + 1) = py(j + 1) - y(i);
+            px_(2 * j + 2) = px(j + 1) + x(i);
             py_(2 * j + 2) = py(j + 1) + y(i);
         <span class="keyword">end</span>
 
@@ -180,26 +200,23 @@ function plot_affine(x, y, z, ...)</pre><pre class="codeinput"><span class="comm
     <span class="keyword">for</span> i = 2 : len
         px_ = zeros(1, length(px) * 2);
         py_ = zeros(1, length(py) * 2);
-        pz_ = zeros(1, length(py) * 2);
-
-        <span class="keyword">if</span> ~filter(x(i), y(i), z(i))
-            <span class="keyword">continue</span>;
-        <span class="keyword">end</span>
+        pz_ = zeros(1, length(pz) * 2);
 
         <span class="keyword">for</span> j = 0 : length(px) - 1
             px_(2 * j + 1) = px(j + 1) - x(i);
-            px_(2 * j + 2) = px(j + 1) + x(i);
             py_(2 * j + 1) = py(j + 1) - y(i);
-            py_(2 * j + 2) = py(j + 1) + y(i);
             pz_(2 * j + 1) = pz(j + 1) - z(i);
+            px_(2 * j + 2) = px(j + 1) + x(i);
+            py_(2 * j + 2) = py(j + 1) + y(i);
             pz_(2 * j + 2) = pz(j + 1) + z(i);
         <span class="keyword">end</span>
 
         <span class="keyword">try</span>
             k = convhull(px_, py_, pz_, <span class="string">'simplify'</span>, true);
-            px = px_(k(:));
-            py = py_(k(:));
-            pz = py_(k(:));
+            uk = unique(k);
+            px = px_(uk);
+            py = py_(uk);
+            pz = pz_(uk);
             hx = px_;
             hy = py_;
             hz = pz_;
@@ -241,16 +258,16 @@ function plot_affine( x, y, varargin )
 %         塗りつぶす色を指定する
 %       ・'EdgeColor'
 %         線の色を指定する
-%       ・'Filter'
-%         フィルタを指定する
+%       ・'EpsilonLimit'
+%         ダミー変数の数を制限する
 
 %%
 % プロパティの |'FaceColor'| と |'EdgeColor'| の詳細は
 % <http://jp.mathworks.com/help/matlab/ref/patch.html#zmw57dd0e484034>
 % にある。
 % 
-% フィルタは2つか3つの引数を受け取って |true| か |false| の論理値を返すようにする。
-% フィルタが |false| を返した時はその係数を無視する。
+% |'EpsilonLimit'| で指定した数までダミー変数を減らしてからプロットする。
+% |'EpsilonLimit'| を指定してない時はダミー変数を減らさない。
 
 if ~isempty(varargin) > 0 && ~ischar(cell2mat(varargin(1)))
     dim = 3;
@@ -267,8 +284,8 @@ for i = 0 : length(varargin) / 2 - 1
         fcolor = cell2mat(varargin(2 * i + 2));
     elseif strcmp(varargin(2 * i + 1), 'EdgeColor')
         ecolor = cell2mat(varargin(2 * i + 2));
-    elseif strcmp(varargin(2 * i + 1), 'Filter')
-        filter = cell2mat(varargin(2 * i + 2));
+    elseif strcmp(varargin(2 * i + 1), 'EpsilonLimit')
+        limit = cell2mat(varargin(2 * i + 2));
     end
 end
 
@@ -280,8 +297,32 @@ if ~exist('ecolor', 'var')
     ecolor = 'k';
 end
 
-if ~exist('filter', 'var')
-    filter = @(varargin) true;
+if exist('limit', 'var')
+    [a, b] = size(x);
+    if a < b
+        x = x.';
+    end
+
+    [a, b] = size(y);
+    if a < b
+        y = y.';
+    end
+
+    if dim == 2
+        mat = tools.reduce_affine([x y], limit);
+        x = mat(:, 1);
+        y = mat(:, 2);
+    else
+        [a, b] = size(z);
+        if a < b
+            z = z.';
+        end
+
+        mat = tools.reduce_affine([x y z], limit);
+        x = mat(:, 1);
+        y = mat(:, 2);
+        z = mat(:, 3);
+    end
 end
 
 if dim == 2
@@ -302,14 +343,10 @@ if dim == 2
         px_ = zeros(1, length(px) * 2);
         py_ = zeros(1, length(py) * 2);
 
-        if ~filter(x(i), y(i))
-            continue;
-        end
-
         for j = 0 : length(px) - 1
             px_(2 * j + 1) = px(j + 1) - x(i);
-            px_(2 * j + 2) = px(j + 1) + x(i);
             py_(2 * j + 1) = py(j + 1) - y(i);
+            px_(2 * j + 2) = px(j + 1) + x(i);
             py_(2 * j + 2) = py(j + 1) + y(i);
         end
 
@@ -352,26 +389,23 @@ else
     for i = 2 : len
         px_ = zeros(1, length(px) * 2);
         py_ = zeros(1, length(py) * 2);
-        pz_ = zeros(1, length(py) * 2);
-
-        if ~filter(x(i), y(i), z(i))
-            continue;
-        end
+        pz_ = zeros(1, length(pz) * 2);
 
         for j = 0 : length(px) - 1
             px_(2 * j + 1) = px(j + 1) - x(i);
-            px_(2 * j + 2) = px(j + 1) + x(i);
             py_(2 * j + 1) = py(j + 1) - y(i);
-            py_(2 * j + 2) = py(j + 1) + y(i);
             pz_(2 * j + 1) = pz(j + 1) - z(i);
+            px_(2 * j + 2) = px(j + 1) + x(i);
+            py_(2 * j + 2) = py(j + 1) + y(i);
             pz_(2 * j + 2) = pz(j + 1) + z(i);
         end
 
         try
             k = convhull(px_, py_, pz_, 'simplify', true);
-            px = px_(k(:));
-            py = py_(k(:));
-            pz = py_(k(:));
+            uk = unique(k);
+            px = px_(uk);
+            py = py_(uk);
+            pz = pz_(uk);
             hx = px_;
             hy = py_;
             hz = pz_;

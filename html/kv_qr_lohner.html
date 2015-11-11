@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>kv_qr_lohner</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-11-06"><meta name="DC.source" content="kv_qr_lohner.m"><style type="text/css">
+      --><title>kv_qr_lohner</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-11-11"><meta name="DC.source" content="kv_qr_lohner.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">kv_qr_lohner</a></li><li><a href="#5">&#12503;&#12525;&#12464;&#12521;&#12512;&#12398;&#23455;&#34892;</a></li><li><a href="#8">&#23455;&#34892;&#32080;&#26524;&#12434;&#24471;&#12427;</a></li></ul></div><h2>kv_qr_lohner<a name="1"></a></h2><p>make_kv_qr_lohner&#12391;&#29983;&#25104;&#12375;&#12383;&#12503;&#12525;&#12464;&#12521;&#12512;&#12391;&#35336;&#31639;&#12375;&#12390;&#32080;&#26524;&#12434;&#36820;&#12377;&#38306;&#25968;</p><pre class="codeinput"><span class="keyword">function</span> [data] =  kv_qr_lohner (name, t_init, t_last, order, u, parameters)
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">kv_qr_lohner</a></li><li><a href="#5">&#12503;&#12525;&#12464;&#12521;&#12512;&#12398;&#23455;&#34892;</a></li><li><a href="#8">&#23455;&#34892;&#32080;&#26524;&#12434;&#24471;&#12427;</a></li></ul></div><h2>kv_qr_lohner<a name="1"></a></h2><p>make_kv_qr_lohner&#12391;&#29983;&#25104;&#12375;&#12383;&#12503;&#12525;&#12464;&#12521;&#12512;&#12391;&#35336;&#31639;&#12375;&#12390;&#32080;&#26524;&#12434;&#36820;&#12377;&#38306;&#25968;</p><pre class="codeinput"><span class="keyword">function</span> [status, data] =  kv_qr_lohner (name, t_init, t_last, order, u, parameters)
 </pre><p>&#24341;&#25968;</p><pre class="codeinput"><span class="comment">% n         : t&#12398;&#20998;&#21106;&#25968;([t_init, t_last]&#12434;n&#20998;&#21106;&#12377;&#12427;)</span>
 <span class="comment">% order     : Taylor&#23637;&#38283;&#12398;&#12458;&#12540;&#12480;&#12540;</span>
 <span class="comment">% u         : &#21021;&#26399;&#20516;</span>
@@ -85,8 +85,8 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 <span class="comment">%          1&#21015;&#30446;&#12364;t&#12391;&#20182;&#12398;&#21015;&#12399;u</span>
 </pre><pre class="codeinput">t_init = intval(0.0);
 </pre><h2>&#12503;&#12525;&#12464;&#12521;&#12512;&#12398;&#23455;&#34892;<a name="5"></a></h2><p>&#12503;&#12525;&#12464;&#12521;&#12512;&#12434;&#23455;&#34892;&#12377;&#12427;&#12383;&#12417;&#12398;&#24341;&#25968;&#12434;&#29992;&#24847;&#12377;&#12427;</p><pre class="codeinput">command = [
-    <span class="string">'"'</span> fullfile(name, <span class="string">'exec'</span>) <span class="string">'" '</span> <span class="keyword">...</span>
-    <span class="string">'"'</span> fullfile(name, <span class="string">'output.csv'</span>) <span class="string">'" '</span> <span class="keyword">...</span>
+    <span class="string">'"'</span> fullfile(<span class="string">'.'</span>, name, <span class="string">'exec'</span>) <span class="string">'" '</span> <span class="keyword">...</span>
+    <span class="string">'"'</span> fullfile(<span class="string">'.'</span>, name, <span class="string">'output.csv'</span>) <span class="string">'" '</span> <span class="keyword">...</span>
     int2str(order)
 ];
 
@@ -120,14 +120,14 @@ command = [command <span class="string">' '</span> int2str(a) <span class="strin
             error([<span class="string">'failed (status: '</span> int2str(status) <span class="string">')'</span>]);
         <span class="keyword">end</span>
 <span class="keyword">end</span>
-</pre><h2>&#23455;&#34892;&#32080;&#26524;&#12434;&#24471;&#12427;<a name="8"></a></h2><pre class="codeinput">data = tools.get_last_result(name);
+</pre><h2>&#23455;&#34892;&#32080;&#26524;&#12434;&#24471;&#12427;<a name="8"></a></h2><pre class="codeinput">data = tools.get_latest_result(name);
 </pre><pre class="codeinput"><span class="keyword">end</span>
 </pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% kv_qr_lohner
 % make_kv_qr_lohnerで生成したプログラムで計算して結果を返す関数
 
-function [data] =  kv_qr_lohner (name, t_init, t_last, order, u, parameters)
+function [status, data] =  kv_qr_lohner (name, t_init, t_last, order, u, parameters)
 
 %%
 % 引数
@@ -161,8 +161,8 @@ t_init = intval(0.0);
 % プログラムを実行するための引数を用意する
 
 command = [
-    '"' fullfile(name, 'exec') '" ' ...
-    '"' fullfile(name, 'output.csv') '" ' ...
+    '"' fullfile('.', name, 'exec') '" ' ...
+    '"' fullfile('.', name, 'output.csv') '" ' ...
     int2str(order)
 ];
 
@@ -205,7 +205,7 @@ if status ~= Status.Succeeded
 end
 
 %% 実行結果を得る
-data = tools.get_last_result(name);
+data = tools.get_latest_result(name);
 
 end
 ##### SOURCE END #####

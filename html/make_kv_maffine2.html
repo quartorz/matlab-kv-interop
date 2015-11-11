@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>make_kv_maffine2</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-11-03"><meta name="DC.source" content="make_kv_maffine2.m"><style type="text/css">
+      --><title>make_kv_maffine2</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-11-11"><meta name="DC.source" content="make_kv_maffine2.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -74,14 +74,14 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 <span class="comment">% compiler   : &#20351;&#12358;&#12467;&#12531;&#12497;&#12452;&#12521;(&#30465;&#30053;&#21487;)</span>
 </pre><p>&#24341;&#25968; compiler &#12364;&#30465;&#30053;&#12373;&#12428;&#12383;&#12392;&#12365;&#12399; <tt>tools.detect_compiler</tt> &#12391;&#12467;&#12531;&#12497;&#12452;&#12521;&#12434;&#25506;&#12377;</p><pre class="codeinput"><span class="keyword">if</span> nargin &lt;= 4
     disp(<span class="string">'the argument ''compiler'' of make_kv_maffine2 is empty'</span>);
-    disp(<span class="string">'find available compiler'</span>);
+    disp(<span class="string">'finding available compiler...'</span>);
     compiler = tools.detect_compiler();
 <span class="keyword">end</span>
 </pre><h2>&#29983;&#25104;&#12398;&#12383;&#12417;&#12398;&#28310;&#20633;<a name="4"></a></h2><div><ul><li>tools/MATLAB2C++&#12398;&#12467;&#12531;&#12497;&#12452;&#12523;</li><li>kv&#12398;&#12480;&#12454;&#12531;&#12525;&#12540;&#12489;</li></ul></div><pre class="codeinput">tools.prepare(compiler);
 </pre><h2>&#12503;&#12525;&#12464;&#12521;&#12512;&#12398;&#29983;&#25104;<a name="5"></a></h2><pre class="codeinput">mkdir(name);
 
 source = fullfile(name, <span class="string">'main.cpp'</span>);
-executable = fullfile(name, <span class="string">'exec.exe'</span>);
+executable = fullfile(name, <span class="string">'exec'</span>);
 
 matlab2cpp = fullfile(<span class="string">'tools'</span>, <span class="string">'MATLAB2C++'</span>);
 
@@ -175,14 +175,25 @@ fprintf(fp, [<span class="string">'\t\t::boost::numeric::ublas::vector&lt;T&gt; 
 fprintf(fp, <span class="string">'\n\t\treturn return_value;\n'</span>);
 fprintf(fp, <span class="string">'\t}\n'</span>);
 fprintf(fp, <span class="string">'};\n\n'</span>);
-</pre><p><h3>main関数の生成</h3></p><pre class="codeinput"><span class="comment">% argv: executable output order N ep-reduce ep-reduce-limit</span>
+</pre><p><h3>main関数の生成</h3></p><pre class="codeinput"><span class="comment">% argv: executable output last-affine</span>
+<span class="comment">%       order N ep-reduce ep-reduce-limit</span>
 <span class="comment">%       inf(t_last) sup(t_last)</span>
 <span class="comment">%       inf(u0(1)) sup(u0(1)) ...</span>
 <span class="comment">%       inf(param_1) sup(param_1) ...</span>
+<span class="comment">%</span>
+<span class="comment">% executable      : &#23455;&#34892;&#12501;&#12449;&#12452;&#12523;&#21517;</span>
+<span class="comment">% output          : &#35336;&#31639;&#32080;&#26524;&#12398;&#20986;&#21147;&#12501;&#12449;&#12452;&#12523;&#21517;</span>
+<span class="comment">% last-affine     : &#26368;&#24460;&#12398;&#35336;&#31639;&#32080;&#26524;&#12434;&#34920;&#12377;Affine&#22810;&#38917;&#24335;&#12434;&#26360;&#12365;&#20986;&#12377;&#12383;&#12417;&#12398;&#12501;&#12449;&#12452;&#12523;</span>
+<span class="comment">% order           : Taylor&#23637;&#38283;&#12398;&#27425;&#25968;</span>
+<span class="comment">% N               : t&#12398;&#20998;&#21106;&#25968;</span>
+<span class="comment">% ep-reduce       : kv::ode_param&lt;T&gt;::ep_reduce</span>
+<span class="comment">%                   (&#35443;&#32048;&#12399;http://verifiedby.me/kv/ode/index.html&#12434;&#21442;&#29031;)</span>
+<span class="comment">% ep-reduce-limit : kv::ode_param&lt;T&gt;::ep_reduce_limit</span>
+<span class="comment">%                   (&#35443;&#32048;&#12399;http://verifiedby.me/kv/ode/index.html&#12434;&#21442;&#29031;)</span>
 </pre><p>&#21306;&#38291;&#12399;&#19979;&#38480;&#12392;&#19978;&#38480;&#12434;&#12381;&#12428;&#12382;&#12428;</p><p><img src="make_kv_maffine2_eq84165.png" alt="$$(-1)^{sign} * 2^{exponent} * {significand}$$"></p><p>&#12398;&#12424;&#12358;&#12395;3&#12388;&#12398;&#25972;&#25968; <img src="make_kv_maffine2_eq94384.png" alt="$sign$">(&#31526;&#21495;) <img src="make_kv_maffine2_eq61951.png" alt="$, exponent$">(&#25351;&#25968;&#37096;) <img src="make_kv_maffine2_eq18673.png" alt="$, significand$">(&#20206;&#25968;&#37096;) &#12395;&#20998;&#35299;&#12375;&#12390;&#20837;&#20986;&#21147;&#12377;&#12427;</p><pre class="codeinput">fprintf(fp, <span class="string">'int main(int argc, char **argv)\n'</span>);
 fprintf(fp, <span class="string">'{\n'</span>);
 
-fprintf(fp, [<span class="string">'\tif(argc &lt; '</span> int2str(6 + 2 * 3 * (1 + length(u) + length(parameters))) <span class="string">'){\n'</span>]);
+fprintf(fp, [<span class="string">'\tif(argc &lt; '</span> int2str(7 + 2 * 3 * (1 + length(u) + length(parameters))) <span class="string">'){\n'</span>]);
 fprintf(fp, <span class="string">'\t\t::std::cout &lt;&lt; "invalid argument" &lt;&lt; ::std::endl;\n'</span>);
 fprintf(fp, <span class="string">'\t\treturn 1;\n'</span>);
 fprintf(fp, <span class="string">'\t}\n\n'</span>);
@@ -196,46 +207,48 @@ fprintf(fp, <span class="string">'\tofs.setf(ofs.scientific);\n'</span>);
 fprintf(fp, <span class="string">'\tofs.precision(17);\n\n'</span>);
 
 fprintf(fp, <span class="string">'\t::kv::interval&lt;double&gt; t_last(\n'</span>);
-fprintf(fp, <span class="string">'\t\t::todouble(::std::strtol(argv[6], nullptr, 10), ::std::strtol(argv[7], nullptr, 10), ::std::strtoull(argv[8], nullptr, 10)),\n'</span>);
-fprintf(fp, <span class="string">'\t\t::todouble(::std::strtol(argv[9], nullptr, 10), ::std::strtol(argv[10], nullptr, 10), ::std::strtoull(argv[11], nullptr, 10)));\n\n'</span>);
+fprintf(fp, <span class="string">'\t\t::to_double(::std::strtol(argv[7], nullptr, 10), ::std::strtol(argv[8], nullptr, 10), ::std::strtoull(argv[9], nullptr, 10)),\n'</span>);
+fprintf(fp, <span class="string">'\t\t::to_double(::std::strtol(argv[10], nullptr, 10), ::std::strtol(argv[11], nullptr, 10), ::std::strtoull(argv[12], nullptr, 10)));\n\n'</span>);
 
 fprintf(fp, [<span class="string">'\t::boost::numeric::ublas::vector&lt;::kv::affine&lt;double&gt;&gt; u('</span> int2str(length(u)) <span class="string">');\n\n'</span>]);
+
+bias = 7;
 
 <span class="keyword">for</span> i = 1:length(u)
     fprintf(fp, [ <span class="keyword">...</span>
         <span class="string">'\tu('</span> int2str(i - 1) <span class="string">') = ::kv::interval&lt;double&gt;(\n'</span> <span class="keyword">...</span>
-        <span class="string">'\t\t::todouble(::std::strtol(argv['</span> int2str(i * 6 + 6) <span class="string">'], nullptr, 10), ::std::strtol(argv['</span> int2str(i * 6 + 7) <span class="string">'], nullptr, 10), ::std::strtoull(argv['</span> int2str(i * 6 + 8) <span class="string">'], nullptr, 10)),\n'</span> <span class="keyword">...</span>
-        <span class="string">'\t\t::todouble(::std::strtol(argv['</span> int2str(i * 6 + 9) <span class="string">'], nullptr, 10), ::std::strtol(argv['</span> int2str(i * 6 + 10) <span class="string">'], nullptr, 10), ::std::strtoull(argv['</span> int2str(i * 6 + 11) <span class="string">'], nullptr, 10)));\n\n'</span>]);
+        <span class="string">'\t\t::to_double(::std::strtol(argv['</span> int2str(i * 6 + bias) <span class="string">'], nullptr, 10), ::std::strtol(argv['</span> int2str(i * 6 + bias + 1) <span class="string">'], nullptr, 10), ::std::strtoull(argv['</span> int2str(i * 6 + bias + 2) <span class="string">'], nullptr, 10)),\n'</span> <span class="keyword">...</span>
+        <span class="string">'\t\t::to_double(::std::strtol(argv['</span> int2str(i * 6 + bias + 3) <span class="string">'], nullptr, 10), ::std::strtol(argv['</span> int2str(i * 6 + bias + 4) <span class="string">'], nullptr, 10), ::std::strtoull(argv['</span> int2str(i * 6 + bias + 5) <span class="string">'], nullptr, 10)));\n\n'</span>]);
 <span class="keyword">end</span>
 
-bias = 6 * length(u) + 5;
+bias = 6 * length(u) + 6;
 
 <span class="keyword">for</span> i = 1:length(parameters)
     fprintf(fp, [ <span class="keyword">...</span>
         <span class="string">'\t::kv::interval&lt;double&gt; '</span> char(parameters(i)) <span class="string">'(\n'</span> <span class="keyword">...</span>
-        <span class="string">'\t\t::todouble(::std::strtol(argv['</span> int2str(i * 6 + bias + 1) <span class="string">'], nullptr, 10), ::std::strtol(argv['</span> int2str(i * 6 + bias + 2) <span class="string">'], nullptr, 10), ::std::strtoull(argv['</span> int2str(i * 6 + bias + 3) <span class="string">'], nullptr, 10)),\n'</span> <span class="keyword">...</span>
-        <span class="string">'\t\t::todouble(::std::strtol(argv['</span> int2str(i * 6 + bias + 4) <span class="string">'], nullptr, 10), ::std::strtol(argv['</span> int2str(i * 6 + bias + 5) <span class="string">'], nullptr, 10), ::std::strtoull(argv['</span> int2str(i * 6 + bias + 6) <span class="string">'], nullptr, 10)));\n\n'</span>]);
+        <span class="string">'\t\t::to_double(::std::strtol(argv['</span> int2str(i * 6 + bias + 1) <span class="string">'], nullptr, 10), ::std::strtol(argv['</span> int2str(i * 6 + bias + 2) <span class="string">'], nullptr, 10), ::std::strtoull(argv['</span> int2str(i * 6 + bias + 3) <span class="string">'], nullptr, 10)),\n'</span> <span class="keyword">...</span>
+        <span class="string">'\t\t::to_double(::std::strtol(argv['</span> int2str(i * 6 + bias + 4) <span class="string">'], nullptr, 10), ::std::strtol(argv['</span> int2str(i * 6 + bias + 5) <span class="string">'], nullptr, 10), ::std::strtoull(argv['</span> int2str(i * 6 + bias + 6) <span class="string">'], nullptr, 10)));\n\n'</span>]);
 <span class="keyword">end</span>
 
 clear <span class="string">bias</span>;
 
-fprintf(fp, <span class="string">'\t::outdouble(0.0, ofs);\n'</span>);
+fprintf(fp, <span class="string">'\t::out_double(0.0, ofs);\n'</span>);
 fprintf(fp, <span class="string">'\tofs &lt;&lt; '','';\n'</span>);
-fprintf(fp, <span class="string">'\t::outdouble(0.0, ofs);\n'</span>);
+fprintf(fp, <span class="string">'\t::out_double(0.0, ofs);\n'</span>);
 
 <span class="keyword">for</span> i = 1:length(u)
     fprintf(fp, <span class="string">'\tofs &lt;&lt; '','';\n'</span>);
-    fprintf(fp, [<span class="string">'\t::outdouble(to_interval(u('</span> int2str(i - 1) <span class="string">')).lower(), ofs);\n'</span>]);
+    fprintf(fp, [<span class="string">'\t::out_double(to_interval(u('</span> int2str(i - 1) <span class="string">')).lower(), ofs);\n'</span>]);
     fprintf(fp, <span class="string">'\tofs &lt;&lt; '','';\n'</span>);
-    fprintf(fp, [<span class="string">'\t::outdouble(to_interval(u('</span> int2str(i - 1) <span class="string">')).upper(), ofs);\n'</span>]);
+    fprintf(fp, [<span class="string">'\t::out_double(to_interval(u('</span> int2str(i - 1) <span class="string">')).upper(), ofs);\n'</span>]);
 <span class="keyword">end</span>
 
 fprintf(fp, <span class="string">'\tofs &lt;&lt; ::std::endl;\n\n'</span>);
 
-fprintf(fp, <span class="string">'\tint order = ::std::strtol(argv[2], nullptr, 10);\n'</span>);
-fprintf(fp, <span class="string">'\tint itermax = ::std::strtol(argv[3], nullptr, 10);\n'</span>);
-fprintf(fp, <span class="string">'\tint ep_reduce = ::std::strtol(argv[4], nullptr, 10);\n'</span>);
-fprintf(fp, <span class="string">'\tint ep_reduce_limit = ::std::strtol(argv[5], nullptr, 10);\n\n'</span>);
+fprintf(fp, <span class="string">'\tint order = ::std::strtol(argv[3], nullptr, 10);\n'</span>);
+fprintf(fp, <span class="string">'\tint itermax = ::std::strtol(argv[4], nullptr, 10);\n'</span>);
+fprintf(fp, <span class="string">'\tint ep_reduce = ::std::strtol(argv[5], nullptr, 10);\n'</span>);
+fprintf(fp, <span class="string">'\tint ep_reduce_limit = ::std::strtol(argv[6], nullptr, 10);\n\n'</span>);
 
 fprintf(fp, <span class="string">'\tfunc f('</span>);
 
@@ -266,15 +279,15 @@ fprintf(fp, <span class="string">'\t\t\tt1,\n'</span>);
 fprintf(fp, <span class="string">'\t\t\tt2,\n'</span>);
 fprintf(fp, <span class="string">'\t\t\tparam);\n\n'</span>);
 
-fprintf(fp, <span class="string">'\t\t::outdouble(t2.lower(), ofs);\n'</span>);
+fprintf(fp, <span class="string">'\t\t::out_double(t2.lower(), ofs);\n'</span>);
 fprintf(fp, <span class="string">'\t\tofs &lt;&lt; '','';\n'</span>);
-fprintf(fp, <span class="string">'\t\t::outdouble(t2.upper(), ofs);\n'</span>);
+fprintf(fp, <span class="string">'\t\t::out_double(t2.upper(), ofs);\n'</span>);
 
 <span class="keyword">for</span> i = 1:length(u)
     fprintf(fp, <span class="string">'\t\tofs &lt;&lt; '','';\n'</span>);
-    fprintf(fp, [<span class="string">'\t\t::outdouble(to_interval(u('</span> int2str(i - 1) <span class="string">')).lower(), ofs);\n'</span>]);
+    fprintf(fp, [<span class="string">'\t\t::out_double(to_interval(u('</span> int2str(i - 1) <span class="string">')).lower(), ofs);\n'</span>]);
     fprintf(fp, <span class="string">'\t\tofs &lt;&lt; '','';\n'</span>);
-    fprintf(fp, [<span class="string">'\t\t::outdouble(to_interval(u('</span> int2str(i - 1) <span class="string">')).upper(), ofs);\n'</span>]);
+    fprintf(fp, [<span class="string">'\t\t::out_double(to_interval(u('</span> int2str(i - 1) <span class="string">')).upper(), ofs);\n'</span>]);
 <span class="keyword">end</span>
 
 fprintf(fp, <span class="string">'\t\tofs &lt;&lt; ::std::endl;\n\n'</span>);
@@ -282,6 +295,34 @@ fprintf(fp, <span class="string">'\t\tofs &lt;&lt; ::std::endl;\n\n'</span>);
 fprintf(fp, <span class="string">'\t\tif(r != 2) break;\n\n'</span>);
 
 fprintf(fp, <span class="string">'\t\tt1 = t2;\n'</span>);
+fprintf(fp, <span class="string">'\t}\n\n'</span>);
+fprintf(fp, <span class="string">'\tofs.close();\n'</span>);
+fprintf(fp, <span class="string">'\tofs.open(argv[2]);\n'</span>);
+fprintf(fp, <span class="string">'\tif(ofs){\n'</span>);
+fprintf(fp, <span class="string">'\t\tfor(int i = 0; i &lt; kv::affine&lt;double&gt;::maxnum(); ++i){\n'</span>);
+
+<span class="keyword">for</span> i = 1:length(u)
+    <span class="keyword">if</span> i ~= 1
+        fprintf(fp, <span class="string">'\t\t\tofs &lt;&lt; '','';\n'</span>);
+    <span class="keyword">end</span>
+    fprintf(fp, [<span class="string">'\t\t\t::out_double(u('</span> int2str(i - 1) <span class="string">').get_coef(i), ofs);\n'</span>]);
+<span class="keyword">end</span>
+
+fprintf(fp, <span class="string">'\t\t\tofs &lt;&lt; ::std::endl;\n'</span>);
+fprintf(fp, <span class="string">'\t\t}\n\n'</span>);
+
+fprintf(fp, <span class="string">'#if AFFINE_SIMPLE &gt;= 1\n'</span>);
+
+<span class="keyword">for</span> i = 1:length(u)
+    <span class="keyword">if</span> i ~= 1
+        fprintf(fp, <span class="string">'\t\tofs &lt;&lt; '','';\n'</span>);
+    <span class="keyword">end</span>
+    fprintf(fp, [<span class="string">'\t\t::out_double(u('</span> int2str(i - 1) <span class="string">').er, ofs);\n'</span>]);
+<span class="keyword">end</span>
+
+fprintf(fp, <span class="string">'\t\tofs &lt;&lt; ::std::endl;\n'</span>);
+fprintf(fp, <span class="string">'#endif\n'</span>);
+
 fprintf(fp, <span class="string">'\t}\n\n'</span>);
 fprintf(fp, <span class="string">'\treturn (r != 0) ? 0 : 2;\n'</span>);
 fprintf(fp, <span class="string">'}\n'</span>);
@@ -292,8 +333,8 @@ fclose(fp);
 [status, out] = compiler({source}, executable);
 
 <span class="keyword">if</span> status ~= 0
-    disp(<span class="string">'compilation failed.'</span>);
     disp(out);
+    error(<span class="string">'compilation failed.'</span>);
 <span class="keyword">else</span>
     disp(<span class="string">'compilation succeeded.'</span>);
 <span class="keyword">end</span>
@@ -320,7 +361,7 @@ function make_kv_maffine2(name, f, u, parameters, compiler)
 % 引数 compiler が省略されたときは |tools.detect_compiler| でコンパイラを探す
 if nargin <= 4
     disp('the argument ''compiler'' of make_kv_maffine2 is empty');
-    disp('find available compiler');
+    disp('finding available compiler...');
     compiler = tools.detect_compiler();
 end
 
@@ -333,7 +374,7 @@ tools.prepare(compiler);
 mkdir(name);
 
 source = fullfile(name, 'main.cpp');
-executable = fullfile(name, 'exec.exe');
+executable = fullfile(name, 'exec');
 
 matlab2cpp = fullfile('tools', 'MATLAB2C++');
 
@@ -439,10 +480,21 @@ fprintf(fp, '};\n\n');
 %%
 % <html><h3>main関数の生成</h3></html>
 
-% argv: executable output order N ep-reduce ep-reduce-limit
+% argv: executable output last-affine
+%       order N ep-reduce ep-reduce-limit
 %       inf(t_last) sup(t_last)
 %       inf(u0(1)) sup(u0(1)) ...
 %       inf(param_1) sup(param_1) ...
+%
+% executable      : 実行ファイル名
+% output          : 計算結果の出力ファイル名
+% last-affine     : 最後の計算結果を表すAffine多項式を書き出すためのファイル
+% order           : Taylor展開の次数
+% N               : tの分割数
+% ep-reduce       : kv::ode_param<T>::ep_reduce
+%                   (詳細はhttp://verifiedby.me/kv/ode/index.htmlを参照)
+% ep-reduce-limit : kv::ode_param<T>::ep_reduce_limit
+%                   (詳細はhttp://verifiedby.me/kv/ode/index.htmlを参照)
 
 %%
 % 区間は下限と上限をそれぞれ
@@ -454,7 +506,7 @@ fprintf(fp, '};\n\n');
 fprintf(fp, 'int main(int argc, char **argv)\n');
 fprintf(fp, '{\n');
 
-fprintf(fp, ['\tif(argc < ' int2str(6 + 2 * 3 * (1 + length(u) + length(parameters))) '){\n']);
+fprintf(fp, ['\tif(argc < ' int2str(7 + 2 * 3 * (1 + length(u) + length(parameters))) '){\n']);
 fprintf(fp, '\t\t::std::cout << "invalid argument" << ::std::endl;\n');
 fprintf(fp, '\t\treturn 1;\n');
 fprintf(fp, '\t}\n\n');
@@ -468,46 +520,48 @@ fprintf(fp, '\tofs.setf(ofs.scientific);\n');
 fprintf(fp, '\tofs.precision(17);\n\n');
 
 fprintf(fp, '\t::kv::interval<double> t_last(\n');
-fprintf(fp, '\t\t::todouble(::std::strtol(argv[6], nullptr, 10), ::std::strtol(argv[7], nullptr, 10), ::std::strtoull(argv[8], nullptr, 10)),\n');
-fprintf(fp, '\t\t::todouble(::std::strtol(argv[9], nullptr, 10), ::std::strtol(argv[10], nullptr, 10), ::std::strtoull(argv[11], nullptr, 10)));\n\n');
+fprintf(fp, '\t\t::to_double(::std::strtol(argv[7], nullptr, 10), ::std::strtol(argv[8], nullptr, 10), ::std::strtoull(argv[9], nullptr, 10)),\n');
+fprintf(fp, '\t\t::to_double(::std::strtol(argv[10], nullptr, 10), ::std::strtol(argv[11], nullptr, 10), ::std::strtoull(argv[12], nullptr, 10)));\n\n');
 
 fprintf(fp, ['\t::boost::numeric::ublas::vector<::kv::affine<double>> u(' int2str(length(u)) ');\n\n']);
+
+bias = 7;
 
 for i = 1:length(u)
     fprintf(fp, [ ...
         '\tu(' int2str(i - 1) ') = ::kv::interval<double>(\n' ...
-        '\t\t::todouble(::std::strtol(argv[' int2str(i * 6 + 6) '], nullptr, 10), ::std::strtol(argv[' int2str(i * 6 + 7) '], nullptr, 10), ::std::strtoull(argv[' int2str(i * 6 + 8) '], nullptr, 10)),\n' ...
-        '\t\t::todouble(::std::strtol(argv[' int2str(i * 6 + 9) '], nullptr, 10), ::std::strtol(argv[' int2str(i * 6 + 10) '], nullptr, 10), ::std::strtoull(argv[' int2str(i * 6 + 11) '], nullptr, 10)));\n\n']);
+        '\t\t::to_double(::std::strtol(argv[' int2str(i * 6 + bias) '], nullptr, 10), ::std::strtol(argv[' int2str(i * 6 + bias + 1) '], nullptr, 10), ::std::strtoull(argv[' int2str(i * 6 + bias + 2) '], nullptr, 10)),\n' ...
+        '\t\t::to_double(::std::strtol(argv[' int2str(i * 6 + bias + 3) '], nullptr, 10), ::std::strtol(argv[' int2str(i * 6 + bias + 4) '], nullptr, 10), ::std::strtoull(argv[' int2str(i * 6 + bias + 5) '], nullptr, 10)));\n\n']);
 end
 
-bias = 6 * length(u) + 5;
+bias = 6 * length(u) + 6;
 
 for i = 1:length(parameters)
     fprintf(fp, [ ...
         '\t::kv::interval<double> ' char(parameters(i)) '(\n' ...
-        '\t\t::todouble(::std::strtol(argv[' int2str(i * 6 + bias + 1) '], nullptr, 10), ::std::strtol(argv[' int2str(i * 6 + bias + 2) '], nullptr, 10), ::std::strtoull(argv[' int2str(i * 6 + bias + 3) '], nullptr, 10)),\n' ...
-        '\t\t::todouble(::std::strtol(argv[' int2str(i * 6 + bias + 4) '], nullptr, 10), ::std::strtol(argv[' int2str(i * 6 + bias + 5) '], nullptr, 10), ::std::strtoull(argv[' int2str(i * 6 + bias + 6) '], nullptr, 10)));\n\n']);
+        '\t\t::to_double(::std::strtol(argv[' int2str(i * 6 + bias + 1) '], nullptr, 10), ::std::strtol(argv[' int2str(i * 6 + bias + 2) '], nullptr, 10), ::std::strtoull(argv[' int2str(i * 6 + bias + 3) '], nullptr, 10)),\n' ...
+        '\t\t::to_double(::std::strtol(argv[' int2str(i * 6 + bias + 4) '], nullptr, 10), ::std::strtol(argv[' int2str(i * 6 + bias + 5) '], nullptr, 10), ::std::strtoull(argv[' int2str(i * 6 + bias + 6) '], nullptr, 10)));\n\n']);
 end
 
 clear bias;
 
-fprintf(fp, '\t::outdouble(0.0, ofs);\n');
+fprintf(fp, '\t::out_double(0.0, ofs);\n');
 fprintf(fp, '\tofs << '','';\n');
-fprintf(fp, '\t::outdouble(0.0, ofs);\n');
+fprintf(fp, '\t::out_double(0.0, ofs);\n');
 
 for i = 1:length(u)
     fprintf(fp, '\tofs << '','';\n');
-    fprintf(fp, ['\t::outdouble(to_interval(u(' int2str(i - 1) ')).lower(), ofs);\n']);
+    fprintf(fp, ['\t::out_double(to_interval(u(' int2str(i - 1) ')).lower(), ofs);\n']);
     fprintf(fp, '\tofs << '','';\n');
-    fprintf(fp, ['\t::outdouble(to_interval(u(' int2str(i - 1) ')).upper(), ofs);\n']);
+    fprintf(fp, ['\t::out_double(to_interval(u(' int2str(i - 1) ')).upper(), ofs);\n']);
 end
 
 fprintf(fp, '\tofs << ::std::endl;\n\n');
 
-fprintf(fp, '\tint order = ::std::strtol(argv[2], nullptr, 10);\n');
-fprintf(fp, '\tint itermax = ::std::strtol(argv[3], nullptr, 10);\n');
-fprintf(fp, '\tint ep_reduce = ::std::strtol(argv[4], nullptr, 10);\n');
-fprintf(fp, '\tint ep_reduce_limit = ::std::strtol(argv[5], nullptr, 10);\n\n');
+fprintf(fp, '\tint order = ::std::strtol(argv[3], nullptr, 10);\n');
+fprintf(fp, '\tint itermax = ::std::strtol(argv[4], nullptr, 10);\n');
+fprintf(fp, '\tint ep_reduce = ::std::strtol(argv[5], nullptr, 10);\n');
+fprintf(fp, '\tint ep_reduce_limit = ::std::strtol(argv[6], nullptr, 10);\n\n');
 
 fprintf(fp, '\tfunc f(');
 
@@ -538,15 +592,15 @@ fprintf(fp, '\t\t\tt1,\n');
 fprintf(fp, '\t\t\tt2,\n');
 fprintf(fp, '\t\t\tparam);\n\n');
 
-fprintf(fp, '\t\t::outdouble(t2.lower(), ofs);\n');
+fprintf(fp, '\t\t::out_double(t2.lower(), ofs);\n');
 fprintf(fp, '\t\tofs << '','';\n');
-fprintf(fp, '\t\t::outdouble(t2.upper(), ofs);\n');
+fprintf(fp, '\t\t::out_double(t2.upper(), ofs);\n');
 
 for i = 1:length(u)
     fprintf(fp, '\t\tofs << '','';\n');
-    fprintf(fp, ['\t\t::outdouble(to_interval(u(' int2str(i - 1) ')).lower(), ofs);\n']);
+    fprintf(fp, ['\t\t::out_double(to_interval(u(' int2str(i - 1) ')).lower(), ofs);\n']);
     fprintf(fp, '\t\tofs << '','';\n');
-    fprintf(fp, ['\t\t::outdouble(to_interval(u(' int2str(i - 1) ')).upper(), ofs);\n']);
+    fprintf(fp, ['\t\t::out_double(to_interval(u(' int2str(i - 1) ')).upper(), ofs);\n']);
 end
 
 fprintf(fp, '\t\tofs << ::std::endl;\n\n');
@@ -554,6 +608,34 @@ fprintf(fp, '\t\tofs << ::std::endl;\n\n');
 fprintf(fp, '\t\tif(r != 2) break;\n\n');
 
 fprintf(fp, '\t\tt1 = t2;\n');
+fprintf(fp, '\t}\n\n');
+fprintf(fp, '\tofs.close();\n');
+fprintf(fp, '\tofs.open(argv[2]);\n');
+fprintf(fp, '\tif(ofs){\n');
+fprintf(fp, '\t\tfor(int i = 0; i < kv::affine<double>::maxnum(); ++i){\n');
+
+for i = 1:length(u)
+    if i ~= 1
+        fprintf(fp, '\t\t\tofs << '','';\n');
+    end
+    fprintf(fp, ['\t\t\t::out_double(u(' int2str(i - 1) ').get_coef(i), ofs);\n']);
+end
+
+fprintf(fp, '\t\t\tofs << ::std::endl;\n');
+fprintf(fp, '\t\t}\n\n');
+
+fprintf(fp, '#if AFFINE_SIMPLE >= 1\n');
+
+for i = 1:length(u)
+    if i ~= 1
+        fprintf(fp, '\t\tofs << '','';\n');
+    end
+    fprintf(fp, ['\t\t::out_double(u(' int2str(i - 1) ').er, ofs);\n']);
+end
+
+fprintf(fp, '\t\tofs << ::std::endl;\n');
+fprintf(fp, '#endif\n');
+
 fprintf(fp, '\t}\n\n');
 fprintf(fp, '\treturn (r != 0) ? 0 : 2;\n');
 fprintf(fp, '}\n');
@@ -567,8 +649,8 @@ disp(['compiling ' source ' ...']);
 [status, out] = compiler({source}, executable);
 
 if status ~= 0
-    disp('compilation failed.');
     disp(out);
+    error('compilation failed.');
 else
     disp('compilation succeeded.');
 end
