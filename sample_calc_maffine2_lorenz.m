@@ -24,10 +24,15 @@ ylabel('y');
 zlabel('z');
 
 % t = 30.0での計算結果を表すAffine多項式をプロットする
-% ダミー変数の数が多いと描画が終わらないので17個まで減らしてプロットする
+% ダミー変数の数が多いと描画が終わらない場合がある(多分環境依存)
+% 描画が終わらない時は'EpsilonLimit'を指定してダミー変数を減らす
 figure;
 subplot(2, 2, 1);
-tools.plot_affine(a(:, 1), a(:, 2), a(:, 3), 'FaceColor', 'flat', 'EpsilonLimit', 17);
+tools.plot_affine( ...
+    a(:, 1), a(:, 2), a(:, 3), ...
+    'FaceColor', 'flat', 'EdgeColor', 'none' ...
+    ... , 'EpsilonLimit', 17 ...
+);
 xlabel('x');
 ylabel('y');
 zlabel('z');
