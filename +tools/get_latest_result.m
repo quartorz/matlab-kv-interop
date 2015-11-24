@@ -1,4 +1,4 @@
-function [data] = get_last_result (name)
+function [data] = get_latest_result (name)
 
 d = csvread(fullfile(name, 'output.csv'));
 s = size(d);

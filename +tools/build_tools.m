@@ -6,7 +6,7 @@ else
     exe_ext = '';
 end
 
-if ~exist(fullfile('tools', ['MATLAB2C++' exe_ext]), 'file')
+if ~exist(fullfile('.', 'tools', ['MATLAB2C++' exe_ext]), 'file')
     if nargin < 1
         disp('the argument ''compiler'' of build_tools is empty');
         disp('finding available compiler...');
@@ -14,7 +14,7 @@ if ~exist(fullfile('tools', ['MATLAB2C++' exe_ext]), 'file')
     end
 
     disp('building MATLAB2C++');
-    [status, out] = compiler({fullfile('tools', 'matlab2c++.cpp')}, fullfile('tools', ['MATLAB2C++' exe_ext]));
+    [status, out] = compiler({fullfile('.', 'tools', 'matlab2c++.cpp')}, fullfile('.', 'tools', ['MATLAB2C++' exe_ext]));
 
     if status ~= 0
         disp(out);
@@ -23,10 +23,10 @@ if ~exist(fullfile('tools', ['MATLAB2C++' exe_ext]), 'file')
         disp('build of MATLAB2C++ succeeded');
     end
 
-    !del *.obj
+    delete('*.obj');
 end
 
-if ~exist(fullfile('tools', ['ReduceAffine', exe_ext]), 'file')
+if ~exist(fullfile('.', 'tools', ['ReduceAffine', exe_ext]), 'file')
     if nargin < 1 && ~exist('compiler', 'var')
         disp('the argument ''compiler'' of build_tools is empty');
         disp('find available compiler');
@@ -34,7 +34,7 @@ if ~exist(fullfile('tools', ['ReduceAffine', exe_ext]), 'file')
     end
 
     disp('building ReduceAffine');
-    [status, out] = compiler({fullfile('tools', 'reduce_affine.cpp')}, fullfile('tools', ['ReduceAffine' exe_ext]));
+    [status, out] = compiler({fullfile('.', 'tools', 'reduce_affine.cpp')}, fullfile('.', 'tools', ['ReduceAffine' exe_ext]));
 
     if status ~= 0
         disp(out);
@@ -43,7 +43,7 @@ if ~exist(fullfile('tools', ['ReduceAffine', exe_ext]), 'file')
         disp('build of ReduceAffine succeeded');
     end
 
-    !del *.obj
+    delete('*.obj');
 end
 
 end

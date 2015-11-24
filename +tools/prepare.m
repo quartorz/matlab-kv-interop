@@ -1,6 +1,6 @@
 function prepare (compiler)
 
-if exist('include/kv', 'dir') ~= 7
+if exist(fullfile('.', 'include', 'kv'), 'dir') ~= 7
     disp('downloading kv...');
 
     version = get_kv_version();
@@ -13,12 +13,12 @@ if exist('include/kv', 'dir') ~= 7
 
     linesep = java.lang.System.getProperty('line.separator').char;
 
-    file = fopen('+tools/prepare_config.txt', 'w');
+    file = fopen(fullfile('.', '+tools', 'prepare_config.txt'), 'w');
     fwrite(file, [date linesep]);
     fwrite(file, [version linesep]);
     fclose(file);
 else
-    file = fopen('+tools/prepare_config.txt', 'r+');
+    file = fopen(fullfile('.', '+tools', 'prepare_config.txt'), 'r+');
 
     if file ~= -1
         d = fgetl(file);
