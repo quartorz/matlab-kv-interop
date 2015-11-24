@@ -1,11 +1,5 @@
 function prepare (compiler)
 
-if nargin >= 1
-    tools.build_tools(compiler);
-else
-    tools.build_tools();
-end
-
 if exist('include/kv', 'dir') ~= 7
     disp('downloading kv...');
 
@@ -48,6 +42,12 @@ else
 
         fclose(file);
     end
+end
+
+if nargin >= 1
+    tools.build_tools(compiler);
+else
+    tools.build_tools();
 end
 
 end

@@ -71,11 +71,11 @@ disp(command);
 %%
 % 最後まで計算できなかったときはメッセージを出力する
 if status ~= Status.Succeeded
-        disp(out);
+    disp(out);
 
-        if status ~= Status.Incomplete
-            error(['failed (status: ' int2str(status) ')']);
-        end
+    if status ~= Status.Incomplete
+        error(['failed (status: ' int2str(status) ')']);
+    end
 end
 
 %% 実行結果を得る
