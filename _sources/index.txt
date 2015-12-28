@@ -16,7 +16,10 @@ MATLAB上でそのプログラムを実行することができるライブラ�
 ------------
 
 Visual C++、Clang、GCCのいずれかをインストールしてパスを通し、\
-ライブラリを適当な場所に展開すれば使うことができる。
+ライブラリを適当な場所に展開すれば使うことができる。\
+ライブラリは\
+`GitHubのリポジトリ <https://github.com/quartorz/matlab-kv-interop>`_\
+に置いてある。
 
 MATLABにはあらかじめIntlabをインストールしておく必要があるが、\
 Symbolic Math Toolboxは無くても良い。
