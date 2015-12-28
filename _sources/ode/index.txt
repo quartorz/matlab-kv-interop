@@ -203,7 +203,7 @@ Lorenz方程式
 
 * ``compiler``
 
-  ``@tools.msvc``\ のように\ :ref:`compilers`\ を渡すか省略する。
+  ``@compilers.msvc``\ のように\ :ref:`compilers`\ を渡すか省略する。
 
 Symbolic Math Toolboxを使う場合の引数の例
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
