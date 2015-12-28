@@ -1,0 +1,47 @@
+.. matlab-kv-interop documentation master file, created by
+   sphinx-quickstart on Fri Dec  4 13:43:01 2015.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+matlab-kv-interop
+=================
+
+概要
+----
+
+MATLAB上で\ `kv`_\ で常微分方程式の精度保証を行うプログラムを生成して、\
+MATLAB上でそのプログラムを実行することができるライブラリ。
+
+インストール
+------------
+
+Visual C++、Clang、GCCのいずれかをインストールしてパスを通し、\
+ライブラリを適当な場所に展開すれば使うことができる。
+
+MATLABにはあらかじめIntlabをインストールしておく必要があるが、\
+Symbolic Math Toolboxは無くても良い。
+
+`kv`_\ はライブラリが自動でダウンロードするようになっているので\
+あらかじめダウンロードする必要はない。\
+1日に1度kvのバージョンをチェックするようになっているので、\
+自分で最新版をダウンロードしに行く必要もない。
+
+.. _kv: http://verifiedby.me/kv/
+
+コンテンツ
+----------
+
+.. toctree::
+   :maxdepth: 2
+
+   ode/index
+   compilers/index
+   tools/index
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`search`
+

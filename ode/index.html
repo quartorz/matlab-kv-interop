@@ -1,0 +1,371 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>常微分方程式の精度保証 &mdash; matlab-kv-interop 0.1.0 ドキュメント</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="matlab-kv-interop 0.1.0 ドキュメント" href="../index.html" />
+    <link rel="next" title="コンパイラをラップした関数" href="../compilers/index.html" />
+    <link rel="prev" title="matlab-kv-interop" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="ode">
+<span id="id1"></span><h1>常微分方程式の精度保証<a class="headerlink" href="#ode" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="id2">
+<h2>概要<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>常微分方程式の精度保証をするには、まずプログラムを生成する関数を実行し、次に生成したプログラムを実行するための関数を呼び出すという手順を踏む必要がある。常微分方程式を解くための方法は、今のところAffine Arithmeticを利用する方法とLohner法を利用する方法の2通りが実装してある。</p>
+<p>方程式の記述には、Symbolic Math Toolboxを使う方法と使わない方法の2通りの方法がある。</p>
+</div>
+<div class="section" id="id3">
+<h2>関数と列挙型の一覧<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>使い方の詳細は「<a class="reference internal" href="#ode-usage"><span>利用方法</span></a>」に。</p>
+<dl class="function">
+<dt id="make_kv_maffine2">
+<code class="descname">make_kv_maffine2</code><span class="sig-paren">(</span><em>name</em>, <em>f</em>, <em>u</em>, <em>parameters</em><span class="optional">[</span>, <em>compiler</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#make_kv_maffine2" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">kv::ode_maffine2</span></code>を利用するプログラムを生成、コンパイルする。<code class="docutils literal"><span class="pre">[]</span></code>で囲まれた引数は省略可能である。</p>
+<ul class="simple">
+<li>name - 方程式の名前。</li>
+<li>f - 方程式を並べたベクトル。</li>
+<li>u - 変数を並べたベクトル。</li>
+<li>parameters - パラメータを並べたベクトル。</li>
+<li>compiler -
+使用するコンパイラ。省略可。省略した場合は<a class="reference internal" href="../tools/index.html#tools.detect_compiler" title="tools.detect_compiler"><code class="xref py py-func docutils literal"><span class="pre">tools.detect_compiler()</span></code></a>を使ってコンパイラを探す。</li>
+</ul>
+</dd></dl>
+
+<dl class="function">
+<dt id="kv_maffine2">
+<code class="descname">kv_maffine2</code><span class="sig-paren">(</span><em>name</em>, <em>t_init</em>, <em>t_last</em>, <em>n</em>, <em>order</em>, <em>u</em>, <em>parameters</em>, <em>ep_reduce</em>, <em>ep_limit</em><span class="sig-paren">)</span><a class="headerlink" href="#kv_maffine2" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p><a class="reference internal" href="#make_kv_maffine2" title="make_kv_maffine2"><code class="xref py py-func docutils literal"><span class="pre">make_kv_maffine2()</span></code></a>で作ったプログラムを実行して計算結果を返す。数値を受け取る引数には浮動小数点数、<code class="docutils literal"><span class="pre">intval</span></code>、文字列のいずれを渡しても良い。</p>
+<ul>
+<li><p class="first">name - <a class="reference internal" href="#make_kv_maffine2" title="make_kv_maffine2"><code class="xref py py-func docutils literal"><span class="pre">make_kv_maffine2()</span></code></a>に渡した方程式の名前。</p>
+</li>
+<li><p class="first">t_init -
+時間の始点だが、<strong>今は無視される</strong>(何を渡しても<code class="docutils literal"><span class="pre">0</span></code>が渡されたと見做す)。</p>
+</li>
+<li><p class="first">t_last - 時間の終点。</p>
+</li>
+<li><p class="first">n - <span class="math">\(t\)</span>の分割数。<span class="math">\([t_{init},t_{last}]\)</span>をn等分する。</p>
+</li>
+<li><p class="first">order - Taylor展開の次数。</p>
+</li>
+<li><p class="first">u - 初期値<span class="math">\(\mathbf{u}(0)=\mathbf{u}_0\)</span>。</p>
+</li>
+<li><p class="first">parameters - パラメータを並べたベクトル。</p>
+</li>
+<li><p class="first">ep_reduce -
+Affine Arithmeticのダミー変数の上限値。<a class="reference external" href="http://verifiedby.me/kv/ode/index.html">kvの解説</a>の<code class="docutils literal"><span class="pre">ep_reduce</span></code>と同じ。</p>
+</li>
+<li><p class="first">ep_limit -
+<a class="reference external" href="http://verifiedby.me/kv/ode/index.html">kvの解説</a>の<code class="docutils literal"><span class="pre">ep_reduce_limit</span></code>と同じ。「ダミー変数が<code class="docutils literal"><span class="pre">ep_limit</span></code>個を超えたら<code class="docutils literal"><span class="pre">ep_reduce</span></code>個まで減らす」という動作になる。</p>
+</li>
+<li><p class="first">戻り値<code class="docutils literal"><span class="pre">[status,</span> <span class="pre">data,</span> <span class="pre">affine]</span></code></p>
+<p><code class="docutils literal"><span class="pre">status</span></code>は計算が正しく行えたかを表す。<a class="reference internal" href="#Status.Succeeded" title="Status.Succeeded"><code class="xref py py-data docutils literal"><span class="pre">Status.Succeeded</span></code></a>か<a class="reference internal" href="#Status.Incomplete" title="Status.Incomplete"><code class="xref py py-data docutils literal"><span class="pre">Status.Incomplete</span></code></a>のどちらかになる。</p>
+<p><code class="docutils literal"><span class="pre">data</span></code>は計算結果を表す<code class="docutils literal"><span class="pre">intval</span></code>型の行列。<code class="docutils literal"><span class="pre">data(:,</span> <span class="pre">1)</span></code>(1番左の列)は各時間分点の値で、2列目は<code class="docutils literal"><span class="pre">u(1)</span></code>、3列目は<code class="docutils literal"><span class="pre">u(2)</span></code>、…を表す。
+<code class="docutils literal"><span class="pre">status</span> <span class="pre">==</span> <span class="pre">Status.Succeeded</span></code>の場合に<code class="docutils literal"><span class="pre">行数</span> <span class="pre">==</span> <span class="pre">n</span> <span class="pre">+</span> <span class="pre">1</span></code>で<code class="docutils literal"><span class="pre">data(end,</span> <span class="pre">1)</span> <span class="pre">==</span> <span class="pre">t_last</span></code>となる。<code class="docutils literal"><span class="pre">status</span> <span class="pre">==</span> <span class="pre">Status.Incomplete</span></code>の場合は
+<code class="docutils literal"><span class="pre">行数</span> <span class="pre">&lt;</span> <span class="pre">n</span> <span class="pre">+</span> <span class="pre">1</span></code>で<code class="docutils literal"><span class="pre">data(end,</span> <span class="pre">1)</span> <span class="pre">&lt;</span> <span class="pre">t_last</span></code>となる。</p>
+<p><code class="docutils literal"><span class="pre">affine</span></code>は<span class="math">\(t = \mathtt{data(end, 1)}\)</span>での<code class="docutils literal"><span class="pre">u</span></code>を表現するAffine多項式を表す行列。列数は<code class="docutils literal"><span class="pre">u</span></code>の列数と一致する。1行目はAffine多項式の定数項で、<span class="math">\(n(n&gt;1)\)</span>行目は<span class="math">\(n-1\)</span>番目のダミー変数の係数となる。<a class="reference internal" href="../tools/index.html#tools.plot_affine" title="tools.plot_affine"><code class="xref py py-func docutils literal"><span class="pre">tools.plot_affine()</span></code></a>にそのまま渡してプロットできる。</p>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="function">
+<dt id="make_kv_qr_lohner">
+<code class="descname">make_kv_qr_lohner</code><span class="sig-paren">(</span><em>name</em>, <em>f</em>, <em>u</em>, <em>parameters</em><span class="optional">[</span>, <em>compiler</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#make_kv_qr_lohner" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">kv::odelong_qr_lohner</span></code>を利用するプログラムを生成、コンパイルする。引数は<a class="reference internal" href="#make_kv_maffine2" title="make_kv_maffine2"><code class="xref py py-func docutils literal"><span class="pre">make_kv_maffine2()</span></code></a>と同じである。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="kv_qr_lohner">
+<code class="descname">kv_qr_lohner</code><span class="sig-paren">(</span><em>name</em>, <em>t_init</em>, <em>t_last</em>, <em>order</em>, <em>u</em>, <em>parameters</em><span class="sig-paren">)</span><a class="headerlink" href="#kv_qr_lohner" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p><a class="reference internal" href="#make_kv_qr_lohner" title="make_kv_qr_lohner"><code class="xref py py-func docutils literal"><span class="pre">make_kv_qr_lohner()</span></code></a>で作ったプログラムを実行して実行結果を返す。引数は<a class="reference internal" href="#kv_maffine2" title="kv_maffine2"><code class="xref py py-func docutils literal"><span class="pre">kv_maffine2()</span></code></a>と同様である。戻り値は<code class="docutils literal"><span class="pre">[status,</span> <span class="pre">data]</span></code>の2つで、これも<a class="reference internal" href="#kv_maffine2" title="kv_maffine2"><code class="xref py py-func docutils literal"><span class="pre">kv_maffine2()</span></code></a>と同様である。</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="Status">
+<code class="descname">Status</code><a class="headerlink" href="#Status" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>計算の成否を表す列挙型。次の3つの値がある。</p>
+<dl class="data">
+<dt id="Status.Succeeded">
+<code class="descclassname">Status.</code><code class="descname">Succeeded</code><a class="headerlink" href="#Status.Succeeded" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>計算が最後まで正しく行えたことを表す。</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="Status.Incomplete">
+<code class="descclassname">Status.</code><code class="descname">Incomplete</code><a class="headerlink" href="#Status.Incomplete" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>計算を始めることはできたが、途中までしか計算できなかった(途中で区間が発散した)ことを表す。</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="Status.Failed">
+<code class="descclassname">Status.</code><code class="descname">Failed</code><a class="headerlink" href="#Status.Failed" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>出力用のファイルが開けなかったりして計算を始めることができなかったことを表す。生成したプログラムがこのステータスを返したとき、<a class="reference internal" href="#kv_maffine2" title="kv_maffine2"><code class="xref py py-func docutils literal"><span class="pre">kv_maffine2()</span></code></a>と<a class="reference internal" href="#kv_qr_lohner" title="kv_qr_lohner"><code class="xref py py-func docutils literal"><span class="pre">kv_qr_lohner()</span></code></a>はエラーを発生させる。</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="ode-usage">
+<span id="id5"></span><h2>利用方法<a class="headerlink" href="#ode-usage" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<div class="section" id="affine-arithmetic">
+<span id="ode-usage-affine"></span><h3>Affine Arithmeticを使う場合<a class="headerlink" href="#affine-arithmetic" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p>Lorenz方程式</p>
+<div class="math">
+\[\begin{split}\mathbf{u}=
+\begin{pmatrix}
+  x \\ y \\ z
+\end{pmatrix},
+\frac{d\mathbf{u}}{dt}=
+\mathbf{f}=
+\begin{pmatrix}
+  \sigma (y - x) \\
+  x (\rho - z) - y \\
+  x y - \beta  z
+\end{pmatrix}\end{split}\]</div>
+<p>を例にしてライブラリの利用方法を説明する。今の場合<span class="math">\(x, y, z\)</span>が変数で<span class="math">\(\sigma, \rho, \beta\)</span>がパラメータである。</p>
+<div class="section" id="ode-generate-maffine2">
+<span id="id6"></span><h4>プログラムの生成<a class="headerlink" href="#ode-generate-maffine2" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p><a class="reference internal" href="#make_kv_maffine2" title="make_kv_maffine2"><code class="xref py py-func docutils literal"><span class="pre">make_kv_maffine2()</span></code></a>関数を呼び出して<code class="docutils literal"><span class="pre">kv::ode_maffine2</span></code>を利用するプログラムを生成する。</p>
+<div class="section" id="id7">
+<h5>各引数の渡し方<a class="headerlink" href="#id7" title="このヘッドラインへのパーマリンク">¶</a></h5>
+<ul>
+<li><p class="first"><code class="docutils literal"><span class="pre">name</span></code></p>
+<p><code class="docutils literal"><span class="pre">'lorenz-maffine2'</span></code>などの文字列を渡す。</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">f</span></code></p>
+<p>Symbolic Math Toolboxを使う場合は次の<code class="docutils literal"><span class="pre">f</span></code>のようなシンボリック変数を使った式を並べたベクトルを渡す。</p>
+<div class="highlight-matlab"><div class="highlight"><pre><span class="n">syms</span> <span class="n">x</span> <span class="n">y</span> <span class="n">z</span> <span class="n">sigma</span> <span class="n">rho</span> <span class="nb">beta</span><span class="p">;</span>
+<span class="n">f</span> <span class="p">=</span> <span class="p">[</span>
+    <span class="n">sigma</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">x</span><span class="p">);</span>
+    <span class="n">x</span> <span class="o">*</span> <span class="p">(</span><span class="n">rho</span> <span class="o">-</span> <span class="n">z</span><span class="p">)</span> <span class="o">-</span> <span class="n">y</span><span class="p">;</span>
+    <span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="o">-</span> <span class="nb">beta</span> <span class="o">*</span> <span class="n">z</span>
+<span class="p">];</span>
+</pre></div>
+</div>
+<p>Symbolic Math Toolboxを使わない場合は次の<code class="docutils literal"><span class="pre">f</span></code>のような文字列のセル配列を渡す。</p>
+<div class="highlight-matlab"><div class="highlight"><pre><span class="n">f</span> <span class="p">=</span> <span class="p">{</span>
+    <span class="s">&#39;sigma * (y - x)&#39;</span><span class="p">;</span>
+    <span class="s">&#39;x * (rho - z) - y&#39;</span><span class="p">;</span>
+    <span class="s">&#39;x * y - beta * z&#39;</span>
+<span class="p">};</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">u</span></code></p>
+<p>Symbolic Math Toolboxを使う場合は次の<code class="docutils literal"><span class="pre">u</span></code>のようなシンボリック変数を並べたベクトルを渡す。</p>
+<div class="highlight-matlab"><div class="highlight"><pre><span class="n">syms</span> <span class="n">x</span> <span class="n">y</span> <span class="n">z</span><span class="p">;</span>
+<span class="n">u</span> <span class="p">=</span> <span class="p">[</span><span class="n">x</span><span class="p">;</span> <span class="n">y</span><span class="p">;</span> <span class="n">z</span><span class="p">];</span>
+</pre></div>
+</div>
+<p>Symbolic Math Toolboxを使わない場合は次の<code class="docutils literal"><span class="pre">u</span></code>のような文字列のセル配列を渡す。</p>
+<div class="highlight-matlab"><div class="highlight"><pre><span class="n">u</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;x&#39;</span><span class="p">;</span> <span class="s">&#39;y&#39;</span><span class="p">;</span> <span class="s">&#39;z&#39;</span><span class="p">};</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">parameters</span></code></p>
+<p><code class="docutils literal"><span class="pre">u</span></code>と同様にシンボリック変数のベクトルか文字列のセル配列を渡す。</p>
+</li>
+<li><p class="first"><code class="docutils literal"><span class="pre">compiler</span></code></p>
+<p><code class="docutils literal"><span class="pre">&#64;tools.msvc</span></code>のように<a class="reference internal" href="../compilers/index.html#compilers"><span>コンパイラをラップした関数</span></a>を渡すか省略する。</p>
+</li>
+</ul>
+</div>
+<div class="section" id="symbolic-math-toolbox">
+<h5>Symbolic Math Toolboxを使う場合の引数の例<a class="headerlink" href="#symbolic-math-toolbox" title="このヘッドラインへのパーマリンク">¶</a></h5>
+<div class="highlight-matlab"><div class="highlight"><pre><span class="n">syms</span> <span class="n">x</span> <span class="n">y</span> <span class="n">z</span> <span class="n">sigma</span> <span class="n">rho</span> <span class="nb">beta</span><span class="p">;</span>
+
+<span class="n">f</span> <span class="p">=</span> <span class="p">[</span>
+    <span class="n">sigma</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">x</span><span class="p">);</span>
+    <span class="n">x</span> <span class="o">*</span> <span class="p">(</span><span class="n">rho</span> <span class="o">-</span> <span class="n">z</span><span class="p">)</span> <span class="o">-</span> <span class="n">y</span><span class="p">;</span>
+    <span class="n">x</span> <span class="o">*</span> <span class="n">y</span> <span class="o">-</span> <span class="nb">beta</span> <span class="o">*</span> <span class="n">z</span>
+<span class="p">];</span>
+<span class="n">u</span> <span class="p">=</span> <span class="p">[</span><span class="n">x</span><span class="p">;</span> <span class="n">y</span><span class="p">;</span> <span class="n">z</span><span class="p">];</span>
+<span class="n">parametes</span> <span class="p">=</span> <span class="p">[</span><span class="n">sigma</span><span class="p">;</span> <span class="n">rho</span><span class="p">;</span> <span class="nb">beta</span><span class="p">];</span>
+
+<span class="n">make_kv_maffine2</span><span class="p">(</span><span class="s">&#39;lorenz-maffine2&#39;</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">parameters</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id8">
+<h5>Symbolic Math Toolboxを使わない場合の引数の例<a class="headerlink" href="#id8" title="このヘッドラインへのパーマリンク">¶</a></h5>
+<div class="highlight-matlab"><div class="highlight"><pre><span class="n">f</span> <span class="p">=</span> <span class="p">{</span>
+    <span class="s">&#39;sigma * (y - x)&#39;</span><span class="p">;</span>
+    <span class="s">&#39;x * (rho - z) - y&#39;</span><span class="p">;</span>
+    <span class="s">&#39;x * y - beta * z&#39;</span>
+<span class="p">};</span>
+<span class="n">u</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;x&#39;</span><span class="p">;</span> <span class="s">&#39;y&#39;</span><span class="p">;</span> <span class="s">&#39;z&#39;</span><span class="p">};</span>
+<span class="n">parameters</span> <span class="p">=</span> <span class="p">{</span><span class="s">&#39;sigma&#39;</span><span class="p">;</span> <span class="s">&#39;rho&#39;</span><span class="p">;</span> <span class="s">&#39;beta&#39;</span><span class="p">};</span>
+
+<span class="n">make_kv_maffine2</span><span class="p">(</span><span class="s">&#39;lorenz-maffine2&#39;</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="p">@</span><span class="n">compilers</span><span class="p">.</span><span class="n">msvc</span><span class="p">);</span>
+</pre></div>
+</div>
+<p>エラーが発生しなければコンパイルに成功している。</p>
+</div>
+</div>
+<div class="section" id="ode-maffine2-execute">
+<span id="id9"></span><h4>プログラムの実行<a class="headerlink" href="#ode-maffine2-execute" title="このヘッドラインへのパーマリンク">¶</a></h4>
+<p>プログラムの実行には<a class="reference internal" href="#kv_maffine2" title="kv_maffine2"><code class="xref py py-func docutils literal"><span class="pre">kv_maffine2()</span></code></a>を利用する。</p>
+<div class="highlight-matlab"><div class="highlight"><pre><span class="n">t_last</span> <span class="p">=</span> <span class="mf">50.0</span><span class="p">;</span>
+<span class="n">n</span> <span class="p">=</span> <span class="mi">5000</span><span class="p">;</span>
+<span class="n">p</span> <span class="p">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="n">init</span> <span class="p">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">;</span> <span class="mi">0</span><span class="p">;</span> <span class="mi">0</span><span class="p">];</span>
+<span class="n">parameters</span> <span class="p">=</span> <span class="p">[</span><span class="mi">10</span><span class="p">;</span> <span class="mi">28</span><span class="p">;</span> <span class="n">intval</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span><span class="p">];</span>
+
+<span class="p">[</span><span class="n">status</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">affine</span><span class="p">]</span> <span class="p">=</span> <span class="n">kv_maffine2</span><span class="p">(</span> <span class="c">...</span>
+    <span class="s">&#39;lorenz-maffine2&#39;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">t_last</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="c">...</span>
+    <span class="n">init</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="mi">120</span><span class="p">,</span> <span class="mi">130</span> <span class="c">...</span>
+<span class="p">);</span>
+</pre></div>
+</div>
+<p>次のようにすれば近似解をプロットできる。</p>
+<div class="highlight-matlab"><div class="highlight"><pre><span class="n">plot3</span><span class="p">(</span><span class="n">mid</span><span class="p">(</span><span class="n">data</span><span class="p">(:,</span> <span class="mi">2</span><span class="p">)),</span><span class="n">mid</span><span class="p">(</span><span class="n">data</span><span class="p">(:,</span> <span class="mi">3</span><span class="p">)),</span><span class="n">mid</span><span class="p">(</span><span class="n">data</span><span class="p">(:,</span> <span class="mi">4</span><span class="p">)));</span>
+</pre></div>
+</div>
+<img alt="../_images/kv_maffine2_approx.png" src="../_images/kv_maffine2_approx.png" />
+<p>次のようにすれば<span class="math">\(\mathbf{u}(t_{last})\)</span>を表すAffine多項式の構造を見ることができる。</p>
+<div class="highlight-matlab"><div class="highlight"><pre><span class="n">figure</span><span class="p">;</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+<span class="n">tools</span><span class="p">.</span><span class="n">plot_affine</span><span class="p">(</span> <span class="c">...</span>
+    <span class="n">a</span><span class="p">(:,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">a</span><span class="p">(:,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">a</span><span class="p">(:,</span> <span class="mi">3</span><span class="p">),</span> <span class="c">...</span>
+    <span class="s">&#39;FaceColor&#39;</span><span class="p">,</span> <span class="s">&#39;flat&#39;</span><span class="p">,</span> <span class="s">&#39;EdgeColor&#39;</span><span class="p">,</span> <span class="s">&#39;none&#39;</span> <span class="c">...</span>
+<span class="p">);</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">);</span>
+<span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;y&#39;</span><span class="p">);</span>
+<span class="n">zlabel</span><span class="p">(</span><span class="s">&#39;z&#39;</span><span class="p">);</span>
+
+<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+<span class="n">tools</span><span class="p">.</span><span class="n">plot_affine</span><span class="p">(</span><span class="n">a</span><span class="p">(:,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">a</span><span class="p">(:,</span> <span class="mi">2</span><span class="p">),</span> <span class="s">&#39;FaceColor&#39;</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">);</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">);</span>
+<span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;y&#39;</span><span class="p">);</span>
+
+<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+<span class="n">tools</span><span class="p">.</span><span class="n">plot_affine</span><span class="p">(</span><span class="n">a</span><span class="p">(:,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">a</span><span class="p">(:,</span> <span class="mi">3</span><span class="p">),</span> <span class="s">&#39;FaceColor&#39;</span><span class="p">,</span> <span class="s">&#39;g&#39;</span><span class="p">);</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;y&#39;</span><span class="p">);</span>
+<span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;z&#39;</span><span class="p">);</span>
+
+<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">);</span>
+<span class="n">tools</span><span class="p">.</span><span class="n">plot_affine</span><span class="p">(</span><span class="n">a</span><span class="p">(:,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">a</span><span class="p">(:,</span> <span class="mi">1</span><span class="p">),</span> <span class="s">&#39;FaceColor&#39;</span><span class="p">,</span> <span class="s">&#39;b&#39;</span><span class="p">);</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;z&#39;</span><span class="p">);</span>
+<span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;x&#39;</span><span class="p">);</span>
+</pre></div>
+</div>
+<img alt="../_images/kv_maffine2_affine_1.png" src="../_images/kv_maffine2_affine_1.png" />
+</div>
+</div>
+<div class="section" id="lohner">
+<h3>Lohner法を使う場合<a class="headerlink" href="#lohner" title="このヘッドラインへのパーマリンク">¶</a></h3>
+<p><a class="reference internal" href="#ode-usage-affine"><span>Affine Arithmetic</span></a>と大体同じ</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">常微分方程式の精度保証</a><ul>
+<li><a class="reference internal" href="#id2">概要</a></li>
+<li><a class="reference internal" href="#id3">関数と列挙型の一覧</a></li>
+<li><a class="reference internal" href="#ode-usage">利用方法</a><ul>
+<li><a class="reference internal" href="#affine-arithmetic">Affine Arithmeticを使う場合</a><ul>
+<li><a class="reference internal" href="#ode-generate-maffine2">プログラムの生成</a><ul>
+<li><a class="reference internal" href="#id7">各引数の渡し方</a></li>
+<li><a class="reference internal" href="#symbolic-math-toolbox">Symbolic Math Toolboxを使う場合の引数の例</a></li>
+<li><a class="reference internal" href="#id8">Symbolic Math Toolboxを使わない場合の引数の例</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ode-maffine2-execute">プログラムの実行</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#lohner">Lohner法を使う場合</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../index.html" title="前の章へ">matlab-kv-interop</a></li>
+      <li>Next: <a href="../compilers/index.html" title="次の章へ">コンパイラをラップした関数</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/ode/index.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    モジュール、クラス、または関数名を入力してください
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, quarter.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="../_sources/ode/index.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

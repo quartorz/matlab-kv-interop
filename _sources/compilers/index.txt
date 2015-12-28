@@ -1,0 +1,37 @@
+.. _compilers:
+
+コンパイラをラップした関数
+==========================
+
+概要
+----
+
+コンパイラをラップした関数を提供する。\
+今のところVisual C++とGCCとClangの3つをサポートしている。
+
+関数一覧
+--------
+
+.. function:: compilers.msvc(sources, executable)
+
+   Visual C++をラップした関数。\
+   内部でコンパイラを呼び出してコンパイルする。
+
+   * sources - ソースファイルのセル配列。
+   * executable - 生成する実行ファイルの名前。
+   * 戻り値\ ``[status, output]``
+
+     ``status``\ はコンパイルが成功したかどうかを表す。\
+     ``0``\ の時は成功している。
+
+     ``output``\ にはコンパイラの標準出力への出力がそのまま書き込まれる。
+
+.. function:: compilers.clang(sources, executable)
+
+   Clangをラップした関数。\
+   引数と戻り値は\ :func:`compilers.msvc`\ と同じ。
+
+.. function:: compilers.gcc(sources, executable)
+
+   GCCをラップした関数。\
+   引数と戻り値は\ :func:`compilers.msvc`\ と同じ。

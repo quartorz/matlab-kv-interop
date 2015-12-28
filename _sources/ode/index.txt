@@ -1,0 +1,306 @@
+.. _ode:
+
+常微分方程式の精度保証
+======================
+
+概要
+----
+
+常微分方程式の精度保証をするには、まずプログラムを生成する関数を実行し、\
+次に生成したプログラムを実行するための関数を呼び出すという手順を踏む必要がある。\
+常微分方程式を解くための方法は、\
+今のところAffine Arithmeticを利用する方法と\
+Lohner法を利用する方法の2通りが実装してある。
+
+方程式の記述には、Symbolic Math Toolboxを使う方法と\
+使わない方法の2通りの方法がある。
+
+関数と列挙型の一覧
+------------------
+
+使い方の詳細は「\ :ref:`ode-usage`\ 」に。
+
+.. function:: make_kv_maffine2(name, f, u, parameters[, compiler])
+
+   ``kv::ode_maffine2``\ を利用するプログラムを生成、コンパイルする。\
+   ``[]``\ で囲まれた引数は省略可能である。
+
+   * name - 方程式の名前。
+   * f - 方程式を並べたベクトル。
+   * u - 変数を並べたベクトル。
+   * parameters - パラメータを並べたベクトル。
+   * compiler -
+     使用するコンパイラ。省略可。\
+     省略した場合は\ :func:`tools.detect_compiler`\ を使ってコンパイラを探す。
+
+.. function:: kv_maffine2(name, t_init, t_last, n, order, u, parameters, ep_reduce, ep_limit)
+
+   :func:`make_kv_maffine2`\ で作ったプログラムを実行して計算結果を返す。\
+   数値を受け取る引数には浮動小数点数、\ ``intval``\ 、\
+   文字列のいずれを渡しても良い。
+
+   * name - :func:`make_kv_maffine2`\ に渡した方程式の名前。
+   * t_init -
+     時間の始点だが、\ **今は無視される**\
+     (何を渡しても\ ``0``\ が渡されたと見做す)。
+   * t_last - 時間の終点。
+   * n - :math:`t`\ の分割数。\ :math:`[t_{init},t_{last}]`\ をn等分する。
+   * order - Taylor展開の次数。
+   * u - 初期値\ :math:`\mathbf{u}(0)=\mathbf{u}_0`\ 。
+   * parameters - パラメータを並べたベクトル。
+   * ep_reduce -
+     Affine Arithmeticのダミー変数の上限値。\
+     `kvの解説 <http://verifiedby.me/kv/ode/index.html>`_\
+     の\ ``ep_reduce``\ と同じ。
+   * ep_limit -
+     `kvの解説 <http://verifiedby.me/kv/ode/index.html>`_\
+     の\ ``ep_reduce_limit``\ と同じ。\
+     「ダミー変数が\ ``ep_limit``\ 個を超えたら\ ``ep_reduce``\ 個まで減らす」\
+     という動作になる。
+   * 戻り値\ ``[status, data, affine]``
+
+     ``status``\ は計算が正しく行えたかを表す。\
+     :data:`Status.Succeeded`\ か\
+     :data:`Status.Incomplete`\ のどちらかになる。
+
+     ``data``\ は計算結果を表す\ ``intval``\ 型の行列。\
+     ``data(:, 1)``\ (1番左の列)は各時間分点の値\
+     で、2列目は\ ``u(1)``\ 、3列目は\ ``u(2)``\ 、…を表す。
+     ``status == Status.Succeeded``\ の場合に\
+     ``行数 == n + 1``\ で\ ``data(end, 1) == t_last``\ となる。\
+     ``status == Status.Incomplete``\ の場合は
+     ``行数 < n + 1``\ で\ ``data(end, 1) < t_last``\ となる。
+
+     ``affine``\ は\ :math:`t = \mathtt{data(end, 1)}`\
+     での\ ``u``\ を表現するAffine多項式を表す行列。\
+     列数は\ ``u``\ の列数と一致する。\
+     1行目はAffine多項式の定数項で、\
+     :math:`n(n>1)`\ 行目は\ :math:`n-1`\ 番目のダミー変数の係数となる。\
+     :func:`tools.plot_affine`\ にそのまま渡してプロットできる。
+
+.. function:: make_kv_qr_lohner(name, f, u, parameters[, compiler])
+
+   ``kv::odelong_qr_lohner``\ を利用するプログラムを生成、コンパイルする。\
+   引数は\ :func:`make_kv_maffine2`\ と同じである。
+
+.. function:: kv_qr_lohner(name, t_init, t_last, order, u, parameters)
+
+   :func:`make_kv_qr_lohner`\ で作ったプログラムを実行して実行結果を返す。\
+   引数は\ :func:`kv_maffine2`\ と同様である。\
+   戻り値は\ ``[status, data]``\ の2つで、\
+   これも\ :func:`kv_maffine2`\ と同様である。
+
+.. data:: Status
+
+   計算の成否を表す列挙型。次の3つの値がある。
+
+   .. data:: Status.Succeeded
+
+      計算が最後まで正しく行えたことを表す。
+
+   .. data:: Status.Incomplete
+
+      計算を始めることはできたが、途中までしか計算できなかった\
+      (途中で区間が発散した)ことを表す。
+
+   .. data:: Status.Failed
+
+      出力用のファイルが開けなかったりして\
+      計算を始めることができなかったことを表す。\
+      生成したプログラムがこのステータスを返したとき、\
+      :func:`kv_maffine2`\ と\ :func:`kv_qr_lohner`\ はエラーを発生させる。
+
+.. _ode-usage:
+
+利用方法
+--------
+
+.. _ode-usage-affine:
+
+Affine Arithmeticを使う場合
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Lorenz方程式
+
+.. math::
+
+   \mathbf{u}=
+   \begin{pmatrix}
+     x \\ y \\ z
+   \end{pmatrix},
+   \frac{d\mathbf{u}}{dt}=
+   \mathbf{f}=
+   \begin{pmatrix}
+     \sigma (y - x) \\
+     x (\rho - z) - y \\
+     x y - \beta  z
+   \end{pmatrix}
+
+を例にしてライブラリの利用方法を説明する。\
+今の場合\ :math:`x, y, z`\ が変数で\
+:math:`\sigma, \rho, \beta`\ がパラメータである。
+
+.. _ode-generate-maffine2:
+
+プログラムの生成
+::::::::::::::::
+
+:func:`make_kv_maffine2`\ 関数を呼び出して\
+``kv::ode_maffine2``\ を利用するプログラムを生成する。
+
+各引数の渡し方
+~~~~~~~~~~~~~~
+
+* ``name``
+
+  ``'lorenz-maffine2'``\ などの文字列を渡す。
+
+* ``f``
+
+  Symbolic Math Toolboxを使う場合は次の\ ``f``\ のような\
+  シンボリック変数を使った式を並べたベクトルを渡す。
+
+  .. code-block:: matlab
+
+     syms x y z sigma rho beta;
+     f = [
+         sigma * (y - x);
+         x * (rho - z) - y;
+         x * y - beta * z
+     ];
+
+  Symbolic Math Toolboxを使わない場合は次の\ ``f``\ のような\
+  文字列のセル配列を渡す。
+
+  .. code-block:: matlab
+
+     f = {
+         'sigma * (y - x)';
+         'x * (rho - z) - y';
+         'x * y - beta * z'
+     };
+
+* ``u``
+
+  Symbolic Math Toolboxを使う場合は次の\ ``u``\ のような\
+  シンボリック変数を並べたベクトルを渡す。
+
+  .. code-block:: matlab
+
+     syms x y z;
+     u = [x; y; z];
+
+  Symbolic Math Toolboxを使わない場合は次の\ ``u``\ のような\
+  文字列のセル配列を渡す。
+
+  .. code-block:: matlab
+
+     u = {'x'; 'y'; 'z'};
+
+* ``parameters``
+
+  ``u``\ と同様にシンボリック変数のベクトルか文字列のセル配列を渡す。
+
+* ``compiler``
+
+  ``@tools.msvc``\ のように\ :ref:`compilers`\ を渡すか省略する。
+
+Symbolic Math Toolboxを使う場合の引数の例
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: matlab
+
+   syms x y z sigma rho beta;
+
+   f = [
+       sigma * (y - x);
+       x * (rho - z) - y;
+       x * y - beta * z
+   ];
+   u = [x; y; z];
+   parametes = [sigma; rho; beta];
+
+   make_kv_maffine2('lorenz-maffine2', f, u, parameters);
+
+Symbolic Math Toolboxを使わない場合の引数の例
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: matlab
+
+   f = {
+       'sigma * (y - x)';
+       'x * (rho - z) - y';
+       'x * y - beta * z'
+   };
+   u = {'x'; 'y'; 'z'};
+   parameters = {'sigma'; 'rho'; 'beta'};
+
+   make_kv_maffine2('lorenz-maffine2', f, u, parameters, @compilers.msvc);
+
+エラーが発生しなければコンパイルに成功している。
+
+.. _ode-maffine2-execute:
+
+プログラムの実行
+::::::::::::::::
+
+プログラムの実行には\ :func:`kv_maffine2`\ を利用する。\
+
+
+.. code-block:: matlab
+
+   t_last = 50.0;
+   n = 5000;
+   p = 10;
+   init = [1; 0; 0];
+   parameters = [10; 28; intval(8) / 3];
+
+   [status, data, affine] = kv_maffine2( ...
+       'lorenz-maffine2', 0.0, t_last, n, p, ...
+       init, parameters, 120, 130 ...
+   );
+
+次のようにすれば近似解をプロットできる。
+
+.. code-block:: matlab
+
+   plot3(mid(data(:, 2)),mid(data(:, 3)),mid(data(:, 4)));
+
+.. image:: kv_maffine2_approx.png
+
+次のようにすれば\ :math:`\mathbf{u}(t_{last})`\ 
+を表すAffine多項式の構造を見ることができる。
+
+.. code-block:: matlab
+
+   figure;
+   subplot(2, 2, 1);
+   tools.plot_affine( ...
+       a(:, 1), a(:, 2), a(:, 3), ...
+       'FaceColor', 'flat', 'EdgeColor', 'none' ...
+   );
+   xlabel('x');
+   ylabel('y');
+   zlabel('z');
+
+   subplot(2, 2, 2);
+   tools.plot_affine(a(:, 1), a(:, 2), 'FaceColor', 'r');
+   xlabel('x');
+   ylabel('y');
+
+   subplot(2, 2, 3);
+   tools.plot_affine(a(:, 2), a(:, 3), 'FaceColor', 'g');
+   xlabel('y');
+   ylabel('z');
+
+   subplot(2, 2, 4);
+   tools.plot_affine(a(:, 3), a(:, 1), 'FaceColor', 'b');
+   xlabel('z');
+   ylabel('x');
+
+.. image:: kv_maffine2_affine_1.png
+
+Lohner法を使う場合
+^^^^^^^^^^^^^^^^^^
+
+:ref:`Affine Arithmetic <ode-usage-affine>`\ と大体同じ

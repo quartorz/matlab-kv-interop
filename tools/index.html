@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ツール &mdash; matlab-kv-interop 0.1.0 ドキュメント</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="matlab-kv-interop 0.1.0 ドキュメント" href="../index.html" />
+    <link rel="prev" title="コンパイラをラップした関数" href="../compilers/index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="tools">
+<span id="id1"></span><h1>ツール<a class="headerlink" href="#tools" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="id2">
+<h2>概要<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>精度保証に直接関係しない関数や、プログラムの生成を補助する関数などが含まれる。<code class="docutils literal"><span class="pre">tools</span></code>ディレクトリにはMATLAB以外の言語で書かれたツールが、<code class="docutils literal"><span class="pre">+tools</span></code>ディレクトリにはMATLABで書かれた関数が入っている。</p>
+</div>
+<div class="section" id="id3">
+<h2>toolsディレクトリ<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<dl class="object">
+<dt>
+<code class="descname">get-vs-path.bat</code></dt>
+<dd><p>Visual Studioがインストールされている場所を探すバッチファイル。複数のバージョンがインストールされている場合は一番新しいものを探し、Visual Studioが見つかればインストールされている場所を標準出力に書き出す。見つからなかった場合は何も出力しない。書き出されたパスに存在するはずの<code class="docutils literal"><span class="pre">vcvarsall.bat</span></code>を実行することでVisual C++のコンパイラ<code class="docutils literal"><span class="pre">cl.exe</span></code>が使えるようになる。</p>
+</dd></dl>
+
+<dl class="object">
+<dt>
+<code class="descname">MATLAB2C++</code></dt>
+<dd><p>コマンドライン引数にMATLABの式を与えると、その式を構文解析してC++の式に変換するプログラム。変換できなかった場合は<code class="docutils literal"><span class="pre">1</span></code>を返す。変換できた場合はBoost.uBLASを使うことを前提とした式を標準出力に出力する。</p>
+<p>MATLABの式としては間違っているものも変換できてしまう場合があるが、MATLABの式として正しい式は全て変換できるはず。</p>
+</dd></dl>
+
+<dl class="object">
+<dt>
+<code class="descname">ReduceAffine</code></dt>
+<dd><p><a class="reference internal" href="#tools.reduce_affine" title="tools.reduce_affine"><code class="xref py py-func docutils literal"><span class="pre">tools.reduce_affine()</span></code></a>が中で実行するプログラム。</p>
+</dd></dl>
+
+</div>
+<div class="section" id="id4">
+<h2>+toolsディレクトリ<a class="headerlink" href="#id4" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<dl class="function">
+<dt id="tools.build_tools">
+<code class="descclassname">tools.</code><code class="descname">build_tools</code><span class="sig-paren">(</span><span class="optional">[</span><em>compiler</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#tools.build_tools" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">tools</span></code>ディレクトリ内のプログラムをコンパイルする。<a class="reference internal" href="../ode/index.html#make_kv_maffine2" title="make_kv_maffine2"><code class="xref py py-func docutils literal"><span class="pre">make_kv_maffine2()</span></code></a>や<a class="reference internal" href="../ode/index.html#make_kv_qr_lohner" title="make_kv_qr_lohner"><code class="xref py py-func docutils literal"><span class="pre">make_kv_qr_lohner()</span></code></a>が内部でこの関数を呼び出すので、自分でこの関数を呼び出す必要はない。引数<code class="docutils literal"><span class="pre">compiler</span></code>が省略された場合は、<a class="reference internal" href="#tools.detect_compiler" title="tools.detect_compiler"><code class="xref py py-func docutils literal"><span class="pre">tools.detect_compiler()</span></code></a>を使ってコンパイラを探す。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tools.decomp_double">
+<code class="descclassname">tools.</code><code class="descname">decomp_double</code><span class="sig-paren">(</span><em>d</em><span class="sig-paren">)</span><a class="headerlink" href="#tools.decomp_double" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>倍精度の浮動小数点数<code class="docutils literal"><span class="pre">d</span></code>を符号(<code class="docutils literal"><span class="pre">-1</span></code>か<code class="docutils literal"><span class="pre">1</span></code>)、指数部、仮数部に分解する。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tools.detect_compiler">
+<code class="descclassname">tools.</code><code class="descname">detect_compiler</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#tools.detect_compiler" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>コンピュータ内のコンパイラを探し、見つかったコンパイラと対応する<a class="reference internal" href="../compilers/index.html#compilers"><span>コンパイラをラップした関数</span></a>を返す。(Visual C++、)Clang、GCCの順で探す。見つからない場合はエラーを発生させる。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tools.get_last_affine">
+<code class="descclassname">tools.</code><code class="descname">get_last_affine</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#tools.get_last_affine" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p><a class="reference internal" href="../ode/index.html#kv_maffine2" title="kv_maffine2"><code class="xref py py-func docutils literal"><span class="pre">kv_maffine2()</span></code></a>の戻り値の<code class="docutils literal"><span class="pre">affine</span></code>と同じものを返す。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tools.get_latest_result">
+<code class="descclassname">tools.</code><code class="descname">get_latest_result</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#tools.get_latest_result" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p><a class="reference internal" href="../ode/index.html#kv_maffine2" title="kv_maffine2"><code class="xref py py-func docutils literal"><span class="pre">kv_maffine2()</span></code></a>や<a class="reference internal" href="../ode/index.html#kv_qr_lohner" title="kv_qr_lohner"><code class="xref py py-func docutils literal"><span class="pre">kv_qr_lohner()</span></code></a>で実行したプログラムの最新の実行結果を返す。<a class="reference internal" href="../ode/index.html#kv_maffine2" title="kv_maffine2"><code class="xref py py-func docutils literal"><span class="pre">kv_maffine2()</span></code></a>の戻り値の<code class="docutils literal"><span class="pre">data</span></code>と同じ構造。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="tools.plot_affine">
+<code class="descclassname">tools.</code><code class="descname">plot_affine</code><span class="sig-paren">(</span><em>x, y[, z] [, 'PropertyName', propertyvalue...]</em><span class="sig-paren">)</span><a class="headerlink" href="#tools.plot_affine" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Affine多項式をプロットする。<a class="reference internal" href="../ode/index.html#ode-maffine2-execute"><span>kv_maffine2()の利用例</span></a>に呼び出しの例がある。<code class="docutils literal"><span class="pre">[]</span></code>で囲われた引数は省略可能である。</p>
+<ul class="simple">
+<li>x -
+<span class="math">\(x\)</span>を表すAffine多項式。<a class="reference internal" href="../ode/index.html#kv_maffine2" title="kv_maffine2"><code class="xref py py-func docutils literal"><span class="pre">kv_maffine2()</span></code></a>の戻り値の<code class="docutils literal"><span class="pre">affine</span></code>の各列と同じ構造のベクトルを渡せば良い。</li>
+<li>y - xと同様。</li>
+<li>z - xと同様。省略すると2次元でプロットし、zを渡すと3次元でプロットする。</li>
+<li>&#8216;PropertyName&#8217;, propertyvalue -
+次の3つのうち指定したいプロパティの名前とその値を組にして渡す。<ul>
+<li>&#8216;FaceColor&#8217; -
+2次元でプロットするときは内部の色、3次元でプロットするときは面の色を指定する。詳細は<a class="reference external" href="http://jp.mathworks.com/help/matlab/ref/patch.html#zmw57dd0e484034">MATLABのドキュメント</a>にある。</li>
+<li>&#8216;EdgeColor&#8217; -
+線の色を指定する。詳細は<a class="reference external" href="http://jp.mathworks.com/help/matlab/ref/patch.html#zmw57dd0e484034">MATLABのドキュメント</a>にある。</li>
+<li>&#8216;EpsilonLimit&#8217; -
+ダミー変数を指定した数まで減らしてからプロットする。このプロパティを指定しない場合はダミー変数を減らさずにプロットしようとする。3次元でプロットする場合、このプロパティを指定しないと描画が終わらないことがある(自宅の環境ではダミー変数が18個以上あるとプロットが終わらなくなる)。</li>
+</ul>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="function">
+<dt id="tools.prepare">
+<code class="descclassname">tools.</code><code class="descname">prepare</code><span class="sig-paren">(</span><span class="optional">[</span><em>compiler</em><span class="optional">]</span><span class="sig-paren">)</span><a class="headerlink" href="#tools.prepare" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>プログラムの生成の準備を行う。<a class="reference internal" href="../ode/index.html#make_kv_maffine2" title="make_kv_maffine2"><code class="xref py py-func docutils literal"><span class="pre">make_kv_maffine2()</span></code></a>や<a class="reference internal" href="../ode/index.html#make_kv_qr_lohner" title="make_kv_qr_lohner"><code class="xref py py-func docutils literal"><span class="pre">make_kv_qr_lohner()</span></code></a>が内部で呼び出す。</p>
+<ul class="simple">
+<li>kvのバージョンチェックとダウンロード</li>
+<li><a class="reference internal" href="#tools.build_tools" title="tools.build_tools"><code class="xref py py-func docutils literal"><span class="pre">tools.build_tools()</span></code></a>の実行</li>
+</ul>
+</dd></dl>
+
+<dl class="function">
+<dt id="tools.reduce_affine">
+<code class="descclassname">tools.</code><code class="descname">reduce_affine</code><span class="sig-paren">(</span><em>affine</em>, <em>limit</em><span class="sig-paren">)</span><a class="headerlink" href="#tools.reduce_affine" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p><code class="docutils literal"><span class="pre">affine</span></code>に渡されたAffine多項式のダミー変数の数を<code class="docutils literal"><span class="pre">limit</span></code>個まで減らす。<code class="docutils literal"><span class="pre">affine</span></code>の構造は<a class="reference internal" href="../ode/index.html#kv_maffine2" title="kv_maffine2"><code class="xref py py-func docutils literal"><span class="pre">kv_maffine2()</span></code></a>の戻り値の<code class="docutils literal"><span class="pre">affine</span></code>と同じ。</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">ツール</a><ul>
+<li><a class="reference internal" href="#id2">概要</a></li>
+<li><a class="reference internal" href="#id3">toolsディレクトリ</a></li>
+<li><a class="reference internal" href="#id4">+toolsディレクトリ</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../compilers/index.html" title="前の章へ">コンパイラをラップした関数</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/tools/index.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    モジュール、クラス、または関数名を入力してください
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, quarter.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="../_sources/tools/index.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

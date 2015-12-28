@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>コンパイラをラップした関数 &mdash; matlab-kv-interop 0.1.0 ドキュメント</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/translations.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="matlab-kv-interop 0.1.0 ドキュメント" href="../index.html" />
+    <link rel="next" title="ツール" href="../tools/index.html" />
+    <link rel="prev" title="常微分方程式の精度保証" href="../ode/index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="compilers">
+<span id="id1"></span><h1>コンパイラをラップした関数<a class="headerlink" href="#compilers" title="このヘッドラインへのパーマリンク">¶</a></h1>
+<div class="section" id="id2">
+<h2>概要<a class="headerlink" href="#id2" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<p>コンパイラをラップした関数を提供する。今のところVisual C++とGCCとClangの3つをサポートしている。</p>
+</div>
+<div class="section" id="id3">
+<h2>関数一覧<a class="headerlink" href="#id3" title="このヘッドラインへのパーマリンク">¶</a></h2>
+<dl class="function">
+<dt id="compilers.msvc">
+<code class="descclassname">compilers.</code><code class="descname">msvc</code><span class="sig-paren">(</span><em>sources</em>, <em>executable</em><span class="sig-paren">)</span><a class="headerlink" href="#compilers.msvc" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Visual C++をラップした関数。内部でコンパイラを呼び出してコンパイルする。</p>
+<ul>
+<li><p class="first">sources - ソースファイルのセル配列。</p>
+</li>
+<li><p class="first">executable - 生成する実行ファイルの名前。</p>
+</li>
+<li><p class="first">戻り値<code class="docutils literal"><span class="pre">[status,</span> <span class="pre">output]</span></code></p>
+<p><code class="docutils literal"><span class="pre">status</span></code>はコンパイルが成功したかどうかを表す。<code class="docutils literal"><span class="pre">0</span></code>の時は成功している。</p>
+<p><code class="docutils literal"><span class="pre">output</span></code>にはコンパイラの標準出力への出力がそのまま書き込まれる。</p>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="function">
+<dt id="compilers.clang">
+<code class="descclassname">compilers.</code><code class="descname">clang</code><span class="sig-paren">(</span><em>sources</em>, <em>executable</em><span class="sig-paren">)</span><a class="headerlink" href="#compilers.clang" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>Clangをラップした関数。引数と戻り値は<a class="reference internal" href="#compilers.msvc" title="compilers.msvc"><code class="xref py py-func docutils literal"><span class="pre">compilers.msvc()</span></code></a>と同じ。</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="compilers.gcc">
+<code class="descclassname">compilers.</code><code class="descname">gcc</code><span class="sig-paren">(</span><em>sources</em>, <em>executable</em><span class="sig-paren">)</span><a class="headerlink" href="#compilers.gcc" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>GCCをラップした関数。引数と戻り値は<a class="reference internal" href="#compilers.msvc" title="compilers.msvc"><code class="xref py py-func docutils literal"><span class="pre">compilers.msvc()</span></code></a>と同じ。</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">目次</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">コンパイラをラップした関数</a><ul>
+<li><a class="reference internal" href="#id2">概要</a></li>
+<li><a class="reference internal" href="#id3">関数一覧</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../ode/index.html" title="前の章へ">常微分方程式の精度保証</a></li>
+      <li>Next: <a href="../tools/index.html" title="次の章へ">ツール</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>このページ</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/compilers/index.txt"
+            rel="nofollow">ソースコードを表示</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>クイック検索</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="検索" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    モジュール、クラス、または関数名を入力してください
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015, quarter.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.6</a>
+      
+      |
+      <a href="../_sources/compilers/index.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
